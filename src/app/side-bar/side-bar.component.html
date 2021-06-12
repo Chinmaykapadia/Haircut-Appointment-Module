@@ -1,0 +1,84 @@
+<!-- <div class="card">
+    <div class="col-md-1" style="border: 2px solid;">
+        <div *ngFor="let item of days" style="margin: 5px;">
+           
+            <div class="icon-plus" >{{item}}</div>
+        </div>
+    </div>
+</div> -->
+<link
+  rel="stylesheet"
+  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+/>
+
+<div class="row">
+  <div class="col-md-12" style="border: 1px solid; margin-bottom: 5px">
+    <form [formGroup]="form" style="margin-top: 10px">
+      <div class="col-md-2">
+        <div class="card" style="width: 18rem">
+          <div class="card-header"></div>
+          <ul class="list-group list-group-flush active">
+            <li
+              class="list-group-item"
+              [class.active]="activeDaySelection === i"
+              *ngFor="let item of days; let i = index"
+              (click)="daysListClick(i, item)"
+            >
+              {{ item }}
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-9" formArrayName="formArray">
+        <div
+          *ngFor="let item of form.get('formArray')['controls']; let i = index"
+        >
+          <div [formGroupName]="i">
+            <i
+              class="fas fa-plus-square"
+              (click)="addItem()"
+              style="margin-right: 5px"
+            ></i>
+
+            <label> Start Time: </label>
+            <select
+              formControlName="starttime"
+              [(ngModel)]="selectedOption"
+              (change)="onChanges($event.target.value)"
+            >
+              <option>Select Time</option>
+              <option
+                *ngFor="let item of times; let i = index"
+                [attr.disabled]=""
+                (click)="onTimeSelect()"
+              >
+                {{ item }}
+              </option>
+            </select>
+
+            <label style="margin-left: 5px">End Time:</label>
+            <select formControlName="endtime" [(ngModel)]="selectedEndoption">
+              <option>Select Time</option>
+              <option *ngFor="let item of timmings">{{ item }}</option>
+            </select>
+            <i
+              class="fas fa-minus-square"
+              style="margin-left: 10px"
+              (click)="removeItem(i)"
+            ></i>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<button (click)="download()">Download</button>
+<pre> {{this.daySelected | json}}
+    <p>
+        {{this.jsonFormArrayValue}}
+    </p>
+</pre>

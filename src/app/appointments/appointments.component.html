@@ -1,0 +1,62 @@
+
+<!-- <div class="row">
+    <div class="col-md-5" >
+        <form [formGroup]="form">
+    
+        </form>
+    </div>
+</div> -->
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<p>appointments works!</p>
+<div>
+    <div *ngFor="let item of days" style="margin: 5px;">
+        <label>{{item}}</label>
+        <div class="icon-plus" >{{item}}</div>
+    </div>
+</div> -->
+----------------------------------------------------------
+<!-- SIDEBAR HTML CODE:--- -->
+
+<!-- 
+<div class="row"> 
+    <div class="col-md-2">
+        <div class="card" style="width: 18rem;">
+            <div class="card-header">
+                
+            </div>
+            <ul class="list-group list-group-flush active" >
+                <li class="list-group-item" [class.active]="active === i" *ngFor="let item of days;let i=index">{{item}}
+                    <i class="fas fa-plus-square" (click)="click(i,item)"></i>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-6" style="border: 1px solid;">
+       
+        <form [formGroup]="form">
+            <div formArrayName="formArray">
+                <div *ngFor="let item of form.get('formArray')['controls']; let i = index">
+                    <div [formGroupName]="i">
+                        <label> Time: </label>
+                      
+                        <select formControlName="starttime" [(ngModel)]="selectedOption" >
+                            <option *ngFor="let item of times;let i=index" [attr.disabled]=""> {{item}} </option>
+                        </select>
+                        <label style="margin-left: 5px;">End Time:</label>
+                       
+                        <select formControlName="endtime">
+                            <option *ngFor="let item of times">{{item}} </option>
+                        </select>
+                        <i class="fas fa-minus-square" style="margin-left: 10px;" (click)="remove(i)"></i>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<button (click)="download()"> Download </button>
+<pre> {{this.daySelected | json}}
+    <p>
+        {{this.jsonFormArrayValue}}
+    </p>
+</pre> -->
