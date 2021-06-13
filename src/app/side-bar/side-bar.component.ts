@@ -1,22 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { FormGroup, FormBuilder, FormArray } from "@angular/forms";
+import { Router,ActivatedRoute } from "@angular/router";
+import { BehaviorSubject, Subject } from "rxjs";
 @Component({
-  selector: 'app-side-bar',
-  templateUrl: './side-bar.component.html',
-  styleUrls: ['./side-bar.component.css'],
+  selector: "app-side-bar",
+  templateUrl: "./side-bar.component.html",
+  styleUrls: ["./side-bar.component.css"],
 })
 export class SideBarComponent implements OnInit {
-
   activeDaySelection: number;
   days = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday',
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
   ];
 
   timmings: any = [];
@@ -24,7 +24,7 @@ export class SideBarComponent implements OnInit {
   minutesInterval: number = 1; //minutes interval
   times: any = []; // time array
   startTime: number = 9; // start time
- // ap: any = ['AM', 'PM']; // AM-PM
+  // ap: any = ['AM', 'PM']; // AM-PM
 
   form: FormGroup;
   formData: any;
@@ -39,29 +39,33 @@ export class SideBarComponent implements OnInit {
   selectedOptionIndex: number;
   addIndex: any;
   selectedEndoption: any;
-
-  constructor(private router: Router, private fb: FormBuilder) {}
+  timeChanged: BehaviorSubject<any> = new BehaviorSubject([]);
+  findFirstInd: number;
+  findLastInd: number;
+  removeBeforeFirstInd: number;
+  removeAfterLastInd: number;
+  constructor(private router: Router, private fb: FormBuilder, private route:ActivatedRoute) {}
 
   ngOnInit(): void {
     for (var i = 0; this.startTime < 24 * 60; i++) {
       var hours = Math.floor(this.startTime / 60);
       var minutes = this.startTime % 60;
-      this.times[i] = ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2);
+      this.times[i] = ("0" + hours).slice(-2) + ":" + ("0" + minutes).slice(-2);
       // this.times[i] = ("0" + (hours % 12)).slice(-2) + ':' + ("0" + minutes).slice(-2) + this.ap[Math.floor(hours/12)];
       this.startTime = this.startTime + this.minutesInterval;
     }
 
-    let findFirstInd = this.times.indexOf('09:00');
+    this.findFirstInd = this.times.indexOf("09:00");
     //console.log(findFirstInd);
-    let findLastInd = this.times.indexOf('11:00');
+    this.findLastInd = this.times.indexOf("11:00");
     //console.log(findLastInd);
 
-    let removeBeforeFirstInd = this.times.splice(0, 531);
+    this.removeBeforeFirstInd = this.times.splice(0, 531);
     //console.log(removeBeforeFirstInd);
-    let removeAfterLastInd = this.times.splice(840);
+    this.removeAfterLastInd = this.times.splice(840);
     //console.log(removeAfterLastInd);
     this.timmings = this.times;
-    console.log('Times:', this.timmings);
+    console.log("Times:", this.timmings);
 
     //console.log(this.times);
 
@@ -72,8 +76,8 @@ export class SideBarComponent implements OnInit {
 
   private getUnit() {
     return this.fb.group({
-      starttime: [''],
-      endtime: [''],
+      starttime: [""],
+      endtime: [""],
     });
   }
 
@@ -85,44 +89,76 @@ export class SideBarComponent implements OnInit {
     this.selectedDay = value;
     console.log(this.selectedDay);
 
-    this.clearFormArray = <FormArray>this.form.controls['formArray'];
+    this.clearFormArray = <FormArray>this.form.controls["formArray"];
     this.clearFormArray.clear();
 
-    this.control = <FormArray>this.form.controls['formArray'];
+    this.control = <FormArray>this.form.controls["formArray"];
     this.control.push(this.getUnit());
 
     console.log(this.control);
-    this.router.navigate(['/appointments']);
+    this.router.navigate(["/appointments"]);
 
     //this.formatTime();
   }
 
-  addItem(index:number) {
-    this.control = <FormArray>this.form.controls['formArray'];
+  addItem(index: number) {
+    // this.form.get('formArray').valueChanges.subscribe((result)=>{
+    //   console.log(result.index);
+    // });
+    // const units = this.form.controls.formArray as FormArray;
+    // units.push(this.fb.group({starttime:'',endtime:''}));
+
+     let controlIndex = (<FormArray>this.form.get('formArray'));
+     console.log(controlIndex);
+    
+    //  Object.keys(controlIndex.value).forEach(element => {
+    //    console.log(element);
+    //  });
+   
+     console.log(this.times);
+     
+     
+     //console.log(((this.form.get('controls') as FormArray).at(index) as FormGroup).get('starttime'));
+     // let arrayControl = this.form.get('formArray') as FormArray;
+     // let controls_id = this.route.snapshot.params['formArray'];
+    // console.log(controls_id);
+    
+
+    this.control = <FormArray>this.form.controls["formArray"];
     this.control.push(this.getUnit());
 
-    //this.times.splice(0,this.selectedOptionIndex -1);
-    this.selectedOptionIndex += 15;
-    this.selectedOption[index] = this.times[this.selectedOptionIndex];
-
-    console.log("Times After element adding:",this.selectedOption);
     
-  } 
+    // this.times.map((res)=>{
+    //   res = this.times;
+    //   res.splice(0,this.selectedOptionIndex);
+      
+    // });
+    
+    this.selectedOptionIndex += 15;
+    this.selectedOption = this.times[this.selectedOptionIndex];
+    this.times.splice(0,this.selectedOptionIndex);
+    
+    console.log("Times After element adding:", this.selectedOption);
+    //this.control.subscribe().next();
+    //this.times.splice(0,this.selectedOptionIndex -1);
+  }
 
   removeItem(index: number) {
-    const control = <FormArray>this.form.controls['formArray'];
+    const control = <FormArray>this.form.controls["formArray"];
     control.removeAt(index);
+    console.log((control.length));
+    
   }
 
   download() {
     this.daySelected = this.selectedDay;
-    console.log('Selected Day:', this.daySelected);
+    console.log("Selected Day:", this.daySelected);
 
     this.formArrayValues = this.control;
     this.jsonFormArrayValue = JSON.stringify(this.formArrayValues.value);
-    console.log('FormArrayValues:', JSON.stringify(this.formArrayValues.value));
+    console.log("FormArrayValues:", JSON.stringify(this.formArrayValues.value));
 
-    this.formData = this.form.controls['control'];
+    this.formData = this.form.controls["control"];
     console.log(this.formData);
   }
 
@@ -130,15 +166,14 @@ export class SideBarComponent implements OnInit {
     //console.log('Selected Option:-=-=', this.selectedOption);
   }
 
-  onChanges(event: string) {
-   
+  onChanges($event: string) {
+    
+    
     this.selectedOptionIndex = this.times.indexOf(this.selectedOption);
     this.selectedOptionIndex += 30;
     console.log(this.timmings[this.selectedOptionIndex]);
     this.selectedEndoption = this.timmings[this.selectedOptionIndex];
 
-    console.log('selected Option Index:', this.selectedOptionIndex);
-   
+    console.log("selected Option Index:", this.selectedOptionIndex);
   }
-
 }
