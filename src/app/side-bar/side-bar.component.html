@@ -40,20 +40,19 @@
           <div [formGroupName]="i">
             <i
               class="fas fa-plus-square"
-              (click)="addItem()"
+              (click)="addItem(i)"
               style="margin-right: 5px"
             ></i>
 
             <label> Start Time: </label>
             <select
               formControlName="starttime"
-              [(ngModel)]="selectedOption"
+              [(ngModel)]="formArrayObjectValue"
               (change)="onChanges($event)"
             >
               <option>Select Time</option>
               <option
-                *ngFor="let item of times; let i = index"
-                [attr.disabled]=""
+                *ngFor="let item of start_times; let i = index"
                 (click)="onTimeSelect()"
               >
                 {{ item }}
@@ -62,8 +61,8 @@
 
             <label style="margin-left: 5px">End Time:</label>
             <select formControlName="endtime" [(ngModel)]="selectedEndoption">
-              <option>Select Time</option>
-              <option *ngFor="let item of timmings">{{ item }}</option>
+              <!-- <option>Select Time</option> -->
+              <option *ngFor="let item of end_times">{{ item }}</option>
             </select>
             <i
               class="fas fa-minus-square"
@@ -76,9 +75,9 @@
     </form>
   </div>
 </div>
-<button (click)="download()">Download</button>
-<pre> {{this.daySelected | json}}
+<!--<button (click)="download()">Download</button>
+ <pre> {{this.daySelected | json}}
     <p>
         {{this.jsonFormArrayValue}}
     </p>
-</pre>
+</pre> -->

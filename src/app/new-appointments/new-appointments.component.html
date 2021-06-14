@@ -1,0 +1,35 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+
+<div class="row">
+    <div class="col-md-12">
+        <div [formGroup]="form" >
+            <div class="col-md-2">
+                <ul class="list-group list-group-flush active">
+                    <li
+                      class="list-group-item"
+                      [class.active]="activeDaySelection === i"
+                      *ngFor="let item of days; let i = index"
+                    >
+                      {{ item }}
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-10" formArrayName="timeFormArray" >
+                <div *ngFor="let item of form.get('timeFormArray')['controls']; let i = index">
+                    <div [formGroupName]="i">
+                        <label>Start Time</label>
+                        <select formControlName="startTime">
+                            <option *ngFor="let item of start_time">{{item}}</option>
+                        </select>
+                        
+                        <label>End Time</label>
+                        <select formControlName="endTime">
+                            <option *ngFor="let item of end_time">{{item}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

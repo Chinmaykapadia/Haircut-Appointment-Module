@@ -6,11 +6,13 @@ import { AppComponent } from './app.component';
 import { AppointmentsComponent } from './appointments/appointments.component';
 import { SideBarComponent } from './side-bar/side-bar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NewAppointmentsComponent } from './new-appointments/new-appointments.component';
 @NgModule({
   declarations: [
     AppComponent,
     AppointmentsComponent,
-    SideBarComponent
+    SideBarComponent,
+    NewAppointmentsComponent
   ],
   imports: [
     BrowserModule,
