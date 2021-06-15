@@ -35,5 +35,9 @@ export class AddStatusComponent implements OnInit {
     this.addControls = <FormArray> this.form.controls['addStatusForm'];
     this.addControls.push(this.getControls());
   }
-
+  removeItem(index: number){
+    const control = <FormArray>this.form.controls["addStatusForm"];
+    control.removeAt(index);
+  }
 }
+// https://stackblitz.com/edit/angular-form-dynamic-add-control-so59033703?file=app%2Fapp.component.ts

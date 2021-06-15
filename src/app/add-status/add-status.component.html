@@ -1,3 +1,6 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+
 <p>add-task works!</p>
 
 <div>
@@ -32,6 +35,11 @@
                         <!-- <button formControlName="Available">Available</button>
                         <button formControlName="NotAvailable">Not Available</button>
                         <button formControlName="meeting">In Meeting</button> -->
+                        <i
+                        class="fas fa-minus-square"
+                        style="margin-left: 10px"
+                        (click)="removeItem(i)"
+                        ></i>
                     </div>
                 </div>
             </div>
