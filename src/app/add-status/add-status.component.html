@@ -1,0 +1,40 @@
+<p>add-task works!</p>
+
+<div>
+    <form [formGroup]="form">
+
+        <select>
+            <option>Select the status:</option>
+            <option *ngFor="let item of status">{{ item }}</option>
+        </select>
+        <div>
+            <label>Client Name:</label>
+            <input type="text">
+        </div>
+        <div>
+            <button (click)="onAdd()"> Add </button>
+        </div>
+        <div *ngIf="submitted ">
+            <div formArrayName="addStatusForm">
+                <div *ngFor="let item of form.get('addStatusForm')['controls']; let i = index">
+                    <div [formGroupName]="i">
+                        <div>
+                            <label>Client Name:</label>
+                            <input type="text" formControlName="clientName">
+                        </div>
+                        <label>Status:</label>
+                        <div>
+                            <input type="text" formControlName="status">
+                        </div>
+                        <input type="button" formControlName="Available" value="Available">
+                        <input type="button" formControlName="NotAvailable" value="Not Available">
+                        <input type="button" formControlName="meeting" value="Meeting">
+                        <!-- <button formControlName="Available">Available</button>
+                        <button formControlName="NotAvailable">Not Available</button>
+                        <button formControlName="meeting">In Meeting</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

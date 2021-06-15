@@ -7,12 +7,14 @@ import { AppointmentsComponent } from './appointments/appointments.component';
 import { SideBarComponent } from './side-bar/side-bar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NewAppointmentsComponent } from './new-appointments/new-appointments.component';
+import { AddStatusComponent } from './add-status/add-status.component';
 @NgModule({
   declarations: [
     AppComponent,
     AppointmentsComponent,
     SideBarComponent,
-    NewAppointmentsComponent
+    NewAppointmentsComponent,
+    AddStatusComponent
   ],
   imports: [
     BrowserModule,

@@ -18,13 +18,16 @@
             <div class="col-md-10" formArrayName="timeFormArray" >
                 <div *ngFor="let item of form.get('timeFormArray')['controls']; let i = index">
                     <div [formGroupName]="i">
+                        <i class="fas fa-plus-square" (click)="addItems(i)" style="margin-right: 5px"></i>
+
                         <label>Start Time</label>
-                        <select formControlName="startTime">
+                        <select formControlName="startTime" (change)="onTimeSelect($event)">
+                            <option >Select</option>
                             <option *ngFor="let item of start_time">{{item}}</option>
                         </select>
                         
                         <label>End Time</label>
-                        <select formControlName="endTime">
+                        <select formControlName="endTime" [ngModel]="changed_endTime_Option">
                             <option *ngFor="let item of end_time">{{item}}</option>
                         </select>
                     </div>
