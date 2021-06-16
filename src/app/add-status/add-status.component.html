@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
 
-
+<h3 style="margin-left: 30px;"> Manage Status</h3>
 <div>
     <form [formGroup]="form">
         <div class="card">
@@ -17,8 +17,9 @@
                 <input type="text" [(ngModel)]="clientName_value" formControlName="client_name" >
             </div>
             <div class="addBtn">
-                <button class="btn btn-success" (click)="onAdd()"> Add </button>
+                <button class="btn btn-success" (click)="onAdd()"> {{buttonName}} </button>
                 <button class="btn btn-danger" (click)="Delete()"> Delete </button>
+
             </div>
         </div>
         <div class="row">
@@ -28,7 +29,7 @@
                         <div >
                             <label> Client Name:- </label>
                             <label> {{ item.client_name }}</label>
-                            <button class="btn btn-secondary" style="margin-left:80%" (click)="updateData(i_)"> Update </button>
+                            <button class="btn btn-secondary" style="margin-left:80%" (click)="updateData(i_)"> Edit </button>
                         </div>
                         <div>
                             <label> Status:-  </label>
@@ -41,7 +42,7 @@
 
                         <div style="margin-right: 10px;">
                             <ng-container *ngFor="let btnval of buttonValue; let i = index">
-                                <button  class="btn btn-primary" type="button" (click)="onBtnClick(i_,i)"> {{ btnval }}</button>
+                                <button  class="btn btn-primary" type="button" (click)="onStatusBtnClick(i_,i)"> {{ btnval }}</button>
                             </ng-container>
                         </div>
                     <!-- </div> -->
