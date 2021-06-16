@@ -15,7 +15,7 @@
                 <input type="text" [(ngModel)]="clientName_value" formControlName="client_name">
             </div>
             <div>
-                <button (click)="onAdd()"> Add </button>
+                <button (click)="onAdd(i)"> Add </button>
             </div>
         </div>
         <div *ngIf="submitted " style="border: 2px solid;margin: 10px;">
