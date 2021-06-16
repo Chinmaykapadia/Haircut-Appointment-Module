@@ -41,7 +41,7 @@ export class AddStatusComponent implements OnInit {
   getFormArray(): FormArray{
     return this.form.get('addStatusForm') as FormArray;
   }
-  onAdd(){
+  onAdd(i: number){
     this.statusValue = this.selectedOption ;
     console.log(this.statusValue);
     console.log(this.clientName_value);
@@ -50,6 +50,7 @@ export class AddStatusComponent implements OnInit {
     this.submitted = true;
     this.addControls = <FormArray> this.form.controls['addStatusForm'];
     this.addControls.push(this.getControls());
+    this.setValues(i);
     console.log(this.form.controls['addStatusForm'].value.clientName);
     
     // this.getFormArray.setValue([
@@ -59,7 +60,11 @@ export class AddStatusComponent implements OnInit {
     // }]
     // );
   }
-
+  setValues(i){
+    const controlArray = <FormArray> this.form.get('addStatusForm');
+    controlArray.controls[i].get('clientName').setValue(this.clientName_value);
+    controlArray.controls[i].get('status').setValue(this.statusValue);
+  }
   onAvailable(index: number){
     this.statusValue = 'Available';
   }
@@ -75,3 +80,5 @@ export class AddStatusComponent implements OnInit {
   }
 }
 // https://stackblitz.com/edit/angular-form-dynamic-add-control-so59033703?file=app%2Fapp.component.ts
+
+// https://stackoverflow.com/questions/41727013/setting-angular-2-formarray-value-in-reactiveform
