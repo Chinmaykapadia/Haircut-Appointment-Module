@@ -1,0 +1,230 @@
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+@Component({
+  selector: 'app-add-status',
+  templateUrl: './add-status.component.html',
+  styleUrls: ['./add-status.component.css']
+})
+export class AddStatusComponent implements OnInit {
+
+  status = [ "i'm Available" , "i'm not Available" , "i'm in Meeting" ];
+  form: FormGroup;
+  submitted: boolean;
+  addControls: any;
+  statusValue: string;
+  clientName_value: string;
+  selectedOption: any;
+  onStatus_Button_Click: string;
+  constructor(private fb: FormBuilder) { }
+
+  ngOnInit() {
+    this.form = this.fb.group({
+      select_status: [''],
+      client_name: [''],
+      addStatusForm: this.fb.array([
+        this.getControls()
+      ])
+    });
+    this.submitted = false;
+  }
+
+  getControls(){
+    return this.fb.group({
+      clientName: [''],
+      status: [''],
+    })
+  }
+
+  getFormArray(): FormArray{
+    return this.form.get('addStatusForm') as FormArray;
+  }
+
+  onAdd(){
+    this.statusValue = this.selectedOption ;
+    console.log(this.statusValue);
+    console.log(this.clientName_value);
+      
+    this.submitted = true;
+    this.addControls = (<FormArray> this.form.controls['addStatusForm']);
+    this.addControls.push(this.getControls());
+  
+    console.log(this.form.get('addStatusForm').value);
+    
+    //this.setValues();
+    console.log(this.addControls.value);
+    const arr = this.addControls.value;
+
+    console.log(this.addControls.length);
+    for( let i = 0; i < this.addControls.length; i++){
+      this.patchVal(i);     
+    }
+  
+  }
+  patchVal(i){
+    ((this.form.get('addStatusForm') as FormArray).at(i) as FormGroup).get('clientName').patchValue(this.clientName_value);
+    // let x = (<FormArray>this.form.controls['addStatusForm']).at(i);
+    // console.log(x);
+    
+    // x.patchValue({
+    //   clientName: this.clientName_value,
+    //   status: this.statusValue
+    // });
+  }
+
+  setValues(i){
+    const controlArray = <FormArray> this.form.get('addStatusForm');
+    controlArray.controls[i].get('clientName').setValue(this.clientName_value);
+    controlArray.controls[i].get('status').setValue(this.statusValue);
+  }
+
+  onAvailable(index: number){
+    
+    this.onStatus_Button_Click = "I'm Available";
+    //this.statusValue = 'Available';
+  }
+
+  onNotAvailable(index: number){
+    this.onStatus_Button_Click = "I'm Not Available";
+    const controlArray = <FormArray> this.form.get('addStatusForm');
+    controlArray.controls[index].get('status').setValue(this.onStatus_Button_Click);
+  }
+
+  onInMeeting(){
+
+  }
+
+  removeItem(index: number){
+    const control = <FormArray>this.form.controls["addStatusForm"];
+    control.removeAt(index);
+  }
+
+  // onChange($event){
+  //   (<FormArray>this.form.get('addStatusForm')).controls.map((res)=>{
+  //     console.log(res);
+      
+  //     if(res.value.res == $event){
+  //       res.patchValue({
+  //         clientName : this.clientName_value,
+  //         status : this.statusValue
+  //       })
+  //     }
+  //   })
+  // }
+}
+// https://stackblitz.com/edit/angular-form-dynamic-add-control-so59033703?file=app%2Fapp.component.ts
+
+// https://stackoverflow.com/questions/41727013/setting-angular-2-formarray-value-in-reactiveform
+
+
+// onAdd(){
+//   this.statusValue = this.selectedOption ;
+//   console.log(this.statusValue);
+//   console.log(this.clientName_value);
+  
+  
+//   this.submitted = true;
+//   this.addControls = <FormArray> this.form.controls['addStatusForm'];
+//   this.addControls.push(this.getControls());
+
+//   //this.setValues();
+//   console.log(this.addControls.value);
+//   const arr = this.addControls.value;
+//   console.log(arr);
+//   for( let i = 0; i<arr.length; i++){
+//     this.patchVal(i);
+//     // arr[i].clientName = this.clientName_value;
+//     // arr[i].status = this.statusValue;
+//     // console.log(arr[i]);
+//     // // arr[i].push({
+//     // //   clientName: this.clientName_value,
+//     // //   status: this.statusValue
+//     // // });
+//     // const controlArray = <FormArray> this.form.get('addStatusForm');
+//     // controlArray.controls[i].get('clientName').setValue(arr[i].clientName);
+//     // controlArray.controls[i].get('status').setValue(arr[i].status);
+//   }
+//   // Object.keys(arr,index)
+//   // this.addControls.value.forEach(element => {
+//   //   console.log(element);
+      
+//   //   // Object.keys(element).forEach((k)=>{
+//   //   //   console.log(element[k].value);
+      
+//   //   // })
+//   //   // console.log(element);
+//   // });
+  
+//   // this.getFormArray.setValue([
+//   // {
+//   //     clientName : this.clientName_value,
+//   //     status : this.statusValue
+//   // }]
+//   // );
+// }
+
+
+
+
+//------------------------------ HTML --------------------------------------------//
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+
+<p>add-task works!</p>
+
+<div>
+    <form [formGroup]="form">
+        <div class="card">
+            <select [(ngModel)]="selectedOption" formControlName="select_status" >
+                <option>Select the status:</option>
+                <option *ngFor="let item of status">{{ item }}</option>
+            </select>
+            <div>
+                <label>Client Name:</label>
+                <input type="text" [(ngModel)]="clientName_value" formControlName="client_name" >
+            </div>
+            <div>
+                <button (click)="onAdd()"> Add </button>
+            </div>
+        </div>
+        <div *ngIf="submitted" style="border: 2px solid;margin: 10px;">
+            <div *ngFor="let item of formArray">
+                <div>
+                    <label> Client Name:- </label>
+                    <label formControlName="clname"> {{ item.client_name }}</label>
+                </div>
+                <div>
+                    <label> Status:- </label>
+                    <label [(ngModel)]="stats" formControlName="stat"> {{ item.select_status }}</label>
+                </div>
+                <div *ngFor="let btnval of buttonValue; let i = index">
+                    <button type="button" value="item" (click)="onBtnClick(i)"> {{ btnval }}</button>
+                </div>
+            </div>
+        </div>
+        <!-- <div *ngIf="submitted " style="border: 2px solid;margin: 10px;">
+            <div formArrayName="addStatusForm">
+                <div *ngFor="let item of form.get('addStatusForm')['controls']; let i = index" style="border: 1px solid;">
+                    <div [formGroupName]="i">
+                        <div>
+                            <label>Client Name:</label>
+                            <input type="text" formControlName="clientName">
+                        </div>
+                        <label>Status:</label>
+                        <div>
+                            <input type="text" formControlName="status" [value]="onStatus_Button_Click">
+                        </div>
+                        <button type="button" (click)="onAvailable(i)"> Available </button>
+                        <button type="button" (click)="onNotAvailable(i)">Not Available</button>
+                        <button type="button" (click)="onInMeeting()">In Meeting</button> 
+                        <i
+                        class="fas fa-minus-square"
+                        style="margin-left: 10px"
+                        (click)="removeItem(i)"
+                        ></i>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </form>
+</div>

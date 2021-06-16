@@ -1,46 +1,53 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
 
-<p>add-task works!</p>
 
 <div>
     <form [formGroup]="form">
         <div class="card">
-            <select [(ngModel)]="selectedOption" formControlName="select_status">
-                <option>Select the status:</option>
-                <option *ngFor="let item of status">{{ item }}</option>
-            </select>
-            <div>
-                <label>Client Name:</label>
-                <input type="text" [(ngModel)]="clientName_value" formControlName="client_name">
+            <div class="dropdown mr-1">
+                <label>Select Status:-</label>
+                <select [(ngModel)]="selectedOption" formControlName="select_status" >
+                    <option>Select the status:</option>
+                    <option *ngFor="let item of status">{{ item }}</option>
+                </select>
             </div>
-            <div>
-                <button (click)="onAdd(i)"> Add </button>
+            <div class="clientname">
+                <label>Client Name:</label>
+                <input type="text" [(ngModel)]="clientName_value" formControlName="client_name" >
+            </div>
+            <div class="addBtn">
+                <button class="btn btn-success" (click)="onAdd()"> Add </button>
+                <button class="btn btn-danger" (click)="Delete()"> Delete </button>
             </div>
         </div>
-        <div *ngIf="submitted " style="border: 2px solid;margin: 10px;">
-            <div formArrayName="addStatusForm">
-                <div *ngFor="let item of form.get('addStatusForm')['controls']; let i = index" style="border: 1px solid;">
-                    <div [formGroupName]="i">
-                        <div>
-                            <label>Client Name:</label>
-                            <input type="text" formControlName="clientName">
+        <div class="row">
+            <div *ngIf="submitted" style="border: 2px solid;margin: 10px;">
+                <div *ngFor="let item of formArray; let i_ = index" style="margin: 20px;">
+                    <!-- <div class="col-md-1"> -->
+                        <div >
+                            <label> Client Name:- </label>
+                            <label> {{ item.client_name }}</label>
+                            <button class="btn btn-secondary" style="margin-left:80%" (click)="updateData(i_)"> Update </button>
                         </div>
-                        <label>Status:</label>
                         <div>
-                            <input type="text" formControlName="status" [(ngModel)]="statusValue">
+                            <label> Status:-  </label>
+                            <label> {{ item.select_status }}</label>
+                            <button class="btn btn-secondary" style="margin-left:83%" (click)="deleteData(i_)"> Delete </button>
                         </div>
-                        <button type="button" (click)="onAvailable(i)"> Available </button>
-                        <button type="button" (click)="onNotAvailable()">Not Available</button>
-                        <button type="button" (click)="onInMeeting()">In Meeting</button> 
-                        <i
-                        class="fas fa-minus-square"
-                        style="margin-left: 10px"
-                        (click)="removeItem(i)"
-                        ></i>
-                    </div>
+                    <!-- </div> -->
+                    <hr class="dashed">
+                    <!-- <div class="col-md-10"> -->
+
+                        <div style="margin-right: 10px;">
+                            <ng-container *ngFor="let btnval of buttonValue; let i = index">
+                                <button  class="btn btn-primary" type="button" (click)="onBtnClick(i_,i)"> {{ btnval }}</button>
+                            </ng-container>
+                        </div>
+                    <!-- </div> -->
+                    <hr class="rounded">
                 </div>
             </div>
         </div>
-    </form>
+    </form>    
 </div>

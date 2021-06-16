@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 @Component({
   selector: 'app-add-status',
@@ -6,78 +6,71 @@ import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
   styleUrls: ['./add-status.component.css']
 })
 export class AddStatusComponent implements OnInit {
-
+  @Input() stat: string;
   status = [ "i'm Available" , "i'm not Available" , "i'm in Meeting" ];
   form: FormGroup;
   submitted: boolean;
-  addControls: any;
   statusValue: string;
   clientName_value: string;
   selectedOption: any;
-
+  formArray = [];
+  buttonValue = [ 'Available' , 'Not Available' , 'In Meeting' ];
+  clientV: any;
+  stats: any;
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
     this.form = this.fb.group({
       select_status: [''],
       client_name: [''],
-      addStatusForm: this.fb.array([
-        this.getControls()
-      ])
+      clname: [''],
+      stat: ['']
     });
     this.submitted = false;
   }
 
-  getControls(){
-    return this.fb.group({
-      clientName: [''],
-      status: [''],
-      Available: [''],
-      NotAvailable: [''],
-      meeting: [''],
-    })
-  }
-
-  getFormArray(): FormArray{
-    return this.form.get('addStatusForm') as FormArray;
-  }
-  onAdd(i: number){
-    this.statusValue = this.selectedOption ;
-    console.log(this.statusValue);
+  onAdd(){
+      
+    this.submitted = true;
+    console.log(this.selectedOption);
     console.log(this.clientName_value);
     
+    this.formArray.push(this.form.value);  
+    console.log(this.formArray);
+  }
+  onBtnClick(i_: number, index: number){
+    console.log(this.buttonValue[index]);
+    // this.clientV = this.buttonValue[index];
+    console.log(this.formArray[index]);
     
-    this.submitted = true;
-    this.addControls = <FormArray> this.form.controls['addStatusForm'];
-    this.addControls.push(this.getControls());
-    this.setValues(i);
-    console.log(this.form.controls['addStatusForm'].value.clientName);
+    this.formArray[i_].select_status = this.buttonValue[index];
+    console.log(this.formArray[index]);
+    console.log(this.formArray);
     
-    // this.getFormArray.setValue([
-    // {
-    //     clientName : this.clientName_value,
-    //     status : this.statusValue
-    // }]
-    // );
+    
+    // this.stats = this.formArray[index].select_status;
   }
-  setValues(i){
-    const controlArray = <FormArray> this.form.get('addStatusForm');
-    controlArray.controls[i].get('clientName').setValue(this.clientName_value);
-    controlArray.controls[i].get('status').setValue(this.statusValue);
+  Delete(){
+   // this.formArray.splice(i_);
   }
-  onAvailable(index: number){
-    this.statusValue = 'Available';
+  updateData(i_: number){
+    this.form.patchValue({
+      select_status: this.formArray[i_].select_status,
+      client_name: this.formArray[i_].client_name,
+    })
+    //this.formArray[i_].select_status
   }
-  onNotAvailable(){
 
+  deleteData(i_: number){
+    this.formArray.splice(i_);
   }
-  onInMeeting(){
 
-  }
   removeItem(index: number){
-    const control = <FormArray>this.form.controls["addStatusForm"];
-    control.removeAt(index);
+    console.log(index);
+    
+    this.formArray.splice(0,index);
   }
+
 }
 // https://stackblitz.com/edit/angular-form-dynamic-add-control-so59033703?file=app%2Fapp.component.ts
 
