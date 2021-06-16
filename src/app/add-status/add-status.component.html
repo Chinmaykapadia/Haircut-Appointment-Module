@@ -4,8 +4,8 @@
 <h3 style="margin-left: 30px;"> Manage Status</h3>
 <div>
     <form [formGroup]="form">
-        <div class="card">
-            <div class="dropdown mr-1">
+        <div class="card" style="border: 1px solid;">
+            <div class="dropdown">
                 <label>Select Status:-</label>
                 <select [(ngModel)]="selectedOption" formControlName="select_status" >
                     <option>Select the status:</option>
@@ -17,7 +17,7 @@
                 <input type="text" [(ngModel)]="clientName_value" formControlName="client_name" >
             </div>
             <div class="addBtn">
-                <button class="btn btn-success" (click)="onAdd()"> {{buttonName}} </button>
+                <button class="btn btn-success" (click)="onAdd()"> {{buttonName}} </button>&nbsp;
                 <button class="btn btn-danger" (click)="Delete()"> Delete </button>
 
             </div>
