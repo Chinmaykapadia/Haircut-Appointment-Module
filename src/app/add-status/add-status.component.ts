@@ -32,7 +32,8 @@ export class AddStatusComponent implements OnInit {
   statusColor: string;
   filterData = [];
   searchData: boolean;
-
+  isFormFIeldEmpty: boolean;
+ // btnDisable: boolean;
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -45,15 +46,9 @@ export class AddStatusComponent implements OnInit {
     this.buttonName = 'Add';
     this.formArrayLength = this.formArray.length;
     console.log(this.formArrayLength);
-
     // this.filterData = this.form.get('client_name').valueChanges.pipe(startWith(''),map(value => this.Search(value)));
     this.searchData = false;
-    // if(this.formArrayLength > 0){
-    //   this.showDeleteButton = true;
-    // }
-    // else{
-    //   this.showDeleteButton = false;
-    // }
+    
   }
 
   onAdd(){
@@ -73,6 +68,7 @@ export class AddStatusComponent implements OnInit {
       this.formArray.push(this.form.value);  
       console.log(this.formArray);
       this.form.reset();
+
     }
     else{
       this.searchData = false
@@ -85,12 +81,8 @@ export class AddStatusComponent implements OnInit {
       console.log(this.formArray);
       
     }
-    // if(this.formArrayLength > 0){
-    //   this.showDeleteButton = true;
-    // }
-    // else{
-    //   this.showDeleteButton = false;
-    // }
+  
+   
 
   }
   onStatusBtnClick(i_: number, index: number,_i:number){
@@ -132,17 +124,20 @@ export class AddStatusComponent implements OnInit {
   }
 
   updateData(i_: number,_i:number){
-    this.searchData = false;
     this.form.patchValue({
       select_status: this.formArray[i_].select_status,
       client_name: this.formArray[i_].client_name,
       color: this.formArray[i_].color
     });
-    // this.form.patchValue({
-    //   select_status: this.formArray[_i].select_status,
-    //   client_name: this.formArray[_i].client_name,
-    //   color: this.formArray[_i].color
-    // });
+    if(this.searchData == true){
+      this.form.patchValue({
+        select_status: this.filterData[_i].select_status,
+        client_name: this.filterData[_i].client_name,
+        color: this.filterData[_i].color
+      });
+    }
+   
+    this.searchData = false;
     this.filterData.splice(0,_i);
    // this.addToedit = true;
     this.buttonName = 'Update';
@@ -160,6 +155,11 @@ export class AddStatusComponent implements OnInit {
     this.form.reset();
   }
 
+  // isFormFIeldEmpty(){
+  //   this.clientName_value = '';
+  //   this.statusValue = '';
+  // }
+
   removeItem(index: number){
 
     console.log(index);
@@ -175,3 +175,10 @@ export class AddStatusComponent implements OnInit {
   //       // const filterD = clientName_value.toLowerCase();
   //   // return this.formArray.filter(val=>val.includes(filterD));
   // }
+
+   // if(this.formArrayLength > 0){
+    //   this.showDeleteButton = true;
+    // }
+    // else{
+    //   this.showDeleteButton = false;
+    // }

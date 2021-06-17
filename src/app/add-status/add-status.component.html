@@ -20,7 +20,7 @@
             </div>
             <div class="addBtn">
                 <button class="btn btn-success" (click)="onAdd()"> {{buttonName}} </button>&nbsp;
-                <button class="btn btn-danger" (click)="Delete()" [disabled]="formArray.length == 0"> Delete </button>&nbsp;
+                <button class="btn btn-danger" *ngIf="formArray.length > 0" (click)="Delete()"> Delete </button>&nbsp;
                 <button class="btn btn-primary" (click)="Search(clientName_value)"> Search </button>
 
             </div>
