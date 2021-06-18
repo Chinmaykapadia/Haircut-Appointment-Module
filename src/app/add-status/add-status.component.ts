@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 @Component({
@@ -10,9 +10,9 @@ import {map, startWith} from 'rxjs/operators';
 export class AddStatusComponent implements OnInit {
 
   status = [ "i'm Available" , "i'm not Available" , "i'm in Meeting" ];
-  status1 = [ { value: "i'm Available", color: "red" }, 
-              { value: "i'm not Available", color: "yellow" },
-              { value: "i'm in Meeting", color: "green" }
+  status1 = [ { value: "i'm Available", color: "green" }, 
+              { value: "i'm not Available", color: "red" },
+              { value: "i'm in Meeting", color: "#FFFF99" }
             ];
   form: FormGroup;
   submitted: boolean;
@@ -21,9 +21,9 @@ export class AddStatusComponent implements OnInit {
   selectedOption: any;
   formArray = [];
   //buttonValue = [ "i'm Available" , "i'm not Available" , "i'm in Meeting" ];
-  buttonValue = [ { value: "i'm Available", color: "red" }, 
-                  { value: "i'm not Available", color: "yellow" },
-                  { value: "i'm in Meeting", color: "green" }
+  buttonValue = [ { value: "i'm Available", color: "green" }, 
+                  { value: "i'm not Available", color: "red" },
+                  { value: "i'm in Meeting", color: "#FFFF99" }
                 ];
   buttonName: string;
   findId: number;
@@ -39,7 +39,7 @@ export class AddStatusComponent implements OnInit {
   ngOnInit() {
     this.form = this.fb.group({
       select_status: [''],
-      client_name: [''],
+      client_name: ['', [ Validators.required ] ],
       color:['']
     });
     this.submitted = false;
@@ -63,12 +63,16 @@ export class AddStatusComponent implements OnInit {
     
 
     if(this.buttonName == 'Add'){
-      this.searchData = false;
-      this.form.value.color = this.status1[a].color;
-      this.formArray.push(this.form.value);  
-      console.log(this.formArray);
-      this.form.reset();
+      try{
 
+        this.searchData = false;
+        this.form.value.color = this.status1[a].color;
+        this.formArray.push(this.form.value);  
+        console.log(this.formArray);
+        this.form.reset();
+      }
+      catch(err){
+      }
     }
     else{
       this.searchData = false
@@ -81,10 +85,9 @@ export class AddStatusComponent implements OnInit {
       console.log(this.formArray);
       
     }
-  
-   
 
   }
+
   onStatusBtnClick(i_: number, index: number,_i:number){
     console.log(this.buttonValue[index]);
     // this.clientV = this.buttonValue[index];
@@ -102,7 +105,12 @@ export class AddStatusComponent implements OnInit {
 
   Delete(){
     this.searchData = false;
-    this.formArray.splice(this.findId,1);
+    if(this.clientName_value != '' || this.statusValue != ''){
+      this.formArray.splice(this.findId,1);
+    }
+    else{
+      console.log("hh");
+    }
     this.form.reset();
     this.buttonName = 'Add';
     console.log(this.formArray);
@@ -113,13 +121,18 @@ export class AddStatusComponent implements OnInit {
   Search(clientName_value: string){
     // let findV = this.formArray.find(x => x.client_name == this.clientName_value);
     // console.log(findV);
-    this.searchData = true;
-
-    const filterValue = this.formArray.filter((item)=>{    
-      return item.client_name.toLowerCase().includes(clientName_value.toLowerCase());
-    });
-    console.log(filterValue);
-    this.filterData = filterValue;
+    try{
+      this.searchData = true;
+      if(this.clientName_value == ''){
+        this.searchData = false;
+      }
+      const filterValue = this.formArray.filter((item)=>{    
+        return item.client_name.toLowerCase().includes(clientName_value.toLowerCase());
+      });
+      console.log(filterValue);
+      this.filterData = filterValue;
+    }
+    catch(error){}
     
   }
 
@@ -181,4 +194,31 @@ export class AddStatusComponent implements OnInit {
     // }
     // else{
     //   this.showDeleteButton = false;
+    // }
+
+
+    // Search1(clientName_value: string){
+    //   // let findV = this.formArray.find(x => x.client_name == this.clientName_value);
+    //   // console.log(findV);
+    //   this.searchData = true;
+    //   this.formArray.forEach((val)=>{
+    //     console.log(val);
+    //     console.log(val.client_name);
+    //     const filterValue = this.formArray.filter((item)=>{    
+    //       return item.client_name.toLowerCase().includes(clientName_value.toLowerCase());
+    //     });
+    //     this.filterData = filterValue;
+    //     // Object.values(val).forEach((res)=>{
+    //     //   console.log(res);
+  
+    //     // });
+        
+    //   });
+    //   // const filterValue1 = this.formArray.filter((item)=>{    
+    //   //   item.forEach(element => {
+    //   //     console.log("Clients name:-->",element.client_name);
+    //   //   });
+    //   //   return item.client_name.toLowerCase().includes(clientName_value.toLowerCase());
+    //   // });
+      
     // }

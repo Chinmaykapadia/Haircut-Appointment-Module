@@ -13,10 +13,18 @@
                     <option>Select the status:</option>
                     <option *ngFor="let item of status1">{{ item.value }}</option>
                 </select>
+                <!-- <div class="invalid-feedback" *ngIf="submitted && form.controls.select_status.errors.required">
+                    <p>
+                        Please Select Value
+                    </p>
+                </div> -->
             </div>
             <div class="clientname">
                 <label>Client Name:</label>
                 <input type="text" [(ngModel)]="clientName_value" formControlName="client_name" >
+                <!-- <div class="alert alert-warning" *ngIf="submitted && form?.controls?.client_name?.errors?.required">
+                    <p> Enter the value.</p>
+                </div> -->
             </div>
             <div class="addBtn">
                 <button class="btn btn-success" (click)="onAdd()"> {{buttonName}} </button>&nbsp;
@@ -34,20 +42,22 @@
                         <div>
                             <div>
                                 <label> Client Name:- </label>
-                                <label [ngStyle]="{'background-color':item.color}"> {{ item.client_name }}</label>
+                                <label> {{ item.client_name }}</label>
                                 <button class="btn btn-secondary" style="margin-left:70%" (click)="updateData(i_)"> Edit </button>
                                 <button class="btn btn-secondary" style="margin-left:5px" (click)="deleteData(i_)"> Delete </button>
                             </div>
                             <div>
                                 <label> Status:-  </label>
-                                <label [ngStyle]="{'background-color':item.color}"> {{ item.select_status }}</label>
+                                <label [ngStyle]="{'color':item.color}"> {{ item.select_status }}</label>
                             </div>
                                 
                         </div>
                         <hr class="dashed">        
                             <div style="margin-right: 10px;" [style.visibility]="(searchData == true) ? 'hidden' : 'visible'">
                                 <ng-container *ngFor="let btnval of buttonValue; let i = index">
-                                    <button  class="btn btn-primary" type="button" (click)="onStatusBtnClick(i_,i)"> {{ btnval.value }}</button>
+                                    <button style="color: black;" [ngStyle]="{'background-color':btnval.color}" class="btn btn-primary" type="button" (click)="onStatusBtnClick(i_,i)"> {{ btnval.value }}
+                                        
+                                    </button>
                                 </ng-container>
                             </div>
                         <hr class="rounded">
@@ -59,9 +69,9 @@
                         <div>
                             <div >
                                 <label> Client Name:- </label>
-                                <label [ngStyle]="{'background-color':item1.color}"> {{ item1.client_name }}</label>
-                                <button class="btn btn-secondary" style="margin-left:70%" (click)="updateData(_i)"> Edit </button>
-                                <button class="btn btn-secondary" style="margin-left:5px" (click)="deleteData(_i)"> Delete </button>
+                                <label> {{ item1.client_name }}</label>
+                                <!-- <button class="btn btn-secondary" style="margin-left:70%" (click)="updateData(_i)"> Edit </button>
+                                <button class="btn btn-secondary" style="margin-left:5px" (click)="deleteData(_i)"> Delete </button> -->
                             </div>
                             <div>
                                 <label> Status:-  </label>
@@ -71,7 +81,7 @@
                         <hr class="dashed">
                         <div style="margin-right: 10px;">
                             <ng-container *ngFor="let btnval of buttonValue; let i = index">
-                                <button  class="btn btn-primary" type="button" (click)="onStatusBtnClick(_i,i)"> {{ btnval.value }}</button>
+                                <button style="color: black;" [ngStyle]="{'background-color':btnval.color}" class="btn btn-primary" type="button" (click)="onStatusBtnClick(_i,i)"> {{ btnval.value }}</button>
                             </ng-container>
                         </div>
                         <hr class="rounded">
