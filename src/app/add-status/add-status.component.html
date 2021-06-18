@@ -30,7 +30,7 @@
         <div class="row">
             <div *ngIf="submitted" style="border: 2px solid;margin: 10px;">
                 <div *ngFor="let item of formArray; let i_ = index" style="margin: 20px;">
-                    <div [style.visibility]="(searchData == true) ? 'hidden' : 'visible'">
+                    <div *ngIf="!searchData">
                         <div>
                             <div>
                                 <label> Client Name:- </label>
