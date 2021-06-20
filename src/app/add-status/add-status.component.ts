@@ -33,6 +33,8 @@ export class AddStatusComponent implements OnInit {
   filterData = [];
   searchData: boolean;
   isFormFIeldEmpty: boolean;
+  disable_Search_Button: boolean;
+
  // btnDisable: boolean;
   constructor(private fb: FormBuilder) { }
 
@@ -48,7 +50,7 @@ export class AddStatusComponent implements OnInit {
     console.log(this.formArrayLength);
     // this.filterData = this.form.get('client_name').valueChanges.pipe(startWith(''),map(value => this.Search(value)));
     this.searchData = false;
-    
+    this.disable_Search_Button = true;
   }
 
   onAdd(){
@@ -75,7 +77,8 @@ export class AddStatusComponent implements OnInit {
       }
     }
     else{
-      this.searchData = false
+      this.searchData = false;
+      this.disable_Search_Button = true;
       console.log("Updated");
       this.formArray[this.findId].select_status = this.selectedOption;
       this.formArray[this.findId].client_name = this.clientName_value;
@@ -105,6 +108,7 @@ export class AddStatusComponent implements OnInit {
 
   Delete(){
     this.searchData = false;
+    this.disable_Search_Button = true;
     if(this.clientName_value != '' || this.statusValue != ''){
       this.formArray.splice(this.findId,1);
     }
@@ -118,7 +122,7 @@ export class AddStatusComponent implements OnInit {
    // this.formArray.splice(i_);
   }
 
-  Search(clientName_value: string){
+  Search(clientName_value: string,selectedOption: string){
     // let findV = this.formArray.find(x => x.client_name == this.clientName_value);
     // console.log(findV);
     try{
@@ -126,17 +130,33 @@ export class AddStatusComponent implements OnInit {
       if(this.clientName_value == ''){
         this.searchData = false;
       }
-      const filterValue = this.formArray.filter((item)=>{    
-        return item.client_name.toLowerCase().includes(clientName_value.toLowerCase());
+      const filterValue = this.formArray.filter((item)=>{ 
+        //let statVal = item
+        // Object.values(item).forEach((res)=>{
+        //   console.log(res);
+        //   return 
+        // })
+        //return (item.client_name.toLowerCase().includes(clientName_value.toLowerCase()) || item.select_status.toLowerCase().includes(selectedOption.toLowerCase()));
+        if(selectedOption !== ''){
+          this.form.reset();
+          return (item.select_status.toLowerCase().includes(selectedOption.toLowerCase()));
+        }
+        else{
+          return item.client_name.toLowerCase().includes(clientName_value.toLowerCase());
+        }
       });
       console.log(filterValue);
       this.filterData = filterValue;
+      //this.filterData = filterValue;
+      console.log(this.filterData);
+      
     }
     catch(error){}
     
   }
 
   updateData(i_: number,_i:number){
+    this.disable_Search_Button = false;
     this.form.patchValue({
       select_status: this.formArray[i_].select_status,
       client_name: this.formArray[i_].client_name,
@@ -161,6 +181,7 @@ export class AddStatusComponent implements OnInit {
 
   deleteData(i_: number,_i:number){
     this.searchData = false;
+    this.disable_Search_Button = true;
     console.log(i_);
     this.formArray.splice(i_,1);
     this.filterData.splice(_i,1);
