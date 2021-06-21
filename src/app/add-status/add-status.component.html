@@ -10,7 +10,7 @@
             <div class="dropdown">
                 <label>Select Status:-</label>
                 <select [(ngModel)]="selectedOption" formControlName="select_status" >
-                    <option>Select the status:</option>
+                    <option></option>
                     <option *ngFor="let item of status1">{{ item.value }}</option>
                 </select>
                 <!-- <div class="invalid-feedback" *ngIf="submitted && form.controls.select_status.errors.required">
@@ -30,7 +30,7 @@
                 <button class="btn btn-success" (click)="onAdd()"> {{buttonName}} </button>&nbsp;
                 <button class="btn btn-danger" *ngIf="formArray.length > 0" (click)="Delete()"> Delete </button>&nbsp;
                 <button class="btn btn-primary" *ngIf="disable_Search_Button" (click)="Search(clientName_value,selectedOption)"> Search </button>
-
+                <!-- <button class="btn btn-primary" *ngIf="disable_Search_Button" (click)="Search1()"> Search </button> -->
             </div>
         </div>
         
@@ -48,14 +48,14 @@
                             </div>
                             <div>
                                 <label> Status:-  </label>
-                                <label [ngStyle]="{'color':item.color}"> {{ item.select_status }}</label>
+                                <label [ngStyle]="{'color': item.color}"> {{ item.select_status }}</label>
                             </div>
                                 
                         </div>
                         <hr class="dashed">        
                             <div style="margin-right: 10px;" [style.visibility]="(searchData == true) ? 'hidden' : 'visible'">
                                 <ng-container *ngFor="let btnval of buttonValue; let i = index">
-                                    <button style="color: black;" [ngStyle]="{'background-color':btnval.color}" class="btn btn-primary" type="button" (click)="onStatusBtnClick(i_,i)"> {{ btnval.value }}
+                                    <button style="color: black;" [ngStyle]="{'background-color': btnval.color}" class="btn btn-primary" type="button" (click)="onStatusBtnClick(i_,i)"> {{ btnval.value }}
                                         
                                     </button>
                                 </ng-container>
@@ -63,9 +63,10 @@
                         <hr class="rounded">
                     </div>
                 </div>
-                <div [style.visibility]="(searchData == false) ? 'hidden' : 'visible'">
-                    <p>Searched Results</p>
-                    <div *ngFor="let item1 of filterData; let _i = index">
+<!-- ---------------------------------------------------  Search Data Name Wise  -------------------------------------------------------------- -->
+                <div [style.visibility]="(searchData == false) ? 'hidden' : 'visible'" style="margin: 20px;">
+                    <p>Searched Results Name Wise</p>
+                    <div *ngFor="let item1 of filterData ; let _i = index">
                         <div>
                             <div >
                                 <label> Client Name:- </label>
@@ -75,13 +76,38 @@
                             </div>
                             <div>
                                 <label> Status:-  </label>
-                                <label [ngStyle]="{'background-color':item1.color}"> {{ item1.select_status }}</label>
+                                <label [ngStyle]="{'background-color': item1.color}"> {{ item1.select_status }}</label>
                             </div>
                         </div>
                         <hr class="dashed">
                         <div style="margin-right: 10px;">
                             <ng-container *ngFor="let btnval of buttonValue; let i = index">
-                                <button style="color: black;" [ngStyle]="{'background-color':btnval.color}" class="btn btn-primary" type="button" (click)="onStatusBtnClick(_i,i)"> {{ btnval.value }}</button>
+                                <button style="color: black;" [ngStyle]="{'background-color': btnval.color}" class="btn btn-primary" type="button" (click)="onStatusBtnClick(_i,i)"> {{ btnval.value }}</button>
+                            </ng-container>
+                        </div>
+                        <hr class="rounded">
+                    </div>
+                </div>
+<!-- ========================================================  Search Data Status Wise  ========================================================== -->
+                <div [style.visibility]="(searchData1 == false) ? 'hidden' : 'visible'" style="margin: 20px;">
+                    <p>Searched Results status wise</p>
+                    <div *ngFor="let item1 of filterData1 ; let _i = index">
+                        <div>
+                            <div >
+                                <label> Client Name:- </label>
+                                <label> {{ item1.client_name }}</label>
+                                <!-- <button class="btn btn-secondary" style="margin-left:70%" (click)="updateData(_i)"> Edit </button>
+                                <button class="btn btn-secondary" style="margin-left:5px" (click)="deleteData(_i)"> Delete </button> -->
+                            </div>
+                            <div>
+                                <label> Status:-  </label>
+                                <label [ngStyle]="{'background-color': item1.color}"> {{ item1.select_status }}</label>
+                            </div>
+                        </div>
+                        <hr class="dashed">
+                        <div style="margin-right: 10px;">
+                            <ng-container *ngFor="let btnval of buttonValue; let i = index">
+                                <button style="color: black;" [ngStyle]="{'background-color': btnval.color}" class="btn btn-primary" type="button" (click)="onStatusBtnClick(_i,i)"> {{ btnval.value }}</button>
                             </ng-container>
                         </div>
                         <hr class="rounded">
