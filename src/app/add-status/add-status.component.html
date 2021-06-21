@@ -29,7 +29,7 @@
             <div class="addBtn">
                 <button class="btn btn-success" (click)="onAdd()"> {{buttonName}} </button>&nbsp;
                 <button class="btn btn-danger" *ngIf="formArray.length > 0" (click)="Delete()"> Delete </button>&nbsp;
-                <button class="btn btn-primary" *ngIf="disable_Search_Button" (click)="Search(clientName_value,selectedOption)"> Search </button>
+                <button class="btn btn-primary" *ngIf="disable_Search_Button" (click)="Search1(clientName_value,selectedOption)"> Search </button>
                 <!-- <button class="btn btn-primary" *ngIf="disable_Search_Button" (click)="Search1()"> Search </button> -->
             </div>
         </div>
@@ -65,7 +65,7 @@
                 </div>
 <!-- ---------------------------------------------------  Search Data Name Wise  -------------------------------------------------------------- -->
                 <div [style.visibility]="(searchData == false) ? 'hidden' : 'visible'" style="margin: 20px;">
-                    <p>Searched Results Name Wise</p>
+                    <p>Searched Results</p>
                     <div *ngFor="let item1 of filterData ; let _i = index">
                         <div>
                             <div >
@@ -76,7 +76,7 @@
                             </div>
                             <div>
                                 <label> Status:-  </label>
-                                <label [ngStyle]="{'background-color': item1.color}"> {{ item1.select_status }}</label>
+                                <label [ngStyle]="{'color': item1.color}"> {{ item1.select_status }}</label>
                             </div>
                         </div>
                         <hr class="dashed">
@@ -101,7 +101,7 @@
                             </div>
                             <div>
                                 <label> Status:-  </label>
-                                <label [ngStyle]="{'background-color': item1.color}"> {{ item1.select_status }}</label>
+                                <label [ngStyle]="{'color': item1.color}"> {{ item1.select_status }}</label>
                             </div>
                         </div>
                         <hr class="dashed">

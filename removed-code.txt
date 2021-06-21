@@ -1,0 +1,386 @@
+add-status.component.ts:---
+
+import { Component, Input, OnInit, Pipe, PipeTransform } from '@angular/core';
+import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
+@Pipe({
+  name: 'filter'
+})
+export class FilterPipe implements PipeTransform {
+  transform(items: Array<any>, filter: {[key: string]: any }): Array<any> {
+      return items.filter(item => {
+              let notMatchingField = Object.keys(filter)
+                                           .find(key => item[key] !== filter[key]);
+
+              return !notMatchingField; // true if matches all fields
+      });
+  }
+}
+@Component({
+  selector: 'app-add-status',
+  templateUrl: './add-status.component.html',
+  styleUrls: ['./add-status.component.css']
+})
+export class AddStatusComponent implements OnInit {
+
+  status = [ "i'm Available" , "i'm not Available" , "i'm in Meeting" ];
+  status1 = [ { value: "i'm Available", color: "green" }, 
+              { value: "i'm not Available", color: "red" },
+              { value: "i'm in Meeting", color: "#FFFF99" }
+            ];
+  form: FormGroup;
+  submitted: boolean;
+  statusValue: string;
+  clientName_value: string;
+  selectedOption: any;
+  formArray = [];
+  //buttonValue = [ "i'm Available" , "i'm not Available" , "i'm in Meeting" ];
+  buttonValue = [ { value: "i'm Available", color: "green" }, 
+                  { value: "i'm not Available", color: "red" },
+                  { value: "i'm in Meeting", color: "#FFFF99" }
+                ];
+  buttonName: string;
+  findId: number;
+  formArrayLength: number;
+  showDeleteButton: boolean;
+  statusColor: string;
+  filterData = [];
+  filterData1 = [];
+  searchData: boolean;
+  isFormFIeldEmpty: boolean;
+  disable_Search_Button: boolean;
+  searchData1: boolean;
+
+ // btnDisable: boolean;
+  constructor(private fb: FormBuilder) { }
+
+  ngOnInit() {
+    this.form = this.fb.group({
+      select_status: [''],
+      client_name: [''],
+      color:['']
+    });
+
+    this.submitted = false;
+    this.buttonName = 'Add';
+    this.formArrayLength = this.formArray.length;
+    console.log(this.formArrayLength);
+  
+    this.searchData = false;
+    this.searchData1 = false;
+    this.disable_Search_Button = true;
+  }
+
+  onAdd(){
+      
+    this.submitted = true;
+    console.log(this.selectedOption);
+    console.log(this.clientName_value);
+    let a = this.status1.findIndex(x => x.value == this.selectedOption);
+    console.log(a);
+    
+    if(this.buttonName == 'Add'){
+      try{
+
+        this.searchData = false;
+        this.searchData1 = false;
+        this.form.value.color = this.status1[a].color;
+        this.formArray.push(this.form.value);  
+        console.log(this.formArray);
+        this.form.reset();
+      }
+      catch(err){
+      }
+    }
+    else{
+      this.searchData = false;
+      this.disable_Search_Button = true;
+      console.log("Updated");
+      this.formArray[this.findId].select_status = this.selectedOption;
+      this.formArray[this.findId].client_name = this.clientName_value;
+      this.formArray[this.findId].color = this.status1[a].color;
+      this.form.reset();
+      this.buttonName = 'Add';
+      console.log(this.formArray);
+      
+    }
+
+  }
+
+  onStatusBtnClick(i_: number, index: number,_i:number){
+    console.log(this.buttonValue[index]);
+    // this.clientV = this.buttonValue[index];
+    console.log(this.formArray[index]);
+    
+    this.formArray[i_].select_status = this.buttonValue[index].value;
+    //this.formArray[i_].color.value = this.buttonValue[index].value;
+    this.formArray[i_].color = this.buttonValue[index].color;
+    console.log("Status Color:->",this.statusColor);
+    
+    console.log(this.formArray[index]);
+    console.log(this.formArray);
+    // this.stats = this.formArray[index].select_status;
+  }
+
+  Delete(){
+    this.searchData = false;
+    this.disable_Search_Button = true;
+    if(this.clientName_value != '' || this.statusValue != ''){
+      this.formArray.splice(this.findId,1);
+    }
+    else{
+      console.log("hh");
+    }
+    this.form.reset();
+    this.buttonName = 'Add';
+    console.log(this.formArray);
+    
+   // this.formArray.splice(i_);
+  }
+
+  
+
+  updateData(i_: number,_i:number){
+    this.disable_Search_Button = false;
+    this.form.patchValue({
+      select_status: this.formArray[i_].select_status,
+      client_name: this.formArray[i_].client_name,
+      color: this.formArray[i_].color
+    });
+   
+    this.searchData = false;
+    this.buttonName = 'Update';
+    this.findId = i_;
+    console.log("find id:---=>",this.findId);
+    
+    //this.filterData.splice(0,_i);
+   // this.addToedit = true;
+  }
+
+  deleteData(i_: number,_i:number){
+    this.searchData = false;
+    this.disable_Search_Button = true;
+    console.log(i_);
+    this.formArray.splice(i_,1);
+   // this.filterData.splice(_i,1);
+    console.log(this.formArray);
+    this.form.reset();
+  }
+
+  
+  removeItem(index: number){
+    
+    console.log(index);
+    this.formArray.splice(0,index);
+  }
+  
+  
+  Search1(clientName_value: string, selectedOption: string){
+    
+    try{
+      //if(this.clientName_value !== '' && this.selectedOption == ''){
+ 
+        this.searchData = true;
+        if(this.clientName_value == '' && !this.selectedOption){
+            this.searchData = false;
+        }
+        const filterValue = this.formArray.filter((item)=>{ 
+          console.log(item);
+          if(this.selectedOption){
+            console.log("1");
+            return (item.select_status.toLowerCase().includes(selectedOption.toLowerCase()));
+            
+          }
+          else if(this.clientName_value !== ''){
+            console.log("2");
+            return (item.client_name.toLowerCase().includes(clientName_value.toLowerCase()));
+            
+          }
+        });
+        console.log(filterValue);
+        this.filterData = filterValue;
+        console.log(this.filterData);
+      }
+      catch(error){}
+      
+    }
+  }
+  
+  
+  
+  
+  
+  // isFormFIeldEmpty(){
+  //   this.clientName_value = '';
+  //   this.statusValue = '';
+  // }
+
+
+// Search(clientName_value: string, selectedOption: string){
+//   // let findV = this.formArray.find(x => x.client_name == this.clientName_value);
+//   // console.log(findV);
+//   try{
+//     //if(this.clientName_value !== '' && this.selectedOption == ''){
+
+//       this.searchData = true;
+//       if(this.clientName_value == ''){
+//         this.searchData = false;
+//       }
+//       const filterValue = this.formArray.filter((item)=>{ 
+//         console.log(item);
+//         return (item.client_name.toLowerCase().includes(clientName_value.toLowerCase()));
+//       });
+//       console.log(filterValue);
+//       this.filterData = filterValue;
+//       console.log(this.filterData);
+
+//     //}
+//      if(this.selectedOption !== '' && this.clientName_value == ''){
+
+//       //if(this.selectedOption !== '' && this.clientName_value == ''){
+//         this.searchData = false;
+//         this.searchData1 = true;
+//       //}
+//       const filterValue1 = this.formArray.filter(item=>{
+//         return item.select_status.toLowerCase().includes(selectedOption.toLowerCase());
+//       });
+//       this.filterData1 = filterValue1;
+//       console.log("Filter Data:-->",this.filterData1);
+//     }
+
+//     // if(this.selectedOption == '' && this.clientName_value == '')
+//     // {
+//     //   this.searchData = false;
+//     //   this.searchData1 = false;
+//     // }
+      
+//   }
+//   catch(error){}
+  
+// }
+
+
+
+
+add-status.component.html:----
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+
+<div class="jumbotron">
+    <h3 class="heading" style="margin-left: 50px;"> Manage Status</h3>
+</div>
+<div>
+    <form [formGroup]="form">
+        <div class="card" style="border: 1px solid;">
+            <div class="dropdown">
+                <label>Select Status:-</label>
+                <select [(ngModel)]="selectedOption" formControlName="select_status" >
+                    <option></option>
+                    <option *ngFor="let item of status1">{{ item.value }}</option>
+                </select>
+                <!-- <div class="invalid-feedback" *ngIf="submitted && form.controls.select_status.errors.required">
+                    <p>
+                        Please Select Value
+                    </p>
+                </div> -->
+            </div>
+            <div class="clientname">
+                <label>Client Name:</label>
+                <input type="text" [(ngModel)]="clientName_value" formControlName="client_name" >
+                <!-- <div class="alert alert-warning" *ngIf="submitted && form?.controls?.client_name?.errors?.required">
+                    <p> Enter the value.</p>
+                </div> -->
+            </div>
+            <div class="addBtn">
+                <button class="btn btn-success" (click)="onAdd()"> {{buttonName}} </button>&nbsp;
+                <button class="btn btn-danger" *ngIf="formArray.length > 0" (click)="Delete()"> Delete </button>&nbsp;
+                <button class="btn btn-primary" *ngIf="disable_Search_Button" (click)="Search1(clientName_value,selectedOption)"> Search </button>
+                <!-- <button class="btn btn-primary" *ngIf="disable_Search_Button" (click)="Search1()"> Search </button> -->
+            </div>
+        </div>
+        
+
+        <div class="row">
+            <div *ngIf="submitted" style="border: 2px solid;margin: 10px;">
+                <div *ngFor="let item of formArray; let i_ = index" style="margin: 20px;">
+                    <div *ngIf="!searchData">
+                        <div>
+                            <div>
+                                <label> Client Name:- </label>
+                                <label> {{ item.client_name }}</label>
+                                <button class="btn btn-secondary" style="margin-left:70%" (click)="updateData(i_)"> Edit </button>
+                                <button class="btn btn-secondary" style="margin-left:5px" (click)="deleteData(i_)"> Delete </button>
+                            </div>
+                            <div>
+                                <label> Status:-  </label>
+                                <label [ngStyle]="{'color': item.color}"> {{ item.select_status }}</label>
+                            </div>
+                                
+                        </div>
+                        <hr class="dashed">        
+                            <div style="margin-right: 10px;" [style.visibility]="(searchData == true) ? 'hidden' : 'visible'">
+                                <ng-container *ngFor="let btnval of buttonValue; let i = index">
+                                    <button style="color: black;" [ngStyle]="{'background-color': btnval.color}" class="btn btn-primary" type="button" (click)="onStatusBtnClick(i_,i)"> {{ btnval.value }}
+                                        
+                                    </button>
+                                </ng-container>
+                            </div>
+                        <hr class="rounded">
+                    </div>
+                </div>
+<!-- ---------------------------------------------------  Search Data Name Wise  -------------------------------------------------------------- -->
+                <div [style.visibility]="(searchData == false) ? 'hidden' : 'visible'" style="margin: 20px;">
+                    <p>Searched Results</p>
+                    <div *ngFor="let item1 of filterData ; let _i = index">
+                        <div>
+                            <div >
+                                <label> Client Name:- </label>
+                                <label> {{ item1.client_name }}</label>
+                                <!-- <button class="btn btn-secondary" style="margin-left:70%" (click)="updateData(_i)"> Edit </button>
+                                <button class="btn btn-secondary" style="margin-left:5px" (click)="deleteData(_i)"> Delete </button> -->
+                            </div>
+                            <div>
+                                <label> Status:-  </label>
+                                <label [ngStyle]="{'color': item1.color}"> {{ item1.select_status }}</label>
+                            </div>
+                        </div>
+                        <hr class="dashed">
+                        <div style="margin-right: 10px;">
+                            <ng-container *ngFor="let btnval of buttonValue; let i = index">
+                                <button style="color: black;" [ngStyle]="{'background-color': btnval.color}" class="btn btn-primary" type="button" (click)="onStatusBtnClick(_i,i)"> {{ btnval.value }}</button>
+                            </ng-container>
+                        </div>
+                        <hr class="rounded">
+                    </div>
+                </div>
+<!-- ========================================================  Search Data Status Wise  ========================================================== -->
+                <div [style.visibility]="(searchData1 == false) ? 'hidden' : 'visible'" style="margin: 20px;">
+                    <p>Searched Results status wise</p>
+                    <div *ngFor="let item1 of filterData1 ; let _i = index">
+                        <div>
+                            <div >
+                                <label> Client Name:- </label>
+                                <label> {{ item1.client_name }}</label>
+                                <!-- <button class="btn btn-secondary" style="margin-left:70%" (click)="updateData(_i)"> Edit </button>
+                                <button class="btn btn-secondary" style="margin-left:5px" (click)="deleteData(_i)"> Delete </button> -->
+                            </div>
+                            <div>
+                                <label> Status:-  </label>
+                                <label [ngStyle]="{'color': item1.color}"> {{ item1.select_status }}</label>
+                            </div>
+                        </div>
+                        <hr class="dashed">
+                        <div style="margin-right: 10px;">
+                            <ng-container *ngFor="let btnval of buttonValue; let i = index">
+                                <button style="color: black;" [ngStyle]="{'background-color': btnval.color}" class="btn btn-primary" type="button" (click)="onStatusBtnClick(_i,i)"> {{ btnval.value }}</button>
+                            </ng-container>
+                        </div>
+                        <hr class="rounded">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>    
+</div>

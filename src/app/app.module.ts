@@ -7,7 +7,7 @@ import { AppointmentsComponent } from './appointments/appointments.component';
 import { SideBarComponent } from './side-bar/side-bar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NewAppointmentsComponent } from './new-appointments/new-appointments.component';
-import { AddStatusComponent,FilterPipe } from './add-status/add-status.component';
+import { AddStatusComponent } from './add-status/add-status.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +16,7 @@ import { AddStatusComponent,FilterPipe } from './add-status/add-status.component
     SideBarComponent,
     NewAppointmentsComponent,
     AddStatusComponent,
-    FilterPipe
+    
   ],
   imports: [
     BrowserModule,
