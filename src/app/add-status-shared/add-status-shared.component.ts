@@ -1,13 +1,14 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, FormArray, Validators } from "@angular/forms";
 import { StatusService } from '../add-status/status.service';
+
 @Component({
-  selector: "app-add-status",
-  templateUrl: "./add-status.component.html",
-  styleUrls: ["./add-status.component.css"],
+  selector: 'app-add-status-shared',
+  templateUrl: './add-status-shared.component.html',
+  styleUrls: ['./add-status-shared.component.css']
 })
-export class AddStatusComponent implements OnInit {
-  
+export class AddStatusSharedComponent implements OnInit {
+
   statusArray = [
     { value: "i'm Available", color: "green" },
     { value: "i'm not Available", color: "red" },
@@ -145,8 +146,67 @@ export class AddStatusComponent implements OnInit {
     console.log(this.formArray);
     this.form.reset();
   }
-  
-  Search(clientName_value: string, selectedOption: string) {
+
+  Search( selectedOption: string, clientName_value: string ){
+
+    let a = this.formArray.findIndex(x=>x.select_status == this.selectedOption);
+    console.log(a); 
+
+    //  try{
+
+    // let changed_Ar = this.formArray.filter((item)=>{
+    //     return item.select_status.toLowerCase().includes(selectedOption.toLowerCase())
+    //   }).map((res,index)=>{
+    //   //let ind = this.formArray.values
+    //     if(selectedOption !== this.selectedOption || clientName_value !== this.clientName_value){
+    //       res[a].status = false;
+    //       return res;
+    //     }
+    //   });
+    //  console.log(changed_Ar);
+    // }catch(error){}
+
+    
+    
+    // // let changed_Array = this.formArray.filter(item=>{
+    // //   return item.client_name.includes(clientName_value)
+    // // }).map(res=>{
+    // //   if(selectedOption !== this.selectedOption || clientName_value !== this.clientName_value){
+    // //     res.status = false;
+    // //     return res;
+    // //   }
+    // // });
+    // // console.log(changed_Array);
+    
+    console.log(this.formArray[a].status);
+    
+
+    let changedArr = this.formArray.map((res,index)=>{
+      if(this.formArray[a].status){
+        console.log(res);
+        
+        res.status = false;
+        res[a].status = true;
+      }
+      //console.log(res.status);
+      
+      return res;
+    });
+    console.log(changedArr);
+    this.formArray = changedArr;
+    console.log(this.formArray);
+    
+    
+
+    // if(selectedOption !== this.selectedOption || clientName_value !== this.clientName_value){
+    //   this.formArray = this.formArray.map(res=>{
+    //       res.status = false;
+    //     });
+    //     console.log(this.formArray);
+    // }
+  }
+
+  Search1(clientName_value: string, selectedOption: string) {
     try {
       //if(this.clientName_value !== '' && this.selectedOption == ''){
 
@@ -179,6 +239,5 @@ export class AddStatusComponent implements OnInit {
     console.log(index);
     this.formArray.splice(0, index);
   }
+
 }
-
-

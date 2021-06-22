@@ -9,7 +9,7 @@
         <div class="card" style="border: 1px solid;">
             <div class="dropdown">
                 <label>Select Status:-</label>
-                <select [(ngModel)]="selectedOption" formControlName="select_status" >
+                <select [(ngModel)]="selectedOption" formControlName="select_status">
                     <option></option>
                     <option *ngFor="let item of statusArray">{{ item.value }}</option>
                 </select>
@@ -22,7 +22,7 @@
             <div class="addBtn">
                 <button class="btn btn-success" (click)="onAdd()"> {{buttonName}} </button>&nbsp;
                 <button class="btn btn-danger" *ngIf="formArray.length > 0" (click)="Delete()"> Delete </button>&nbsp;
-                <button class="btn btn-primary" *ngIf="disable_Search_Button" (click)="Search(clientName_value,selectedOption)"> Search </button>
+                <button class="btn btn-primary" *ngIf="disable_Search_Button" (click)="Search()"> Search </button>
             </div>
         </div>
         
@@ -30,7 +30,7 @@
         <div class="row">
             <div *ngIf="submitted" style="border: 2px solid;margin: 10px;">
                 <div *ngFor="let item of formArray; let i_ = index" style="margin: 20px;">
-                    <div *ngIf="!searchData">
+                    <div *ngIf="item.status == true">
                         <div>
                             <div>
                                 <label> Client Name:- </label>
@@ -56,7 +56,7 @@
                     </div>
                 </div>
 <!-- ---------------------------------------------------  Search Data -------------------------------------------------------------- -->
-                <div [style.visibility]="(searchData == false) ? 'hidden' : 'visible'" style="margin: 20px;">
+                <!-- <div [style.visibility]="(searchData == false) ? 'hidden' : 'visible'" style="margin: 20px;">
                     <p>Searched Results</p>
                     <div *ngFor="let item1 of filterData ; let _i = index">
                         <div>
@@ -77,7 +77,7 @@
                         </div>
                         <hr class="rounded">
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </form>    

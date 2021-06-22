@@ -483,3 +483,60 @@ New html with edit,delete,search:--
                         <hr class="rounded">
                     </div>
                 </div>
+
+
+
+
+////   Removed Search code   ////
+
+// isFormFIeldEmpty(){
+//   this.clientName_value = '';
+//   this.statusValue = '';
+// }
+
+// Search(clientName_value: string, selectedOption: string){
+//   // let findV = this.formArray.find(x => x.client_name == this.clientName_value);
+//   // console.log(findV);
+//   try{
+//     //if(this.clientName_value !== '' && this.selectedOption == ''){
+
+//       this.searchData = true;
+//       if(this.clientName_value == ''){
+//         this.searchData = false;
+//       }
+//       const filterValue = this.formArray.filter((item)=>{
+//         console.log(item);
+//         return (item.client_name.toLowerCase().includes(clientName_value.toLowerCase()));
+//       });
+//       console.log(filterValue);
+//       this.filterData = filterValue;
+//       console.log(this.filterData);
+
+//     //}
+//      if(this.selectedOption !== '' && this.clientName_value == ''){
+
+//       //if(this.selectedOption !== '' && this.clientName_value == ''){
+//         this.searchData = false;
+//         this.searchData1 = true;
+//       //}
+//       const filterValue1 = this.formArray.filter(item=>{
+//         return item.select_status.toLowerCase().includes(selectedOption.toLowerCase());
+//       });
+//       this.filterData1 = filterValue1;
+//       console.log("Filter Data:-->",this.filterData1);
+//     }
+
+//     // if(this.selectedOption == '' && this.clientName_value == '')
+//     // {
+//     //   this.searchData = false;
+//     //   this.searchData1 = false;
+//     // }
+
+//   }
+//   catch(error){}
+
+// }
+
+
+
+status = ["i'm Available", "i'm not Available", "i'm in Meeting"];
