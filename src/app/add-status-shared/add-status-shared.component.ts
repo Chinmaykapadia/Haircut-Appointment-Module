@@ -182,11 +182,15 @@ export class AddStatusSharedComponent implements OnInit {
     
 
     let changedArr = this.formArray.map((res,index)=>{
-      if(this.formArray[a].status){
-        console.log(res);
+      const found = this.formArray.some(el=> el.select_status == this.selectedOption)
+      let find = this.formArray.filter(item => item.select_status);
+      let ind = this.formArray.indexOf(find);
+
+      if(found){
+        console.log(found);
         
         res.status = false;
-        res[a].status = true;
+        res[ind].status = true;
       }
       //console.log(res.status);
       
