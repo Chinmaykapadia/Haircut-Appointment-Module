@@ -125,8 +125,6 @@ export class AddStatusComponent implements OnInit {
     this.findId = i_;
     console.log("find id:---=>", this.findId);
 
-    //this.filterData.splice(0,_i);
-    // this.addToedit = true;
   }
 
   deleteData(i_: number, _i: number) {
@@ -134,7 +132,6 @@ export class AddStatusComponent implements OnInit {
     this.disable_Search_Button = true;
     console.log(i_);
     this.formArray.splice(i_, 1);
-    // this.filterData.splice(_i,1);
     console.log(this.formArray);
     this.form.reset();
   }

@@ -454,3 +454,32 @@ New html with edit,delete,search:--
     //   }
     // }
     
+
+
+
+    ///  EXTRA HTML PART FOR SEARCH STATUS WISE //
+
+    <div [style.visibility]="(searchData1 == false) ? 'hidden' : 'visible'" style="margin: 20px;">
+                    <p>Searched Results status wise</p>
+                    <div *ngFor="let item1 of filterData1 ; let _i = index">
+                        <div>
+                            <div >
+                                <label> Client Name:- </label>
+                                <label> {{ item1.client_name }}</label>
+                                <!-- <button class="btn btn-secondary" style="margin-left:70%" (click)="updateData(_i)"> Edit </button>
+                                <button class="btn btn-secondary" style="margin-left:5px" (click)="deleteData(_i)"> Delete </button> -->
+                            </div>
+                            <div>
+                                <label> Status:-  </label>
+                                <label [ngStyle]="{'color': item1.color}"> {{ item1.select_status }}</label>
+                            </div>
+                        </div>
+                        <hr class="dashed">
+                        <div style="margin-right: 10px;">
+                            <ng-container *ngFor="let btnval of buttonValue; let i = index">
+                                <button style="color: black;" [ngStyle]="{'background-color': btnval.color}" class="btn btn-primary" type="button" (click)="onStatusBtnClick(_i,i)"> {{ btnval.value }}</button>
+                            </ng-container>
+                        </div>
+                        <hr class="rounded">
+                    </div>
+                </div>
