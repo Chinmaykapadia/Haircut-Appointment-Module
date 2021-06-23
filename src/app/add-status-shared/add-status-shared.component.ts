@@ -10,9 +10,9 @@ import { StatusService } from '../add-status/status.service';
 export class AddStatusSharedComponent implements OnInit {
 
   statusArray = [
-    { value: "i'm Available", color: "green" },
-    { value: "i'm not Available", color: "red" },
-    { value: "i'm in Meeting", color: "#FFFF99" },
+    { id: 1, value: "i'm Available", color: "green" },
+    { id: 2, value: "i'm not Available", color: "red" },
+    { id: 3, value: "i'm in Meeting", color: "#FFFF99" },
   ];
   form: FormGroup;
   submitted: boolean;
@@ -22,10 +22,11 @@ export class AddStatusSharedComponent implements OnInit {
   formArray = [];
 
   buttonValue = [
-    { value: "i'm Available", color: "green" },
-    { value: "i'm not Available", color: "red" },
-    { value: "i'm in Meeting", color: "#FFFF99" },
+    { id: 1, value: "i'm Available", color: "green" },
+    { id: 2, value: "i'm not Available", color: "red" },
+    { id: 3, value: "i'm in Meeting", color: "#FFFF99" },
   ];
+  
   buttonName: string;
   findId: number;
 
@@ -108,7 +109,7 @@ export class AddStatusSharedComponent implements OnInit {
     // this.stats = this.formArray[index].select_status;
   }
 
-  Delete() {
+  delete_selected_data() {
     this.searchData = false;
     this.disable_Search_Button = true;
     if (this.clientName_value != "" || this.statusValue != "") {
@@ -147,97 +148,97 @@ export class AddStatusSharedComponent implements OnInit {
     this.form.reset();
   }
 
-  Search( selectedOption: string, clientName_value: string ){
+  search( selectedOption: string, clientName_value: string ){
 
-    let a = this.formArray.findIndex(x=>x.select_status == this.selectedOption);
-    console.log(a); 
+    let find_index = this.formArray.findIndex(x=>x.select_status == this.selectedOption);
+    console.log(find_index); 
 
-    //  try{
+    let changedArray = this.formArray.map((res,index)=>{
+      const found_value = this.formArray.some(el=> el.select_status == this.selectedOption);
+      const found_value_name = this.formArray.some(el => el.client_name == this.clientName_value);
 
-    // let changed_Ar = this.formArray.filter((item)=>{
-    //     return item.select_status.toLowerCase().includes(selectedOption.toLowerCase())
-    //   }).map((res,index)=>{
-    //   //let ind = this.formArray.values
-    //     if(selectedOption !== this.selectedOption || clientName_value !== this.clientName_value){
-    //       res[a].status = false;
-    //       return res;
-    //     }
-    //   });
-    //  console.log(changed_Ar);
-    // }catch(error){}
-
-    
-    
-    // // let changed_Array = this.formArray.filter(item=>{
-    // //   return item.client_name.includes(clientName_value)
-    // // }).map(res=>{
-    // //   if(selectedOption !== this.selectedOption || clientName_value !== this.clientName_value){
-    // //     res.status = false;
-    // //     return res;
-    // //   }
-    // // });
-    // // console.log(changed_Array);
-    
-    console.log(this.formArray[a].status);
-    
-
-    let changedArr = this.formArray.map((res,index)=>{
-      const found = this.formArray.some(el=> el.select_status == this.selectedOption)
-      let find = this.formArray.filter(item => item.select_status);
-      let ind = this.formArray.indexOf(find);
-
-      if(found){
-        console.log(found);
-        
-        res.status = false;
-        res[ind].status = true;
-      }
-      //console.log(res.status);
+      console.log(res);
       
+      // let filter_Values = this.formArray.filter((item)=>{
+      //   return item.selectedOption
+      // });
+      // let filter_Values_name = this.formArray.filter((result)=>{
+      //   return result.client_name.toLowerCase().includes(clientName_value.toLowerCase());
+      // });
+
+      //console.log(filter_Values);
+
+      //let indx = this.formArray.indexOf(filter_Values);
+
+      if(this.selectedOption){
+
+       // if(found_value){
+          console.log(found_value);
+          res.status = false;
+          if(res.select_status == this.selectedOption){
+            res.status = true;
+          }
+          //res[indx].status = true;
+       // }
+      }else if(this.clientName_value !== ""){
+       // if(found_value_name){
+          console.log(res);
+          res.status = false;
+          if(res.client_name == this.clientName_value){
+            res.status = true;
+          }
+          //let filter_Values_name = res.filter((result)=>{
+            //   if(res.filter_Values_name['client_name'] == this.clientName_value){
+              //     res.status = true;
+              //return result.client_name.toLowerCase().includes(clientName_value.toLowerCase());
+              //   });
+              //   }
+            //  this.formArray = filter_Values_name;
+          //res[indx].status = true;
+       // }
+      }
+
       return res;
     });
-    console.log(changedArr);
-    this.formArray = changedArr;
+    console.log(changedArray);
+    this.formArray = changedArray;
     console.log(this.formArray);
-    
-    
-
-    // if(selectedOption !== this.selectedOption || clientName_value !== this.clientName_value){
-    //   this.formArray = this.formArray.map(res=>{
-    //       res.status = false;
-    //     });
-    //     console.log(this.formArray);
-    // }
+  
   }
 
-  Search1(clientName_value: string, selectedOption: string) {
-    try {
-      //if(this.clientName_value !== '' && this.selectedOption == ''){
+  handleEvent($event){
+    console.log($event);
+    
+  }
 
-      this.searchData = true;
-      if (this.clientName_value == "" && !this.selectedOption) {
-        this.searchData = false;
-      }
-      const filterValue = this.formArray.filter((item) => {
-        console.log(item);
-        if (this.selectedOption) {
+  // Search1(clientName_value: string, selectedOption: string) {
+  //   try {
+  //     //if(this.clientName_value !== '' && this.selectedOption == ''){
+
+  //     this.searchData = true;
+  //     if (this.clientName_value == "" && !this.selectedOption) {
+  //       this.searchData = false;
+  //     }
+  //     const filterValue = this.formArray.filter((item) => {
+  //       console.log(item);
+  //       if (this.selectedOption) {
           
-          return item.select_status
-          .toLowerCase()
-          .includes(selectedOption.toLowerCase());
-        } else if (this.clientName_value !== "") {
-          console.log("2");
-          item.status = true;
-          return item.client_name
-            .toLowerCase()
-            .includes(clientName_value.toLowerCase());
-        }
-      });
-      console.log(filterValue);
-      this.filterData = filterValue;
-      console.log(this.filterData);
-    } catch (error) {}
-  }
+  //         return item.select_status
+  //         .toLowerCase()
+  //         .includes(selectedOption.toLowerCase());
+  //       } else if (this.clientName_value !== "") {
+  //         console.log("2");
+  //         item.status = true;
+  //         return item.client_name
+  //           .toLowerCase()
+  //           .includes(clientName_value.toLowerCase());
+  //       }
+  //     });
+  //     console.log(filterValue);
+  //     this.filterData = filterValue;
+  //     console.log(this.filterData);
+  //   } catch (error) {}
+  // }
 
   removeItem(index: number) {
     console.log(index);
@@ -245,3 +246,80 @@ export class AddStatusSharedComponent implements OnInit {
   }
 
 }
+
+
+
+
+// search( selectedOption: string, clientName_value: string ){
+
+//   let find_index = this.formArray.findIndex(x=>x.select_status == this.selectedOption);
+//   console.log(find_index); 
+
+//   //  try{
+
+//   // let changed_Ar = this.formArray.filter((item)=>{
+//   //     return item.select_status.toLowerCase().includes(selectedOption.toLowerCase())
+//   //   }).map((res,index)=>{
+//   //   //let ind = this.formArray.values
+//   //     if(selectedOption !== this.selectedOption || clientName_value !== this.clientName_value){
+//   //       res[a].status = false;
+//   //       return res;
+//   //     }
+//   //   });
+//   //  console.log(changed_Ar);
+//   // }catch(error){}
+
+  
+  
+//   // // let changed_Array = this.formArray.filter(item=>{
+//   // //   return item.client_name.includes(clientName_value)
+//   // // }).map(res=>{
+//   // //   if(selectedOption !== this.selectedOption || clientName_value !== this.clientName_value){
+//   // //     res.status = false;
+//   // //     return res;
+//   // //   }
+//   // // });
+//   // // console.log(changed_Array);
+  
+//   console.log(this.formArray[find_index].status);
+  
+  
+
+//   let changedArray = this.formArray.map((res,index)=>{
+//     const found_value = this.formArray.some(el=> el.select_status == this.selectedOption);
+//     console.log(res);
+    
+//     let filter_Values = this.formArray.filter((item)=>{
+//       return item.select_status.includes(selectedOption)
+//     });
+
+//     console.log(filter_Values);
+
+//     let indx = this.formArray.indexOf(filter_Values);
+
+    
+//     if(found_value){
+//       console.log(found_value);
+//       res.status = false;
+//       if(res.select_status == this.selectedOption){
+//         res.status = true;
+//       }
+//       //res[indx].status = true;
+//     }
+
+//     //console.log(res.status);      
+//     return res;
+//   });
+//   console.log(changedArray);
+//   this.formArray = changedArray;
+//   console.log(this.formArray);
+  
+  
+
+//   // if(selectedOption !== this.selectedOption || clientName_value !== this.clientName_value){
+//   //   this.formArray = this.formArray.map(res=>{
+//   //       res.status = false;
+//   //     });
+//   //     console.log(this.formArray);
+//   // }
+// }
