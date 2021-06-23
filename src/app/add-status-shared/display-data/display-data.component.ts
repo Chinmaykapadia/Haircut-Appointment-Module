@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
-import * as EventEmitter from 'events';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+// import * as EventEmitter from 'events';
 
 @Component({
   selector: 'app-display-data',
@@ -43,7 +43,7 @@ export class DisplayDataComponent implements OnInit {
     });
 
     //this.searchData = false;
-    // this.buttonName = "Update";
+     this.buttonName.emit("Update");
     // this.findId = i_;
     console.log("find id:---=>", this.findId);
   }

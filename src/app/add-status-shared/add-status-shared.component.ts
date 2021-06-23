@@ -124,6 +124,11 @@ export class AddStatusSharedComponent implements OnInit {
     // this.formArray.splice(i_);
   }
 
+  update_Data(data){
+    console.log(data);
+    
+  }
+
   updateData(i_: number, _i: number) {
     this.disable_Search_Button = false;
     this.form.patchValue({

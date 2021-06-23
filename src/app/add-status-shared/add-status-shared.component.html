@@ -28,7 +28,7 @@
 <!-- ------------------------------------------ Displaying Data ---------------------------------------------------------- -->
 
         <div class="row">
-            <app-display-data [formArrayData]="this.formArray" (customevent)="handleEvent($event)"></app-display-data>
+            <app-display-data [formArrayData]="this.formArray" (buttonName)="update_Data(buttonName)"></app-display-data>
             <!-- <div *ngIf="submitted" style="border: 2px solid;margin: 10px;">
                 <div *ngFor="let item of formArray; let i_ = index" style="margin: 20px;">
                     <div *ngIf="item.status == true">
