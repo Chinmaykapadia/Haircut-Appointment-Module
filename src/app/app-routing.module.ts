@@ -7,6 +7,9 @@ import { AddStatusComponent } from '../app/add-status/add-status.component';
 import { AddStatusSharedComponent } from '../app/add-status-shared/add-status-shared.component';
 import { ControlsComponent } from '../app/add-status-shared/controls/controls.component';
 import { DisplayDataComponent } from '../app/add-status-shared/display-data/display-data.component';
+import { NewAddStatusComponent } from '../app/new-add-status/new-add-status.component';
+import { ActionsComponent } from '../app/new-add-status/actions/actions.component';
+import { DisplayComponent } from '../app/new-add-status/display/display.component';
 
 const routes: Routes = [
   // { path: '', redirectTo: 'appointments', pathMatch: 'full' },
@@ -17,6 +20,9 @@ const routes: Routes = [
   { path: 'add-status-shared', component: AddStatusSharedComponent},
   { path: 'controls', component: ControlsComponent },
   { path: 'display-data', component: DisplayDataComponent },
+  { path: 'new-add-status', component: NewAddStatusComponent},
+  { path: 'actions', component: ActionsComponent},
+  { path: 'display', component: DisplayComponent},
 ];
 
 @NgModule({

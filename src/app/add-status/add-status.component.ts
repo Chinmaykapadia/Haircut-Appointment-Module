@@ -90,15 +90,15 @@ export class AddStatusComponent implements OnInit {
     console.log(this.formArray[index]);
 
     try{
-      this.statusService.StatusClick(i_,index);
+      
       this.formArray[i_].select_status = this.buttonValue[index].value;
       //this.formArray[i_].color.value = this.buttonValue[index].value;
       this.formArray[i_].color = this.buttonValue[index].color;
-      if(this.searchData == true || this.selectedOption){
-        this.statusService.StatusClick(_i,index);
-        this.formArray[_i].select_status = this.buttonValue[index].value;
-        this.formArray[_i].color = this.buttonValue[index].value;
-      }
+      // if(this.searchData == true || this.selectedOption){
+      //   //this.statusService.StatusClick(_i,index);
+      //   this.formArray[_i].select_status = this.buttonValue[index].value;
+      //   this.formArray[_i].color = this.buttonValue[index].value;
+      // }
     }catch(error){}
     console.log("Status Color:->", this.statusColor);
 

@@ -56,6 +56,15 @@ export class AddStatusSharedComponent implements OnInit {
     
     this.disable_Search_Button = true;
   }
+  //Getting data from child component
+  update_Data($event){
+    //console.log(data);
+    this.buttonName = $event;
+    
+  }
+  getFindId($event){
+    this.findId = $event;
+  }
 
   onAdd() {
     this.submitted = true;
@@ -78,6 +87,8 @@ export class AddStatusSharedComponent implements OnInit {
       this.searchData = false;
       this.disable_Search_Button = false;
       console.log("Updated");
+      console.log(this.findId);
+      
       this.formArray[this.findId].select_status = this.selectedOption;
       this.formArray[this.findId].client_name = this.clientName_value;
       this.formArray[this.findId].color = this.statusArray[a].color;
@@ -92,15 +103,15 @@ export class AddStatusSharedComponent implements OnInit {
     console.log(this.formArray[index]);
 
     try{
-      this.statusService.StatusClick(i_,index);
+
       this.formArray[i_].select_status = this.buttonValue[index].value;
       //this.formArray[i_].color.value = this.buttonValue[index].value;
       this.formArray[i_].color = this.buttonValue[index].color;
-      if(this.searchData == true || this.selectedOption){
-        this.statusService.StatusClick(_i,index);
-        this.formArray[_i].select_status = this.buttonValue[index].value;
-        this.formArray[_i].color = this.buttonValue[index].value;
-      }
+      // if(this.searchData == true || this.selectedOption){
+      //   this.statusService.StatusClick(_i,index);
+      //   this.formArray[_i].select_status = this.buttonValue[index].value;
+      //   this.formArray[_i].color = this.buttonValue[index].value;
+      // }
     }catch(error){}
     console.log("Status Color:->", this.statusColor);
 
@@ -124,10 +135,7 @@ export class AddStatusSharedComponent implements OnInit {
     // this.formArray.splice(i_);
   }
 
-  update_Data(data){
-    console.log(data);
-    
-  }
+
 
   updateData(i_: number, _i: number) {
     this.disable_Search_Button = false;

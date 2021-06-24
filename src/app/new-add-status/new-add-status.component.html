@@ -1,0 +1,33 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+
+<div class="jumbotron">
+    <h3 class="heading" style="margin-left: 50px;"> Manage Status</h3>
+</div>
+<div>
+    <form [formGroup]="form">
+        <div class="card" style="border: 1px solid;">
+            <div class="dropdown">
+                <label>Select Status:-</label>
+                <select [(ngModel)]="selectedOption" formControlName="select_status">
+                    <option></option>
+                    <option *ngFor="let item of statusArray">{{ item.value }}</option>
+                </select>
+            </div>
+            <div class="clientname">
+                <label>Client Name:</label>
+                <input type="text" [(ngModel)]="clientName_value" formControlName="client_name" >
+            </div>
+            <div class="addBtn">
+                <button class="btn btn-success" (click)="onSubmit()"> {{buttonName}} </button>&nbsp;
+                <button class="btn btn-danger" *ngIf="formArray.length > 0" (click)="delete_selected_data()"> Delete </button>&nbsp;
+                <button class="btn btn-primary" *ngIf="disable_Search_Button" (click)="search(selectedOption,clientName_value)"> Search </button>
+            </div>
+        </div>
+<!-- ------------------------------------------ Displaying Data ---------------------------------------------------------- -->
+        <app-actions [form]="this.form" [selectedOptIndx]="this.selectedOptIdx"></app-actions>
+        <div class="row">
+            <!-- <app-display-data [formArrayData]="this.formArray" [form]="this.form" (buttonName)="update_Data($event)" (find_Id)="getFindId($event)"  [findId]="this.findId"></app-display-data> -->
+        </div>
+    </form>    
+</div>

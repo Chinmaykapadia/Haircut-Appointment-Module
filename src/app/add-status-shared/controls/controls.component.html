@@ -1,6 +1,7 @@
 
-<div class="addBtn">
+<!-- <div class="addBtn">
     <button class="btn btn-success" (click)="onSubmit()"> Add </button>&nbsp;
     <button class="btn btn-danger" *ngIf="formArray.length > 0" (click)="onDelete()"> Delete </button>&nbsp;
     <button class="btn btn-primary" (click)="onSearch()"> Search </button>
-</div>
+</div> -->
+<app-display-data [formArrayData]="this.formArray"></app-display-data>

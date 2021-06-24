@@ -24,64 +24,46 @@
                 <button class="btn btn-primary" *ngIf="disable_Search_Button" (click)="search(selectedOption,clientName_value)"> Search </button>
             </div>
         </div>
-        
+        <app-controls [form]="this.form"></app-controls>
 <!-- ------------------------------------------ Displaying Data ---------------------------------------------------------- -->
 
         <div class="row">
-            <app-display-data [formArrayData]="this.formArray" (buttonName)="update_Data(buttonName)"></app-display-data>
-            <!-- <div *ngIf="submitted" style="border: 2px solid;margin: 10px;">
-                <div *ngFor="let item of formArray; let i_ = index" style="margin: 20px;">
-                    <div *ngIf="item.status == true">
-                        <div>
-                            <div>
-                                <label> Client Name:- </label>
-                                <label> {{ item.client_name }}</label>
-                                <button class="btn btn-secondary" style="margin-left:70%" (click)="updateData(i_)"> Edit </button>
-                                <button class="btn btn-secondary" style="margin-left:5px" (click)="deleteData(i_)"> Delete </button>
-                            </div>
-                            <div>
-                                <label> Status:-  </label>
-                                <label [ngStyle]="{'color': item.color}"> {{ item.select_status }}</label>
-                            </div>
-                                
-                        </div>
-                        <hr class="dashed">        
-                            <div style="margin-right: 10px;" [style.visibility]="(searchData == true) ? 'hidden' : 'visible'">
-                                <ng-container *ngFor="let btnval of buttonValue; let i = index">
-                                    <button style="color: black;" [ngStyle]="{'background-color': btnval.color}" class="btn btn-primary" type="button" (click)="onStatusBtnClick(i_,i)"> {{ btnval.value }}
-                                        
-                                    </button>
-                                </ng-container>
-                            </div>
-                        <hr class="rounded">
-                    </div>
-                </div>
- ---------------------------------------------------  Search Data  -------------------------------------------------------------- 
-            </div> -->
+            <!-- <app-display-data [formArrayData]="this.formArray" [form]="this.form" (buttonName)="update_Data($event)" (find_Id)="getFindId($event)"  [findId]="this.findId"></app-display-data> -->
         </div>
     </form>    
 </div>
 
 
-<!-- <div [style.visibility]="(searchData == false) ? 'hidden' : 'visible'" style="margin: 20px;">
-    <p>Searched Results</p>
-    <div *ngFor="let item1 of filterData ; let _i = index">
-        <div>
-            <div >
-                <label> Client Name:- </label>
-                <label> {{ item1.client_name }}</label>
-            </div>
-            <div>
-                <label> Status:-  </label>
-                <label [ngStyle]="{'color': item1.color}"> {{ item1.select_status }}</label>
+
+<!-- <div class="row">
+    <app-display-data [formArrayData]="this.formArray" [form]="this.form" (buttonName)="update_Data($event)" (find_Id)="getFindId($event)"  [findId]="this.findId"></app-display-data>
+    <div *ngIf="submitted" style="border: 2px solid;margin: 10px;">
+        <div *ngFor="let item of formArray; let i_ = index" style="margin: 20px;">
+            <div *ngIf="item.status == true">
+                <div>
+                    <div>
+                        <label> Client Name:- </label>
+                        <label> {{ item.client_name }}</label>
+                        <button class="btn btn-secondary" style="margin-left:70%" (click)="updateData(i_)"> Edit </button>
+                        <button class="btn btn-secondary" style="margin-left:5px" (click)="deleteData(i_)"> Delete </button>
+                    </div>
+                    <div>
+                        <label> Status:-  </label>
+                        <label [ngStyle]="{'color': item.color}"> {{ item.select_status }}</label>
+                    </div>
+                        
+                </div>
+                <hr class="dashed">        
+                    <div style="margin-right: 10px;" [style.visibility]="(searchData == true) ? 'hidden' : 'visible'">
+                        <ng-container *ngFor="let btnval of buttonValue; let i = index">
+                            <button style="color: black;" [ngStyle]="{'background-color': btnval.color}" class="btn btn-primary" type="button" (click)="onStatusBtnClick(i_,i)"> {{ btnval.value }}
+                                
+                            </button>
+                        </ng-container>
+                    </div>
+                <hr class="rounded">
             </div>
         </div>
-        <hr class="dashed">
-        <div style="margin-right: 10px;">
-            <ng-container *ngFor="let btnval of buttonValue; let i = index">
-                <button style="color: black;" [ngStyle]="{'background-color': btnval.color}" class="btn btn-primary" type="button" (click)="onStatusBtnClick(_i,i)"> {{ btnval.value }}</button>
-            </ng-container>
-        </div>
-        <hr class="rounded">
+---------------------------------------------------  Search Data  -------------------------------------------------------------- 
     </div>
 </div> -->

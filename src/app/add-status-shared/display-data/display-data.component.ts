@@ -10,9 +10,13 @@ export class DisplayDataComponent implements OnInit {
 
   @Input() formArrayData:any = [];
   @Input() form: any;
-  @Output() disable_Search_Button = new EventEmitter();
+  @Input() findId: number;
+  @Output() disable_Search_Button = new EventEmitter<boolean>();
   @Output() buttonName = new EventEmitter();
-  @Output() findId = new EventEmitter();
+  @Output() formPatchedValue = new EventEmitter();
+  @Output() find_Id = new EventEmitter();
+  // @Output() evntEmmitr = new EventEmitter<Object>();
+
   submitted: boolean;
   buttonValue = [
     { id: 1, value: "i'm Available", color: "green" },
@@ -20,6 +24,8 @@ export class DisplayDataComponent implements OnInit {
     { id: 3, value: "i'm in Meeting", color: "#FFFF99" },
   ];
   receivedData;
+  changeButton_Name: string;
+
   constructor() { }
 
   ngOnInit() {
@@ -34,25 +40,47 @@ export class DisplayDataComponent implements OnInit {
     console.log(this.receivedData);
     
   }
-  updateData(i_: number){
-    //this.disable_Search_Button.emit(false);
-    this.form.patchValue({
-      select_status: this.formArrayData[i_].select_status,
-      client_name: this.formArrayData[i_].client_name,
-      color: this.formArrayData[i_].color,
-    });
 
+  update_Data(i_: number){
+//     console.log(this.form.value);
+//     this.form.patchValue({
+//       select_status: this.formArrayData[i_].select_status,
+//       client_name: this.formArrayData[i_].client_name,
+//       color: this.formArrayData[i_].color,
+//     });
+//     this.changeButton_Name = "Update";
+// //    this.evntEmmitr.emit({changeButton_Name:'Update',findId:this.findId,buttonName:this.changeButton_Name});
+//     this.formPatchedValue.emit();
+//     this.findId = i_;
+//     this.buttonName.emit(this.changeButton_Name);
+//     this.find_Id.emit(this.findId);
+//     console.log(this.findId);
+//     this.disable_Search_Button.emit();
+  }
+
+  relatedToUpdate_Data(){
+    this.find_Id.emit(this.findId);
+  }
+
+  deleteData(i_: number){
     //this.searchData = false;
-     this.buttonName.emit("Update");
-    // this.findId = i_;
-    console.log("find id:---=>", this.findId);
+    //this.disable_Search_Button = true;
+    //console.log(i_);
+    this.formArrayData.splice(i_, 1);
+    console.log(this.formArrayData);
+    this.form.reset();
   }
 
-  deleteData(){
+  onStatusBtnClick(i_: number, index: number){
+    try{
+      this.formArrayData[i_].select_status = this.buttonValue[index].value;
+      this.formArrayData[i_].color = this.buttonValue[index].color;
+    }catch(error){}
+  }
+
+  search_Data(){
 
   }
 
-  onStatusBtnClick(){
 
-  }
 }

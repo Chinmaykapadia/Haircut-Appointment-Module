@@ -11,6 +11,9 @@ import { AddStatusComponent } from './add-status/add-status.component';
 import { ControlsComponent } from './add-status-shared/controls/controls.component';
 import { DisplayDataComponent } from './add-status-shared/display-data/display-data.component';
 import { AddStatusSharedComponent } from './add-status-shared/add-status-shared.component';
+import { NewAddStatusComponent } from './new-add-status/new-add-status.component';
+import { DisplayComponent } from './new-add-status/display/display.component';
+import { ActionsComponent } from './new-add-status/actions/actions.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +25,9 @@ import { AddStatusSharedComponent } from './add-status-shared/add-status-shared.
     ControlsComponent,
     DisplayDataComponent,
     AddStatusSharedComponent,
+    NewAddStatusComponent,
+    DisplayComponent,
+    ActionsComponent,
     
   ],
   imports: [

@@ -11,6 +11,7 @@ export class ControlsComponent implements OnInit {
 
   @Input() selectedOption: string;
   @Input() clientName_value: string;
+  //@Input() formArrayData: string;
   @Input() form: FormGroup;
   @Output() dataArray = new EventEmitter();
 
@@ -24,7 +25,12 @@ export class ControlsComponent implements OnInit {
   constructor(private fb: FormBuilder, private rf: ChangeDetectorRef) { }
 
   ngOnInit() {
-  
+    // this.form = this.fb.group({
+    //   select_status: [""],
+    //   client_name: [""],
+    //   color: [""],
+    //   status: [""]
+    // });
   }
 
   ngOnChanges(){
@@ -41,7 +47,7 @@ export class ControlsComponent implements OnInit {
     
     this.formArray.push(this.form.value);
     console.log("Form Array:",this.formArray);
-    this.dataArray.emit(this.form.value);
+    //this.dataArray.emit(this.form.value);
     //this.dataArray = this.formArray;
     this.form.reset();
   }
