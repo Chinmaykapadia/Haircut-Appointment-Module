@@ -24,11 +24,11 @@
                 <button class="btn btn-primary" *ngIf="disable_Search_Button" (click)="search(selectedOption,clientName_value)"> Search </button>
             </div>
         </div>
-        <app-controls [form]="this.form"></app-controls>
+        <!-- <app-controls [form]="this.form"></app-controls> -->
 <!-- ------------------------------------------ Displaying Data ---------------------------------------------------------- -->
 
         <div class="row">
-            <!-- <app-display-data [formArrayData]="this.formArray" [form]="this.form" (buttonName)="update_Data($event)" (find_Id)="getFindId($event)"  [findId]="this.findId"></app-display-data> -->
+            <app-display-data [formArrayData]="this.formArray" [form]="this.form" (buttonName)="update_Data($event)" (find_Id)="getFindId($event)"  [findId]="this.findId"></app-display-data>
         </div>
     </form>    
 </div>

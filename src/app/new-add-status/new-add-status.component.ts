@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, OnChanges } from "@angular/core";
 import { FormGroup, FormBuilder, FormArray, Validators } from "@angular/forms";
 import { StatusService } from '../add-status/status.service';
 
@@ -7,55 +7,83 @@ import { StatusService } from '../add-status/status.service';
   templateUrl: './new-add-status.component.html',
   styleUrls: ['./new-add-status.component.css']
 })
-export class NewAddStatusComponent implements OnInit {
-  statusArray = [
-    { id: 1, value: "i'm Available", color: "green" },
-    { id: 2, value: "i'm not Available", color: "red" },
-    { id: 3, value: "i'm in Meeting", color: "#FFFF99" },
-  ];
-  form: FormGroup;
-  submitted: boolean;
-  statusValue: string;
-  clientName_value: string;
-  selectedOption: any;
-  formArray = [];
+export class NewAddStatusComponent implements OnChanges,OnInit {
+  // statusArray = [
+  //   { id: 1, value: "i'm Available", color: "green" },
+  //   { id: 2, value: "i'm not Available", color: "red" },
+  //   { id: 3, value: "i'm in Meeting", color: "#FFFF99" },
+  // ];
+   form: FormGroup;
+   @Input() frmArrData = [];
 
-  buttonValue = [
-    { id: 1, value: "i'm Available", color: "green" },
-    { id: 2, value: "i'm not Available", color: "red" },
-    { id: 3, value: "i'm in Meeting", color: "#FFFF99" },
-  ];
+   displayData = [];
+  // submitted: boolean;
+  // statusValue: string;
+  // clientName_value: string;
+  // selectedOption: any;
+  // formArray = [];
+  // frmArrLen: number;
+
+  // buttonValue = [
+  //   { id: 1, value: "i'm Available", color: "green" },
+  //   { id: 2, value: "i'm not Available", color: "red" },
+  //   { id: 3, value: "i'm in Meeting", color: "#FFFF99" },
+  // ];
   
-  buttonName: string;
-  findId: number;
+  // buttonName: string;
+  // findId: number;
 
-  showDeleteButton: boolean;
-  statusColor: string;
-  filterData = [];
+  // showDeleteButton: boolean;
+  // statusColor: string;
+  // filterData = [];
   
-  searchData: boolean;
-  isFormFIeldEmpty: boolean;
-  disable_Search_Button: boolean;
+  // searchData: boolean;
+  // isFormFIeldEmpty: boolean;
+  // disable_Search_Button: boolean;
 
-  selectedOptIdx: number;
+  // selectedOptIdx: number;
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.form = this.fb.group({
-      select_status: [""],
-      client_name: [""],
-      color: [""],
-      status: [""]
-    });
-    this.buttonName = "Add";
+    // this.form = this.fb.group({
+    //   select_status: [""],
+    //   client_name: [""],
+    //   color: [""],
+    //   status: [""]
+    // });
+    // this.buttonName = "Add";
+  }
+  ngOnChanges() {
+    
+    
   }
 
-  onSubmit(){
-    this.selectedOptIdx = this.statusArray.findIndex((x) => x.value == this.selectedOption);
-    // this.form.value.color = this.statusArray[this.selectedOptIdx].color;
-    // this.form.value.status = true;
-    console.log(this.form.value);
+  // onSubmit(){
+  //   this.selectedOptIdx = this.statusArray.findIndex((x) => x.value == this.selectedOption);
+  //   this.form.value.color = this.statusArray[this.selectedOptIdx].color;
+  //   this.form.value.status = true;
+
+  //   console.log(this.form.value);
     
+  // }
+  // Update(){
+    
+  // }
+
+  // emittingValues($event){
+  //   this.frmArrLen = $event
+  // }
+  getFormData($event){
+    this.displayData = $event;
+  }
+  // patchVal($event){
+  //   this.form = $event;
+  // }
+  // btnChangedName($event){
+  //   this.buttonName = $event;
+  // }
+  getRowIndex($event){
+   // this.findId = $event;
   }
   delete_selected_data(){}
   search(){}
