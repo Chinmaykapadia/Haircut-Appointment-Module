@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnChanges, OnInit, Output, EventEmitter } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, OnInit, Output, EventEmitter, SimpleChange, SimpleChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
@@ -6,9 +6,9 @@ import { FormGroup } from '@angular/forms';
   templateUrl: './display.component.html',
   styleUrls: ['./display.component.css']
 })
-export class DisplayComponent implements OnInit,OnChanges {
+export class DisplayComponent implements OnChanges,OnInit {
 
-  @Input() frmArrData = [];
+  @Input() frmArrData: any; 
   @Input() formGrp: FormGroup;
   @Output() patchValue = new EventEmitter();
   @Output() btnName = new EventEmitter();
@@ -27,17 +27,22 @@ export class DisplayComponent implements OnInit,OnChanges {
 
   ngOnInit() {
     this.submitted = true;
+    console.log(this.frmArrData);
+    
+    this.dataArray.emit(this.frmArrData);
+    //console.log(this.dataArray);
+    
   }
   ngOnChanges() {
-    console.log(this.frmArrData);
     this.dataArray.emit(this.frmArrData);
+    //console.log(changes.frmArrData.currentValue);
   }
   
   update_Data(i_:number){
     this.formGrp.patchValue({
             select_status: this.frmArrData[i_].select_status,
             client_name: this.frmArrData[i_].client_name,
- //           color: this.frmArrData[i_].color,
+          //  color: this.frmArrData[i_].color,
     });
     this.rowId.emit(i_);
     this.patchValue.emit();

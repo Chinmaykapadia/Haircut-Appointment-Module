@@ -8,7 +8,7 @@ import { FormGroup,FormBuilder } from '@angular/forms';
 })
 export class ActionsComponent implements OnInit {
   // @Input() form: FormGroup;
-  @Input() selectedOptIndx: number;
+//@Input() selectedOptIndx: number;
   @Input() btnName: string;
   @Output() frmArrLen = new EventEmitter();
   @Output() btnnName = new EventEmitter();
@@ -30,6 +30,7 @@ export class ActionsComponent implements OnInit {
   selectedOption: string;
   clientName_value: string;
   buttonName: string;
+  selectedOptIndx: number; 
 
   constructor(private fb: FormBuilder) { }
   
@@ -81,14 +82,21 @@ export class ActionsComponent implements OnInit {
   onSubmit(){
     console.log(this.selectedOptIndx);
   
-    let selectedOptIndx = this.statusArray.findIndex((x) => x.value == this.selectedOption);
+    this.selectedOptIndx = this.statusArray.findIndex((x) => x.value == this.selectedOption);
     console.log(this.form);
     if(this.buttonName == "Add"){
-      this.form.value.color = this.statusArray[selectedOptIndx].color;
+      this.form.value.color = this.statusArray[this.selectedOptIndx].color;
       this.form.value.status = true;
       this.formArrayData.push(this.form.value);
       console.log(this.formArrayData);
       this.form.reset();
     }
+  }
+
+  update(){
+    // this.formArrayData[this.rowId].select_status = this.selectedOption;
+    //   this.formArrayData[this.rowId].client_name = this.clientName_value;
+    // //  this.formArrayData[this.rowId].color = this.statusArray[this.selectedOptIndx].color;
+    //   this.form.reset();
   }
 }

@@ -27,7 +27,7 @@
         </div> -->
 <!-- ------------------------------------------ Displaying Data ---------------------------------------------------------- -->
         <app-actions  ></app-actions>
-        <app-display [frmArrData]="this.frmArrData"></app-display>
+        <app-display [frmArrData]="this.frmArrData" (dataArray)="getFormData($event)"></app-display>
         <!-- <app-display [frmArrData]="this.formArrayData" [formGrp]="this.form" (formGrp)="patchVal($event)" (btnChangedName)="changeBtnVal($event)" (rowId)="getRowId($event)"></app-display> -->
         <!-- <div class="row"> -->
            

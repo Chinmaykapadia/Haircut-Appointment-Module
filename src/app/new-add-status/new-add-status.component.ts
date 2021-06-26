@@ -55,26 +55,16 @@ export class NewAddStatusComponent implements OnChanges,OnInit {
   }
   ngOnChanges() {
     
-    
+    //this.getFormData;
   }
-
-  // onSubmit(){
-  //   this.selectedOptIdx = this.statusArray.findIndex((x) => x.value == this.selectedOption);
-  //   this.form.value.color = this.statusArray[this.selectedOptIdx].color;
-  //   this.form.value.status = true;
-
-  //   console.log(this.form.value);
-    
-  // }
-  // Update(){
-    
-  // }
 
   // emittingValues($event){
   //   this.frmArrLen = $event
   // }
   getFormData($event){
     this.displayData = $event;
+    console.log(this.displayData);
+    
   }
   // patchVal($event){
   //   this.form = $event;

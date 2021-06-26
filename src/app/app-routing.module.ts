@@ -10,6 +10,7 @@ import { DisplayDataComponent } from '../app/add-status-shared/display-data/disp
 import { NewAddStatusComponent } from '../app/new-add-status/new-add-status.component';
 import { ActionsComponent } from '../app/new-add-status/actions/actions.component';
 import { DisplayComponent } from '../app/new-add-status/display/display.component';
+import { DisplayListComponent } from '../app/new-add-status/display-list/display-list.component';
 
 const routes: Routes = [
   // { path: '', redirectTo: 'appointments', pathMatch: 'full' },
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'new-add-status', component: NewAddStatusComponent},
   { path: 'actions', component: ActionsComponent},
   { path: 'display', component: DisplayComponent},
+  { path: 'display-list', component: DisplayListComponent}
 ];
 
 @NgModule({

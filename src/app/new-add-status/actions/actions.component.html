@@ -16,7 +16,7 @@
             <button class="btn btn-success" (click)="onSubmit()"> {{buttonName}} </button>&nbsp;
             <button class="btn btn-danger" *ngIf="formArrayData.length > 0" (click)="delete_selected_data()"> Delete </button>&nbsp;
             <button class="btn btn-primary" (click)="search()"> Search </button>
-            
+            <button class="btn btn-default" (click)="update()"> Update </button>
         </div>
     </div>
 <!-- ------------------------------------------ Displaying Data ---------------------------------------------------------- -->
@@ -24,4 +24,4 @@
         <!-- <app-display-data [formArrayData]="this.formArray" [form]="this.form" (buttonName)="update_Data($event)" (find_Id)="getFindId($event)"  [findId]="this.findId"></app-display-data> -->
     </div>
 </form>
-<!-- <app-display [frmArrData]="this.formArrayData" [formGrp]="this.form" (formGrp)="patchVal($event)" (btnChangedName)="changeBtnVal($event)" (rowId)="getRowId($event)"></app-display> -->
+<app-display [frmArrData]="this.formArrayData" [formGrp]="this.form" (formGrp)="patchVal($event)" (btnChangedName)="changeBtnVal($event)" (rowId)="getRowId($event)"></app-display>

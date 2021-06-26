@@ -16,6 +16,10 @@ export class StatusServiceService {
 
   public data = [];
 
+  pushData(){
+
+  }
+  
   // setData(){
   //   this.data = 
   // }
