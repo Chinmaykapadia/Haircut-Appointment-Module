@@ -8,7 +8,7 @@ import { StatusServiceService } from '../../add-status-shared/services/status-se
 })
 export class ActionsComponent implements OnInit {
 
-  @Input() btnName: string;
+ // @Input() btnName: string;
   
   rowId: number;
 
@@ -23,12 +23,12 @@ export class ActionsComponent implements OnInit {
   disable_Search_Button: boolean;
   form: FormGroup;
   formArrayData = [];
-  formArrLen;
   selectedOption: string;
   clientName_value: string;
   buttonName: string;
   selectedOptIndx: number; 
   patchinValues: any;
+  array_Object: Object;
 
   constructor(private fb: FormBuilder, private service:StatusServiceService) { 
     this.service.name$.subscribe((data)=>{
@@ -58,6 +58,9 @@ export class ActionsComponent implements OnInit {
     this.searchData = false;
     
     this.disable_Search_Button = true;
+
+    this.formArrayData = this.service.getData();
+    //this.array_Object = this.formArrayData[this.rowId];
   }
 
   search(){
@@ -73,7 +76,7 @@ export class ActionsComponent implements OnInit {
       this.form.value.id = this.formArrayData.length + 1;
       this.form.value.color = this.statusArray[this.selectedOptIndx].color;
       this.form.value.status = true;
-      this.formArrayData.push(this.form.value);
+      //this.formArrayData.push(this.form.value);
       //console.log(this.formArrayData);
 
       this.service.pushData(this.form.value);
@@ -82,6 +85,11 @@ export class ActionsComponent implements OnInit {
       this.form.reset();
     }
     else{
+      
+      // this.service.getData[this.rowId].select_status = this.selectedOption;
+      // this.service.getData[this.rowId].client_name = this.clientName_value;
+      // this.service.getData[this.rowId].color = this.statusArray[this.selectedOptIndx].color;
+      
       this.formArrayData[this.rowId].select_status = this.selectedOption;
       this.formArrayData[this.rowId].client_name = this.clientName_value;
       this.formArrayData[this.rowId].color = this.statusArray[this.selectedOptIndx].color;
@@ -98,11 +106,10 @@ export class ActionsComponent implements OnInit {
     console.log(this.formArrayData);
     this.form.reset();
   }
-
-  
-  btnChanged_Name($event){
-    this.buttonName = $event
-  }
+ 
+  // btnChanged_Name($event){
+  //   this.buttonName = $event
+  // }
   
   
 }

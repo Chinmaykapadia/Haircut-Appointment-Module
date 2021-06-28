@@ -15,7 +15,7 @@ import { Subject } from 'rxjs/Subject';
 })
 export class StatusServiceService {
 
-  Array = [];
+  array_data = [];
   public data = [];
   
   private name = new Subject<string>();
@@ -38,13 +38,13 @@ export class StatusServiceService {
   constructor() { }
 
   pushData(data: data){
-    this.Array.push(data);
-    console.log(this.Array);
+    this.array_data.push(data);
+    console.log(this.array_data);
     
   }
 
   getData(){
-    return this.Array;
+    return this.array_data;
   }
 
   changeButtonName(data: string){
@@ -61,8 +61,8 @@ export class StatusServiceService {
   }
 
   ptchVal(indx: number){
-    console.log(this.Array[indx]);
-    return this.Array[indx];
+    console.log(this.array_data[indx]);
+    return this.array_data[indx];
   }
 
   searchValues(option: string, name: string){
@@ -70,6 +70,11 @@ export class StatusServiceService {
     this.clientName.next(name);
   }
 
+  load_and_search(term: string){
+    const filtered_data = this.array_data.filter((item)=>{
+      return item.select_status.includes(term)
+    });
+  }
   
 }
 

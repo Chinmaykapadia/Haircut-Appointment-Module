@@ -9,9 +9,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class DisplayListComponent implements OnInit {
 
-  @Input() frmAryData;
   @Input() formGrp: FormGroup;
-  
 
   submitted: boolean;
   frmArrData = [];
@@ -39,6 +37,7 @@ export class DisplayListComponent implements OnInit {
     this.service.get_Edit_id(i_);
     this.service.patchValues(this.formGrp);
     this.service.ptchVal(i_);
+    
     //this.btnName.emit('Update');
   }
   
@@ -48,7 +47,7 @@ export class DisplayListComponent implements OnInit {
     //this.formGrp.reset();
   }
   
-  onStatusBtnClick(i_: number, index: number, _i: number) {
+  onStatusBtnClick(i_: number, index: number) {
     
     try{
       

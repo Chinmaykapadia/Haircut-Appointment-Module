@@ -9,28 +9,14 @@ import { StatusService } from "../add-status/status.service";
 })
 export class NewAddStatusComponent implements OnInit {
   
-  form: FormGroup;
-  
-  statusArray = [
-    { id: 1, value: "i'm Available", color: "green" },
-    { id: 2, value: "i'm not Available", color: "red" },
-    { id: 3, value: "i'm in Meeting", color: "#FFFF99" },
-  ];
-
+  //form: FormGroup;
   displayData = [];
-  submitted: boolean;
-  searchData: boolean;
-  disable_Search_Button: boolean;
-  formArrayData = [];
-  formArrLen;
-  selectedOption: string;
-  clientName_value: string;
   buttonName: string;
-  selectedOptIndx: number; 
-  constructor(private fb: FormBuilder) {}
-
-  ngOnInit() {
-   
+   // selectedOptIndx: number; 
+   constructor(private fb: FormBuilder) {}
+  
+   ngOnInit() {
+     
   }
 
   btnChanged_Name($event){
@@ -51,6 +37,26 @@ export class NewAddStatusComponent implements OnInit {
 
 
 
+
+
+
+
+
+
+
+// statusArray = [
+//   { id: 1, value: "i'm Available", color: "green" },
+//   { id: 2, value: "i'm not Available", color: "red" },
+//   { id: 3, value: "i'm in Meeting", color: "#FFFF99" },
+// ];
+
+// submitted: boolean;
+// searchData: boolean;
+// disable_Search_Button: boolean;
+// formArrayData = [];
+// formArrLen;
+// selectedOption: string;
+// clientName_value: string;
 
 // emittingValues($event){
 //   this.frmArrLen = $event
