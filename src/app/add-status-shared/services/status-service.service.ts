@@ -70,18 +70,34 @@ export class StatusServiceService {
     this.clientName.next(name);
   }
 
-  // search_Data(selectedOption: string, clientName_value: string){
-  //   let sr_Data = this.getData().map((res)=>{
-  //     res.select_status = false;
-  //     if(res.select_status == selectedOption){
-  //       res.select_status = true;
-  //     }
-  //     if(res.client_name == clientName_value){
-  //       res.select_status;
-  //     }
-  //     return res;
-  //   });
-
-  // }
-
+  
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// search_Data(selectedOption: string, clientName_value: string){
+//   let sr_Data = this.getData().map((res)=>{
+//     res.select_status = false;
+//     if(res.select_status == selectedOption){
+//       res.select_status = true;
+//     }
+//     if(res.client_name == clientName_value){
+//       res.select_status;
+//     }
+//     return res;
+//   });
+
+// }

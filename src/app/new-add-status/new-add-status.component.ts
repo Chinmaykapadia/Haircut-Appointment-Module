@@ -7,10 +7,10 @@ import { StatusService } from "../add-status/status.service";
   templateUrl: "./new-add-status.component.html",
   styleUrls: ["./new-add-status.component.css"],
 })
-export class NewAddStatusComponent implements OnChanges, OnInit {
+export class NewAddStatusComponent implements OnInit {
   
   form: FormGroup;
-  @Input() frmArrData = [];
+  
   statusArray = [
     { id: 1, value: "i'm Available", color: "green" },
     { id: 2, value: "i'm not Available", color: "red" },
@@ -21,7 +21,6 @@ export class NewAddStatusComponent implements OnChanges, OnInit {
   submitted: boolean;
   searchData: boolean;
   disable_Search_Button: boolean;
-  //form: FormGroup;
   formArrayData = [];
   formArrLen;
   selectedOption: string;
@@ -31,22 +30,8 @@ export class NewAddStatusComponent implements OnChanges, OnInit {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
-    // this.form = this.fb.group({
-    //   select_status: [""],
-    //   client_name: [""],
-    //   color: [""],
-    //   status: [""]
-    // });
-    // this.buttonName = "Add";
+   
   }
-  ngOnChanges() {
-    //this.getFormData;
-  }
-
-  // emittingValues($event){
-  //   this.frmArrLen = $event
-  // }
-
 
   btnChanged_Name($event){
     this.buttonName = $event
@@ -55,17 +40,8 @@ export class NewAddStatusComponent implements OnChanges, OnInit {
     this.displayData = $event;
     console.log(this.displayData);
   }
-  // patchVal($event){
-  //   this.form = $event;
-  // }
-  // btnChangedName($event){
-  //   this.buttonName = $event;
-  // }
-  getRowIndex($event) {
-    // this.findId = $event;
-  }
-  delete_selected_data() {}
-  search() {}
+  
+  
 }
 
 
@@ -76,8 +52,17 @@ export class NewAddStatusComponent implements OnChanges, OnInit {
 
 
 
+// emittingValues($event){
+//   this.frmArrLen = $event
+// }
 
 
+// patchVal($event){
+  //   this.form = $event;
+// }
+// btnChangedName($event){
+//   this.buttonName = $event;
+// }
 
 
 // statusArray = [

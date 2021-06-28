@@ -7,12 +7,9 @@ import { StatusServiceService } from '../../add-status-shared/services/status-se
   styleUrls: ['./actions.component.css']
 })
 export class ActionsComponent implements OnInit {
-  // @Input() form: FormGroup;
-  //@Input() selectedOptIndx: number;
+
   @Input() btnName: string;
-  // @Output() frmArrLen = new EventEmitter();
-  // @Output() btnnName = new EventEmitter();
-  // @Output() rowIndex = new EventEmitter();
+  
   rowId: number;
 
   statusArray = [
@@ -44,22 +41,6 @@ export class ActionsComponent implements OnInit {
 
     this.patchinValues = this.service.ptchVal(this.rowId);
     
-    // this.form.patchValue({
-    //   select_status:this.patchinValues.select_status,
-    //   client_name:this.patchinValues.client_name
-    // });
-    
-    // this.service.ptchVal(this.rowId).patchValue({
-    //   select_status:this.formArrayData[this.rowId].selectedOption,
-    //   client_name:this.formArrayData[this.rowId].clientName_value
-    // });
-
-
-    // this.service.form$.subscribe((res)=>{
-    //   this.form = res;
-    //  // console.log(this.form);
-      
-    // });
   }
   
   ngOnInit() {
@@ -139,7 +120,22 @@ export class ActionsComponent implements OnInit {
 
 
 
+// this.form.patchValue({
+    //   select_status:this.patchinValues.select_status,
+    //   client_name:this.patchinValues.client_name
+    // });
 
+    // this.service.ptchVal(this.rowId).patchValue({
+    //   select_status:this.formArrayData[this.rowId].selectedOption,
+    //   client_name:this.formArrayData[this.rowId].clientName_value
+    // });
+
+
+    // this.service.form$.subscribe((res)=>{
+    //   this.form = res;
+    //  // console.log(this.form);
+      
+    // });
 
 
 
