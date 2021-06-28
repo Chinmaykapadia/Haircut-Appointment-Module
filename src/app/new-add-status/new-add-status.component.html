@@ -5,33 +5,55 @@
     <h3 class="heading" style="margin-left: 50px;"> Manage Status</h3>
 </div>
 <div>
-    <!-- <form [formGroup]="form">
-        <div class="card" style="border: 1px solid;">
-            <div class="dropdown">
-                <label>Select Status:-</label>
-                <select [(ngModel)]="selectedOption" formControlName="select_status">
-                    <option></option>
-                    <option *ngFor="let item of statusArray">{{ item.value }}</option>
-                </select>
-            </div>
-            <div class="clientname">
-                <label>Client Name:</label>
-                <input type="text" [(ngModel)]="clientName_value" formControlName="client_name" >
-            </div>
-            <div class="addBtn">
-                <button class="btn btn-success" (click)="onSubmit()"> {{buttonName}} </button>&nbsp;
-                <button class="btn btn-danger" *ngIf="this.frmArrLen > 0" (click)="delete_selected_data()"> Delete </button>&nbsp;
-                <button class="btn btn-primary" (click)="search()"> Search </button>
-                <button > Update </button>
-            </div>
-        </div> -->
-<!-- ------------------------------------------ Displaying Data ---------------------------------------------------------- -->
-        <app-actions  ></app-actions>
-        <app-display [frmArrData]="this.frmArrData" (dataArray)="getFormData($event)"></app-display>
-        <!-- <app-display [frmArrData]="this.formArrayData" [formGrp]="this.form" (formGrp)="patchVal($event)" (btnChangedName)="changeBtnVal($event)" (rowId)="getRowId($event)"></app-display> -->
-        <!-- <div class="row"> -->
-           
-            <!-- <app-display-data [formArrayData]="this.formArray" [form]="this.form" (buttonName)="update_Data($event)" (find_Id)="getFindId($event)"  [findId]="this.findId"></app-display-data> -->
-        <!-- </div>
-    </form>     -->
+    <app-actions></app-actions>
+    <div class="display">
+        <app-display-list></app-display-list>
+    </div>
 </div>
+
+
+
+
+
+
+
+<!-- <app-actions (btnName)="btnChanged_Name($event)"></app-actions> -->
+<!-- <app-display [frmArrData]="this.frmArrData" (dataArray)="getFormData($event)"></app-display> -->
+
+
+
+
+
+
+
+
+
+
+<!-- <form [formGroup]="form">
+    <div class="card" style="border: 1px solid;">
+        <div class="dropdown">
+            <label>Select Status:-</label>
+            <select [(ngModel)]="selectedOption" formControlName="select_status">
+                <option></option>
+                <option *ngFor="let item of statusArray">{{ item.value }}</option>
+            </select>
+        </div>
+        <div class="clientname">
+            <label>Client Name:</label>
+            <input type="text" [(ngModel)]="clientName_value" formControlName="client_name" >
+        </div>
+        <div class="addBtn">
+            <button class="btn btn-success" (click)="onSubmit()"> {{buttonName}} </button>&nbsp;
+            <button class="btn btn-danger" *ngIf="this.frmArrLen > 0" (click)="delete_selected_data()"> Delete </button>&nbsp;
+            <button class="btn btn-primary" (click)="search()"> Search </button>
+            <button > Update </button>
+        </div>
+    </div> -->
+<!-- ------------------------------------------ Displaying Data ---------------------------------------------------------- -->
+    <!-- <app-display [frmArrData]="this.frmArrData" (dataArray)="getFormData($event)"></app-display> -->
+    <!-- <app-display [frmArrData]="this.formArrayData" [formGrp]="this.form" (formGrp)="patchVal($event)" (btnChangedName)="changeBtnVal($event)" (rowId)="getRowId($event)"></app-display> -->
+    <!-- <div class="row"> -->
+       
+        <!-- <app-display-data [formArrayData]="this.formArray" [form]="this.form" (buttonName)="update_Data($event)" (find_Id)="getFindId($event)"  [findId]="this.findId"></app-display-data> -->
+    <!-- </div>
+</form>     -->
