@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { FormGroup,FormBuilder } from '@angular/forms';
 import { StatusServiceService } from '../../add-status-shared/services/status-service.service'; 
 @Component({
@@ -7,8 +7,6 @@ import { StatusServiceService } from '../../add-status-shared/services/status-se
   styleUrls: ['./actions.component.css']
 })
 export class ActionsComponent implements OnInit {
-
- // @Input() btnName: string;
   
   rowId: number;
 
@@ -17,32 +15,36 @@ export class ActionsComponent implements OnInit {
     { id: 2, value: "i'm not Available", color: "red" },
     { id: 3, value: "i'm in Meeting", color: "#FFFF99" },
   ];
-  //selectedOptIndx: number;
   submitted: boolean;
-  searchData: boolean;
-  disable_Search_Button: boolean;
+  enable_Search_Button: boolean;
   form: FormGroup;
   formArrayData = [];
   selectedOption: string;
   clientName_value: string;
   buttonName: string;
   selectedOptIndx: number; 
-  patchinValues: any;
-  array_Object: Object;
+  
 
   constructor(private fb: FormBuilder, private service:StatusServiceService) { 
     this.service.name$.subscribe((data)=>{
       this.buttonName = data;
+      this.enable_Search_Button = false;
     });
 
     this.service.editId$.subscribe((indx)=>{
       this.rowId = indx;
+
     });
 
-    this.patchinValues = this.service.ptchVal(this.rowId);
-    
+    this.service.edit_Obj$.subscribe((res)=>{
+       this.form.patchValue({
+         select_status: this.formArrayData[this.rowId].select_status,
+         client_name: this.formArrayData[this.rowId].client_name
+       });
+    });
+
   }
-  
+
   ngOnInit() {
     this.form = this.fb.group({
       id: [""],
@@ -51,22 +53,51 @@ export class ActionsComponent implements OnInit {
       color: [""],
       status: [""]
     });
-
+    
     this.submitted = false;
     this.buttonName = "Add";
-
-    this.searchData = false;
     
-    this.disable_Search_Button = true;
-
+    this.enable_Search_Button = true;
+    
     this.formArrayData = this.service.getData();
     console.log(this.formArrayData);
-    
-    //this.array_Object = this.formArrayData[this.rowId];
   }
 
   search(){
-    console.log(this.service.getData());
+  
+    let clint_name = this.formArrayData.filter((data)=>{
+      return data.client_name.includes(this.clientName_value);
+    });
+
+    let searched_Array = this.formArrayData.map((res)=>{
+
+      console.log(res);
+
+      if(this.selectedOption){
+
+          res.status = false;
+          if(res.select_status == this.selectedOption){
+            res.status = true;
+          }
+      }
+      else if(this.clientName_value !== ""){
+       
+          console.log(res);
+          res.status = false;
+          if(res.client_name == this.clientName_value){
+            res.status = true;
+          }
+      }
+      else{
+        res.status = true;
+      }
+      
+      return res;
+    });
+    console.log(searched_Array);
+    this.formArrayData = searched_Array;
+    console.log(this.formArrayData);
+
   }
 
   onSubmit(){
@@ -74,40 +105,42 @@ export class ActionsComponent implements OnInit {
   
     this.selectedOptIndx = this.statusArray.findIndex((x) => x.value == this.selectedOption);
     console.log(this.form);
-    if(this.buttonName == "Add"){
-      this.form.value.id = this.formArrayData.length + 1;
-      this.form.value.color = this.statusArray[this.selectedOptIndx].color;
-      this.form.value.status = true;
+    try{
 
-      this.service.pushData(this.form.value);
-      this.service.searchValues(this.selectedOption, this.clientName_value);
-      
-      this.form.reset();
-    }
-    else{
-      
-      this.formArrayData[this.rowId].select_status = this.selectedOption;
-      this.formArrayData[this.rowId].client_name = this.clientName_value;
-      this.formArrayData[this.rowId].color = this.statusArray[this.selectedOptIndx].color;
-      this.form.reset();
-      this.buttonName = "Add";
-    }
+      if(this.buttonName == "Add"){
+        this.form.value.id = this.formArrayData.length + 1;
+        this.form.value.color = this.statusArray[this.selectedOptIndx].color;
+        this.form.value.status = true;
+        
+        this.service.pushData(this.form.value);
+        this.form.reset();
+      }
+      else{
+        
+        this.formArrayData[this.rowId].select_status = this.selectedOption;
+        this.formArrayData[this.rowId].client_name = this.clientName_value;
+        this.formArrayData[this.rowId].color = this.statusArray[this.selectedOptIndx].color;
+        this.form.reset();
+        this.buttonName = "Add";
+        this.enable_Search_Button = true;
+      }
+    }catch(error){}
   }
 
   deleteData(i_: number, _i: number) {
-    this.searchData = false;
-    this.disable_Search_Button = true;
+    
+    this.enable_Search_Button = true;
     console.log(i_);
     this.formArrayData.splice(i_, 1);
     console.log(this.formArrayData);
+    this.buttonName = "Add";
     this.form.reset();
   }
  
-  // btnChanged_Name($event){
-  //   this.buttonName = $event
-  // }
   
-  
+  clear(){
+    this.form.reset();
+  }
 }
 
 
@@ -121,6 +154,75 @@ export class ActionsComponent implements OnInit {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// console.log(this.service.getData());
+    // this.service.searchValues(this.selectedOption,this.clientName_value);
+    // console.log(this.selectedOption);
+
+// patchinValues: any;
+  // array_Object: Object;
+
+  // statusOption: string;
+  // nameOfClient: string;
+
+// this.service.statusOption$.subscribe((res)=>{
+    //   this.formArrayData.filter((data)=>{
+    //     return data.select_status.includes(this.selectedOption);
+    //   });
+    //   return res;
+    // });
+
+
+// For patchValue
+// ngOnChanges(){
+  //   this.patchinValues = this.service.ptchVal(this.rowId);
+  //   console.log("On Changes",this.patchinValues);
+  //   this.form.patchValue({
+     
+  //    select_status: this.patchinValues.select_status,
+  //     client_name: this.patchinValues.client_name
+  //   });
+  // }
+
+// btnChanged_Name($event){
+//   this.buttonName = $event
+// }
+
+
+// ngAfterViewChecked(){
+  //   this.form.patchValue({
+  //     select_status: this.patchinValues.select_status,
+  //     client_name: this.patchinValues.client_name
+  //   });
+    
+  // }
 
 
 // this.form.patchValue({
