@@ -110,21 +110,26 @@ export class ActionsComponent implements OnInit {
 
   onSubmit(){
     console.log(this.selectedOptIndx);
-  
+    let formObj = this.form.value;
+    console.log("FormObject:====",formObj);
+    
     this.selectedOptIndx = this.statusArray.findIndex((x) => x.value == this.selectedOption);
     console.log(this.form);
     try{
 
       if(this.buttonName == "Add"){
-        this.form.value.id = this.formArrayData.length + 1;
-        this.form.value.color = this.statusArray[this.selectedOptIndx].color;
-        this.form.value.status = true;
-        
-        this.service.pushData(this.form.value);
+
+        formObj.id = this.formArrayData.length + 1;
+        formObj.color = this.statusArray[this.selectedOptIndx].color;
+        formObj.status = true;
+
+        this.service.pushData(formObj);
         this.form.reset();
       }
       else{
         
+        //this.formArrayData[this.rowId] = formObj[this.rowId];
+
         this.formArrayData[this.rowId].select_status = this.selectedOption;
         this.formArrayData[this.rowId].client_name = this.clientName_value;
         this.formArrayData[this.rowId].color = this.statusArray[this.selectedOptIndx].color;
@@ -189,6 +194,13 @@ export class ActionsComponent implements OnInit {
 
 
 
+
+
+
+
+// this.form.value.id = this.formArrayData.length + 1;
+        // this.form.value.color = this.statusArray[this.selectedOptIndx].color;
+        // this.form.value.status = true;
 
 // console.log(this.service.getData());
     // this.service.searchValues(this.selectedOption,this.clientName_value);
