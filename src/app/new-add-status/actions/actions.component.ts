@@ -65,9 +65,7 @@ export class ActionsComponent implements OnInit {
 
   search(){
   
-    let clint_name = this.formArrayData.filter((data)=>{
-      return data.client_name.includes(this.clientName_value);
-    });
+    
 
     let searched_Array = this.formArrayData.map((res)=>{
 
@@ -84,8 +82,18 @@ export class ActionsComponent implements OnInit {
        
           console.log(res);
           res.status = false;
-          if(res.client_name == this.clientName_value){
+          // let clint_name = this.formArrayData.filter((data)=>{
+          //   return data.client_name.includes(this.clientName_value);
+          // });
+          // console.log(clint_name);
+          // this.formArrayData = clint_name;
+          // if(clint_name == ){
+          //   res.status = true;
+          // }
+          if(res.client_name.includes(this.clientName_value)){
             res.status = true;
+            console.log(this.formArrayData);
+            
           }
       }
       else{
