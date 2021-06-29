@@ -74,8 +74,12 @@ export class StatusServiceService {
     const filtered_data = this.array_data.filter((item)=>{
       return item.select_status.includes(term)
     });
+    return filtered_data;
   }
   
+  search_results(){
+    
+  }
 }
 
 

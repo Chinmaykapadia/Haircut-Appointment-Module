@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup,FormBuilder } from '@angular/forms';
 import { StatusServiceService } from '../../add-status-shared/services/status-service.service'; 
 @Component({
@@ -60,6 +60,8 @@ export class ActionsComponent implements OnInit {
     this.disable_Search_Button = true;
 
     this.formArrayData = this.service.getData();
+    console.log(this.formArrayData);
+    
     //this.array_Object = this.formArrayData[this.rowId];
   }
 
@@ -76,19 +78,13 @@ export class ActionsComponent implements OnInit {
       this.form.value.id = this.formArrayData.length + 1;
       this.form.value.color = this.statusArray[this.selectedOptIndx].color;
       this.form.value.status = true;
-      //this.formArrayData.push(this.form.value);
-      //console.log(this.formArrayData);
 
       this.service.pushData(this.form.value);
       this.service.searchValues(this.selectedOption, this.clientName_value);
-
+      
       this.form.reset();
     }
     else{
-      
-      // this.service.getData[this.rowId].select_status = this.selectedOption;
-      // this.service.getData[this.rowId].client_name = this.clientName_value;
-      // this.service.getData[this.rowId].color = this.statusArray[this.selectedOptIndx].color;
       
       this.formArrayData[this.rowId].select_status = this.selectedOption;
       this.formArrayData[this.rowId].client_name = this.clientName_value;
