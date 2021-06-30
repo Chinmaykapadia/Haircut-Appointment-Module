@@ -1,9 +1,10 @@
 <div class="row">
+    <h3> Data:- </h3>
     <div *ngIf="submitted" style="border: 2px solid;margin: 10px;">
         <div *ngFor="let item of data; let i_ = index" style="margin: 20px;">
             <div *ngIf="item.status == true">
                 <div>
-                    <div>
+                    <div>  
                         <label> Client Name:- </label>
                         <label> {{ item.client_name }}</label>
                         <button class="btn btn-secondary" style="margin-left:70%" (click)="update_Data(i_)"> Edit </button>
@@ -18,7 +19,7 @@
                 <hr class="dashed">        
                     <div style="margin-right: 10px;">
                         <ng-container *ngFor="let btnval of buttonValue; let i = index">
-                            <button style="color: black;" [ngStyle]="{'background-color': btnval.color}" class="btn btn-primary" type="button" (click)="onStatusBtnClick(i_,i)"> {{ btnval.value }}
+                            <button style="color: black; margin-right: 5px;" [ngStyle]="{'background-color': btnval.color}" class="btn btn-primary" type="button" (click)="onStatusBtnClick(i_,i)"> {{ btnval.value }}
                                 
                             </button>
                         </ng-container>

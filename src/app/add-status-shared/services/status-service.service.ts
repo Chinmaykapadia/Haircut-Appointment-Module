@@ -29,6 +29,9 @@ export class StatusServiceService {
   private edit_Obj = new Subject<number>();
   edit_Obj$ = this.edit_Obj.asObservable();
 
+  private search_D = new Subject();
+  search_D$ = this.search_D.asObservable();
+
 
   constructor() { }
 
@@ -54,11 +57,21 @@ export class StatusServiceService {
   ptchVal(indx: number){
     this.edit_Obj.next(this.array_data[indx]);
     console.log(this.edit_Obj$);
+    console.log(this.edit_Obj);
     
     // console.log(this.array_data[indx]);
     // return this.array_data[indx];
   }
 
+  send_form(){
+    this.form.next();
+  }
+
+  disp_searchData(data){
+    this.search_D.next(data);
+    console.log(this.search_D$);
+    
+  }
   
 }
 

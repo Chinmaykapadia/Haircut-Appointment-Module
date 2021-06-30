@@ -4,12 +4,12 @@
         <div class="dropdown">
             <label>Select Status:-</label>
             <select [(ngModel)]="selectedOption" formControlName="select_status">
-                <option (click)="clear()"></option>
+                <option></option>
                 <option *ngFor="let item of statusArray">{{ item.value }}</option>
             </select>
         </div>
         <div class="clientname">
-            <label>Client Name:</label>
+            <label>Client Name:-</label>
             <input type="text" [(ngModel)]="clientName_value" formControlName="client_name" >
         </div>
         <div class="addBtn">

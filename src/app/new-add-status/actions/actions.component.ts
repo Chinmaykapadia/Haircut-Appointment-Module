@@ -11,9 +11,9 @@ export class ActionsComponent implements OnInit {
   rowId: number;
 
   statusArray = [
-    { id: 1, value: "i'm Available", color: "green" },
-    { id: 2, value: "i'm not Available", color: "red" },
-    { id: 3, value: "i'm in Meeting", color: "#FFFF99" },
+    { id: 1, value: "i'm Available", color: "#00A36C" },
+    { id: 2, value: "i'm not Available", color: "#E34234" },
+    { id: 3, value: "i'm in Meeting", color: "#FFD700" },
   ];
   submitted: boolean;
   enable_Search_Button: boolean;
@@ -33,7 +33,9 @@ export class ActionsComponent implements OnInit {
 
     this.service.editId$.subscribe((indx)=>{
       this.rowId = indx;
-
+      console.log("Check Row Id:--",this.rowId);
+      console.log("Data at rowId:-=-=>",this.formArrayData[this.rowId].select_status);
+      
     });
 
     this.service.edit_Obj$.subscribe((res)=>{
@@ -43,6 +45,11 @@ export class ActionsComponent implements OnInit {
        });
     });
 
+    this.service.form$.subscribe(()=>{
+      this.buttonName = "Add";
+      this.enable_Search_Button = true;
+      this.form.reset();
+    });
   }
 
   ngOnInit() {
@@ -64,8 +71,6 @@ export class ActionsComponent implements OnInit {
   }
 
   search(){
-  
-    
 
     let searched_Array = this.formArrayData.map((res)=>{
 
@@ -82,14 +87,7 @@ export class ActionsComponent implements OnInit {
        
           console.log(res);
           res.status = false;
-          // let clint_name = this.formArrayData.filter((data)=>{
-          //   return data.client_name.includes(this.clientName_value);
-          // });
-          // console.log(clint_name);
-          // this.formArrayData = clint_name;
-          // if(clint_name == ){
-          //   res.status = true;
-          // }
+          
           if(res.client_name.includes(this.clientName_value)){
             res.status = true;
             console.log(this.formArrayData);
@@ -97,7 +95,10 @@ export class ActionsComponent implements OnInit {
           }
       }
       else{
+        console.log("before:",this.formArrayData);
         res.status = true;
+        console.log("after:",this.formArrayData);
+        
       }
       
       return res;
@@ -105,7 +106,11 @@ export class ActionsComponent implements OnInit {
     console.log(searched_Array);
     this.formArrayData = searched_Array;
     console.log(this.formArrayData);
+    
+    this.service.disp_searchData(this.formArrayData);
 
+    console.log(this.service.disp_searchData(this.formArrayData));
+    
   }
 
   onSubmit(){
@@ -150,7 +155,6 @@ export class ActionsComponent implements OnInit {
     this.form.reset();
   }
  
-  
   clear(){
     this.form.reset();
   }
@@ -197,6 +201,18 @@ export class ActionsComponent implements OnInit {
 
 
 
+
+
+//this.service.disp_searchData();
+
+// let clint_name = this.formArrayData.filter((data)=>{
+          //   return data.client_name.includes(this.clientName_value);
+          // });
+          // console.log(clint_name);
+          // this.formArrayData = clint_name;
+          // if(clint_name == ){
+          //   res.status = true;
+          // }
 
 // this.form.value.id = this.formArrayData.length + 1;
         // this.form.value.color = this.statusArray[this.selectedOptIndx].color;

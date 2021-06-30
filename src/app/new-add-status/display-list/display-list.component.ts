@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { Subject } from 'rxjs';
 import { StatusServiceService } from '../../add-status-shared/services/status-service.service';
 import { FormGroup } from '@angular/forms';
@@ -7,25 +7,36 @@ import { FormGroup } from '@angular/forms';
   templateUrl: './display-list.component.html',
   styleUrls: ['./display-list.component.css']
 })
-export class DisplayListComponent implements OnInit {
+export class DisplayListComponent implements OnChanges,OnInit {
   
   submitted: boolean;
-  frmArrData = [];
   data: any;
-
+  newData: any;
   buttonValue = [
-    { id: 1, value: "i'm Available", color: "green" },
-    { id: 2, value: "i'm not Available", color: "red" },
-    { id: 3, value: "i'm in Meeting", color: "#FFFF99" },
+    { id: 1, value: "i'm Available", color: "#00A36C" },
+    { id: 2, value: "i'm not Available", color: "#E34234" },
+    { id: 3, value: "i'm in Meeting", color: "#FFD700" },
   ];
 
   constructor(private service: StatusServiceService) {   
-
+    this.data = this.service.getData();
+    // this.service.search_D$.subscribe((data)=>{
+    //   this.newData = data;
+    //   console.log(this.newData);
+      
+    // });
   }
 
+  ngOnChanges() {
+    this.service.search_D$.subscribe((data)=>{
+      this.data = data;
+      console.log(this.data);
+    });
+  }
+  
   ngOnInit() {
     this.submitted = true;
-    this.data = this.service.getData();
+    // this.data = this.service.getData();
     console.log(this.data);
     
   }
@@ -35,13 +46,13 @@ export class DisplayListComponent implements OnInit {
     this.service.changeButtonName("Update");
     this.service.get_Edit_id(i_);
     this.service.ptchVal(i_);
-
-   
+    
   }
   
   deleteData(i_: number){
     this.data.splice(i_, 1);
     console.log(this.data);
+    this.service.send_form();
   }
   
   onStatusBtnClick(i_: number, index: number) {
@@ -78,7 +89,9 @@ export class DisplayListComponent implements OnInit {
 
 
 
-
+  // this.service.search_D$.subscribe((data)=>{
+    //   this.data = data;
+    // });
 
 // statusOption: string;
   // nameOfClient: string;
@@ -144,7 +157,7 @@ export class DisplayListComponent implements OnInit {
 
 
 
-
+// frmArrData = [];
 // this.formGrp.patchValue({
 //         select_status: this.frmArrData[i_].select_status,
 //         client_name: this.frmArrData[i_].client_name,
