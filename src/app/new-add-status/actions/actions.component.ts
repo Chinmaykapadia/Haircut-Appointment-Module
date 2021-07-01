@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, AfterViewInit, AfterViewChecked } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { FormGroup,FormBuilder } from '@angular/forms';
 import { StatusServiceService } from '../../add-status-shared/services/status-service.service'; 
 @Component({
@@ -26,30 +26,51 @@ export class ActionsComponent implements OnInit {
   
 
   constructor(private fb: FormBuilder, private service:StatusServiceService) { 
-    this.service.name$.subscribe((data)=>{
-      this.buttonName = data;
-      this.enable_Search_Button = false;
-    });
+    // this.service.name$.subscribe((data)=>{
+    //   this.buttonName = data;
+    //   this.enable_Search_Button = false;
+    // });
 
     this.service.editId$.subscribe((indx)=>{
-      this.rowId = indx;
+      this.rowId = indx.id;
       console.log("Check Row Id:--",this.rowId);
-      console.log("Data at rowId:-=-=>",this.formArrayData[this.rowId].select_status);
       
-    });
-
-    this.service.edit_Obj$.subscribe((res)=>{
+      console.log(this.formArrayData[this.rowId]);
+      
+      this.enable_Search_Button = false;
+      this.buttonName = "Update";
+      
+       this.formArrayData = this.service.getData();
        this.form.patchValue({
          select_status: this.formArrayData[this.rowId].select_status,
          client_name: this.formArrayData[this.rowId].client_name
        });
+      if(indx.type == "Update"){
+        this.buttonName = "Add";
+      }
+      
     });
 
-    this.service.form$.subscribe(()=>{
-      this.buttonName = "Add";
-      this.enable_Search_Button = true;
-      this.form.reset();
-    });
+    // this.service.edit_Obj$.subscribe((res)=>{
+    //   this.formArrayData = this.service.getData();
+    //    this.form.patchValue({
+    //      select_status: this.formArrayData[this.rowId].select_status,
+    //      client_name: this.formArrayData[this.rowId].client_name
+    //    });
+    // });
+    // this.service.editIdd$.subscribe((ind)=>{
+    //   this.rowId = ind.id;
+    //   console.log(this.rowId);
+
+      
+    // });
+
+
+    // this.service.form$.subscribe(()=>{
+    //   this.buttonName = "Add";
+    //   this.enable_Search_Button = true;
+    //   this.form.reset();
+    // });
   }
 
   ngOnInit() {
@@ -67,50 +88,7 @@ export class ActionsComponent implements OnInit {
     this.enable_Search_Button = true;
     
     this.formArrayData = this.service.getData();
-    console.log(this.formArrayData);
-  }
-
-  search(){
-
-    let searched_Array = this.formArrayData.map((res)=>{
-
-      console.log(res);
-
-      if(this.selectedOption){
-
-          res.status = false;
-          if(res.select_status == this.selectedOption){
-            res.status = true;
-          }
-      }
-      else if(this.clientName_value !== ""){
-       
-          console.log(res);
-          res.status = false;
-          
-          if(res.client_name.includes(this.clientName_value)){
-            res.status = true;
-            console.log(this.formArrayData);
-            
-          }
-      }
-      else{
-        console.log("before:",this.formArrayData);
-        res.status = true;
-        console.log("after:",this.formArrayData);
-        
-      }
-      
-      return res;
-    });
-    console.log(searched_Array);
-    this.formArrayData = searched_Array;
-    console.log(this.formArrayData);
-    
-    this.service.disp_searchData(this.formArrayData);
-
-    console.log(this.service.disp_searchData(this.formArrayData));
-    
+    console.log("OnInit actions Data:--",this.formArrayData);
   }
 
   onSubmit(){
@@ -132,8 +110,7 @@ export class ActionsComponent implements OnInit {
         this.form.reset();
       }
       else{
-        
-        //this.formArrayData[this.rowId] = formObj[this.rowId];
+        //Update
 
         this.formArrayData[this.rowId].select_status = this.selectedOption;
         this.formArrayData[this.rowId].client_name = this.clientName_value;
@@ -145,19 +122,54 @@ export class ActionsComponent implements OnInit {
     }catch(error){}
   }
 
-  deleteData(i_: number, _i: number) {
+
+  search(){
+
+    let searched_Array = this.formArrayData.map((res)=>{
+
+      console.log("Mapped result:--",res);
+
+      if(this.selectedOption){
+
+          res.status = false;
+          if(res.select_status == this.selectedOption){
+            res.status = true;
+          }
+      }
+      else if(this.clientName_value !== ""){
+       
+          res.status = false;
+          if(res.client_name.includes(this.clientName_value)){
+            res.status = true;
+            
+          }
+      }
+      else{
+
+        res.status = true;
+        
+      }
+      
+      return res;
+    });
+    console.log("Searched Array (Mapped arr:):=->",searched_Array);
+    this.formArrayData = searched_Array;
+    console.log("FormArrayData:------",this.formArrayData);
+    
+   // this.service.disp_searchData(this.formArrayData);
+    
+  }
+
+  
+  deleteData() {
     
     this.enable_Search_Button = true;
-    console.log(i_);
-    this.formArrayData.splice(i_, 1);
-    console.log(this.formArrayData);
+    this.formArrayData.splice(this.rowId, 1);
+    console.log("FormArrayData after delete:===>",this.formArrayData);
     this.buttonName = "Add";
     this.form.reset();
   }
  
-  clear(){
-    this.form.reset();
-  }
 }
 
 

@@ -15,29 +15,30 @@ import { Subject } from 'rxjs/Subject';
 export class StatusServiceService {
 
   array_data = [];
-  public data = [];
+  type = "Add";
+  //public data = [];
   
-  private name = new Subject<string>();
-  name$ = this.name.asObservable();
+  // private name = new Subject<string>();
+  // name$ = this.name.asObservable();
   
-  private editId = new Subject<number>();
+  private editId = new Subject<any>();
   editId$ = this.editId.asObservable();
   
-  private form = new Subject<FormGroup>();
+  private form = new Subject<object>();
   form$ = this.form.asObservable();
 
-  private edit_Obj = new Subject<number>();
-  edit_Obj$ = this.edit_Obj.asObservable();
+  // private edit_Obj = new Subject<number>();
+  // edit_Obj$ = this.edit_Obj.asObservable();
 
-  private search_D = new Subject();
-  search_D$ = this.search_D.asObservable();
+  private editIdd = new Subject<any>();
+  editIdd$ = this.editIdd.asObservable();
 
 
   constructor() { }
 
   pushData(data: data){
     this.array_data.push(data);
-    console.log(this.array_data);
+    console.log("Services Array::==>",this.array_data);
     
   }
 
@@ -45,34 +46,36 @@ export class StatusServiceService {
     return this.array_data;
   }
 
-  changeButtonName(data: string){
-    this.name.next(data);
-    //return 'Update';
+  // changeButtonName(data: string){
+  //   this.name.next(data);
+  // }
+
+  // get_Edit_id(index: number){
+  //   this.editId.next(index);
+  // }
+
+  getEditId(index: number,type: string){
+    this.editId.next({id:index,type:"Update"});
   }
 
-  get_Edit_id(index: number){
-    this.editId.next(index);
+  getEditIdd(index: number,type: string){
+    this.editIdd.next({id:index,type:"Add"});
   }
 
-  ptchVal(indx: number){
-    this.edit_Obj.next(this.array_data[indx]);
-    console.log(this.edit_Obj$);
-    console.log(this.edit_Obj);
+  // ptchVal(indx: number){
+  //   this.edit_Obj.next(this.array_data[indx]);
+  //   console.log("Observable:<===--->",this.edit_Obj$);
+  //   console.log("Subject:>>>>>>",this.edit_Obj);
     
-    // console.log(this.array_data[indx]);
-    // return this.array_data[indx];
-  }
+  //   // console.log(this.array_data[indx]);
+  //   // return this.array_data[indx];
+  // }
 
-  send_form(){
+  //enable search btn.
+  sendForm(){
     this.form.next();
   }
 
-  disp_searchData(data){
-    this.search_D.next(data);
-    console.log(this.search_D$);
-    
-  }
-  
 }
 
 
@@ -97,9 +100,14 @@ export class StatusServiceService {
 
 
 
+ // private search_D = new Subject();
+  // search_D$ = this.search_D.asObservable();
 
-
-
+ // disp_searchData(data){
+  //   this.search_D.next(data);
+  //   console.log(this.search_D$);
+    
+  // }
 
 // private statusOption = new Subject<any>();
 // statusOption$ = this.statusOption.asObservable();

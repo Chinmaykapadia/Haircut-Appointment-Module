@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, OnChanges } from "@angular/core";
-import { FormGroup, FormBuilder, FormArray, Validators } from "@angular/forms";
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder } from "@angular/forms";
 import { StatusService } from "../add-status/status.service";
 
 @Component({

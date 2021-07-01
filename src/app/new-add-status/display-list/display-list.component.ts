@@ -1,17 +1,17 @@
-import { Component, Input, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { StatusServiceService } from '../../add-status-shared/services/status-service.service';
 import { FormGroup } from '@angular/forms';
+
 @Component({
   selector: 'app-display-list',
   templateUrl: './display-list.component.html',
   styleUrls: ['./display-list.component.css']
 })
-export class DisplayListComponent implements OnChanges,OnInit {
+export class DisplayListComponent implements OnInit {
   
   submitted: boolean;
   data: any;
-  newData: any;
   buttonValue = [
     { id: 1, value: "i'm Available", color: "#00A36C" },
     { id: 2, value: "i'm not Available", color: "#E34234" },
@@ -19,40 +19,29 @@ export class DisplayListComponent implements OnChanges,OnInit {
   ];
 
   constructor(private service: StatusServiceService) {   
-    this.data = this.service.getData();
-    // this.service.search_D$.subscribe((data)=>{
-    //   this.newData = data;
-    //   console.log(this.newData);
-      
-    // });
+    
   }
 
-  ngOnChanges() {
-    this.service.search_D$.subscribe((data)=>{
-      this.data = data;
-      console.log(this.data);
-    });
-  }
-  
   ngOnInit() {
     this.submitted = true;
-    // this.data = this.service.getData();
-    console.log(this.data);
+     this.data = this.service.getData();
+    console.log("OnInit display Data:===",this.data);
     
   }
 
-  update_Data(i_:number){
+  update_Data(i_:number,type: string){
     
-    this.service.changeButtonName("Update");
-    this.service.get_Edit_id(i_);
-    this.service.ptchVal(i_);
+    //this.service.changeButtonName("Update");
+    this.service.getEditId(i_,type);
+    //this.service.getEditIdd(i_,type);
+    //this.service.ptchVal(i_);
     
   }
   
   deleteData(i_: number){
     this.data.splice(i_, 1);
-    console.log(this.data);
-    this.service.send_form();
+    console.log("Data after delete:===>",this.data);
+    this.service.sendForm();
   }
   
   onStatusBtnClick(i_: number, index: number) {
@@ -88,6 +77,29 @@ export class DisplayListComponent implements OnChanges,OnInit {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ngOnChanges() {
+  //   // this.service.search_D$.subscribe((data)=>{
+  //   //   this.data = data;
+  //   //   console.log(this.data);
+  //   // });
+  // }
+  
 
   // this.service.search_D$.subscribe((data)=>{
     //   this.data = data;
