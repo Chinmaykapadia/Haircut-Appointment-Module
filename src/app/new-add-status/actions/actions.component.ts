@@ -1,5 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { FormGroup,FormBuilder } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { StatusServiceService } from '../../add-status-shared/services/status-service.service'; 
 @Component({
   selector: 'app-actions',
@@ -9,21 +10,19 @@ import { StatusServiceService } from '../../add-status-shared/services/status-se
 export class ActionsComponent implements OnInit {
   
   rowId: number;
-
-  statusArray = [
-    { id: 1, value: "i'm Available", color: "#00A36C" },
-    { id: 2, value: "i'm not Available", color: "#E34234" },
-    { id: 3, value: "i'm in Meeting", color: "#FFD700" },
-  ];
+  
   submitted: boolean;
-  enable_Search_Button: boolean;
+  enableSearchButton: boolean;
   form: FormGroup;
   formArrayData = [];
   selectedOption: string;
   clientName_value: string;
   buttonName: string;
   selectedOptIndx: number; 
-  
+  selectedOptionId: number;
+  formArrData: Object = {};
+  len: number;
+  btnArray;
 
   constructor(private fb: FormBuilder, private service:StatusServiceService) { 
     // this.service.name$.subscribe((data)=>{
@@ -32,24 +31,38 @@ export class ActionsComponent implements OnInit {
     // });
 
     this.service.editId$.subscribe((indx)=>{
+      
       this.rowId = indx.id;
       console.log("Check Row Id:--",this.rowId);
       
       console.log(this.formArrayData[this.rowId]);
       
-      this.enable_Search_Button = false;
-      this.buttonName = "Update";
-      
-       this.formArrayData = this.service.getData();
-       this.form.patchValue({
-         select_status: this.formArrayData[this.rowId].select_status,
-         client_name: this.formArrayData[this.rowId].client_name
-       });
-      if(indx.type == "Update"){
-        this.buttonName = "Add";
+      this.enableSearchButton = false;
+
+      if (indx.type == 1){
+       this.buttonName = 'Update';
+       // indx.type = 2;
       }
+       else {
+        if (this.buttonName == 'Update') {
+          this.buttonName = 'Add'
+          this.form.reset();
+        }
+       }
+ 
       
+     // this.formArrData = this.service.getDataa(this.rowId);
+     this.formArrData = this.service.getDataaaaaaa(this.rowId);
+      this.form.patchValue({
+        //  select_status: this.formArrayData[this.rowId].select_status,
+        //  client_name: this.formArrayData[this.rowId].client_name
+        select_status: this.formArrData['select_status'],
+        client_name: this.formArrData['client_name']
+      });
+
+
     });
+
 
     // this.service.edit_Obj$.subscribe((res)=>{
     //   this.formArrayData = this.service.getData();
@@ -61,10 +74,7 @@ export class ActionsComponent implements OnInit {
     // this.service.editIdd$.subscribe((ind)=>{
     //   this.rowId = ind.id;
     //   console.log(this.rowId);
-
-      
     // });
-
 
     // this.service.form$.subscribe(()=>{
     //   this.buttonName = "Add";
@@ -74,50 +84,65 @@ export class ActionsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.form = this.fb.group({
-      id: [""],
+    this.form = this.fb.group({    
       select_status: [""],
       client_name: [""],
-      color: [""],
-      status: [""]
     });
-    
+    this.btnArray = this.service.buttonValue;
     this.submitted = false;
     this.buttonName = "Add";
     
-    this.enable_Search_Button = true;
-    
-    this.formArrayData = this.service.getData();
-    console.log("OnInit actions Data:--",this.formArrayData);
+    this.enableSearchButton = true;
+   
+    // this.formArrayData = this.service.getData();
+    //console.log("OnInit actions Data:--",this.formArrayData);
   }
 
   onSubmit(){
     console.log(this.selectedOptIndx);
+    
     let formObj = this.form.value;
     console.log("FormObject:====",formObj);
     
-    this.selectedOptIndx = this.statusArray.findIndex((x) => x.value == this.selectedOption);
+    this.selectedOptIndx = this.btnArray.findIndex((x) => x.value == this.selectedOption);
+    
+    this.selectedOptionId = this.btnArray.find(x=>x.value == this.selectedOption);
+    console.log(this.selectedOptionId);
+    
     console.log(this.form);
+
+    //this.formArrData = this.service.getDataa(this.rowId);
+    this.formArrData = this.service.getDataaaaaaa(this.rowId);
+    this.len = this.service.getData().length;
+    
+
     try{
 
       if(this.buttonName == "Add"){
 
-        formObj.id = this.formArrayData.length + 1;
-        formObj.color = this.statusArray[this.selectedOptIndx].color;
+        //this.len ++;
+        formObj.color = this.selectedOptionId['color'];
+        formObj.id = this.len + 1;
         formObj.status = true;
 
         this.service.pushData(formObj);
         this.form.reset();
+        this.len ++;
       }
       else{
         //Update
+        console.log("Form Array Object:-",this.formArrData);
+        this.formArrData['select_status'] = this.selectedOption;
+        this.formArrData['client_name'] = this.clientName_value;
+        this.formArrData['color'] = this.selectedOptionId['color'];
 
-        this.formArrayData[this.rowId].select_status = this.selectedOption;
-        this.formArrayData[this.rowId].client_name = this.clientName_value;
-        this.formArrayData[this.rowId].color = this.statusArray[this.selectedOptIndx].color;
+        // this.formArrayData[this.rowId].select_status = this.selectedOption;
+        // this.formArrayData[this.rowId].client_name = this.clientName_value;
+        // this.formArrayData[this.rowId].color = this.statusArray[this.selectedOptIndx].color;
         this.form.reset();
         this.buttonName = "Add";
-        this.enable_Search_Button = true;
+        this.enableSearchButton = true;
+       // this.service.delBtn();
       }
     }catch(error){}
   }
@@ -125,7 +150,7 @@ export class ActionsComponent implements OnInit {
 
   search(){
 
-    let searched_Array = this.formArrayData.map((res)=>{
+    let searchedArray = this.service.getData().map((res)=>{
 
       console.log("Mapped result:--",res);
 
@@ -152,8 +177,8 @@ export class ActionsComponent implements OnInit {
       
       return res;
     });
-    console.log("Searched Array (Mapped arr:):=->",searched_Array);
-    this.formArrayData = searched_Array;
+    console.log("Searched Array (Mapped arr:):=->",searchedArray);
+    this.formArrayData = searchedArray;
     console.log("FormArrayData:------",this.formArrayData);
     
    // this.service.disp_searchData(this.formArrayData);
@@ -163,8 +188,15 @@ export class ActionsComponent implements OnInit {
   
   deleteData() {
     
-    this.enable_Search_Button = true;
-    this.formArrayData.splice(this.rowId, 1);
+    this.enableSearchButton = true;
+    //delete this.form_Arr_Data;
+    console.log(this.rowId);
+    
+    this.service.deleteItem(this.rowId);
+    
+    //this.service.getData().splice(this.rowId,1);
+    this.len --;
+    //this.formArrayData.splice(this.rowId, 1);
     console.log("FormArrayData after delete:===>",this.formArrayData);
     this.buttonName = "Add";
     this.form.reset();
@@ -212,6 +244,25 @@ export class ActionsComponent implements OnInit {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// statusArray = [
+  //   { id: 1, value: "i'm Available", color: "#00A36C" },
+  //   { id: 2, value: "i'm not Available", color: "#E34234" },
+  //   { id: 3, value: "i'm in Meeting", color: "#FFD700" },
+  // ];
 
 
 

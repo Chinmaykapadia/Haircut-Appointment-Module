@@ -15,7 +15,12 @@ import { Subject } from 'rxjs/Subject';
 export class StatusServiceService {
 
   array_data = [];
-  type = "Add";
+  buttonValue = [
+    { id: 1, value: "i'm Available", color: "#00A36C" },
+    { id: 2, value: "i'm not Available", color: "#E34234" },
+    { id: 3, value: "i'm in Meeting", color: "#FFD700" },
+  ];
+
   //public data = [];
   
   // private name = new Subject<string>();
@@ -33,6 +38,8 @@ export class StatusServiceService {
   private editIdd = new Subject<any>();
   editIdd$ = this.editIdd.asObservable();
 
+  private deletBtn = new Subject<any>();
+  deletBtn$ = this.deletBtn.asObservable();
 
   constructor() { }
 
@@ -46,6 +53,23 @@ export class StatusServiceService {
     return this.array_data;
   }
 
+  getDataa(index: number){
+    return this.array_data[index];
+  }
+
+  getDataaaaaaa(id: number){
+    return this.array_data.find(x=>x.id == id);
+  }
+
+  deleteItem(id: number){
+    //delete this.array_data[index];
+    const ind = this.array_data.indexOf(id);
+    return this.array_data.splice(ind,1);
+  }
+
+  delBtn(){
+    this.deletBtn.next();
+  }
   // changeButtonName(data: string){
   //   this.name.next(data);
   // }
@@ -54,23 +78,24 @@ export class StatusServiceService {
   //   this.editId.next(index);
   // }
 
-  getEditId(index: number,type: string){
-    this.editId.next({id:index,type:"Update"});
+  getEditId(index: number, type: number){
+    this.editId.next({id:index,type:1});
   }
 
-  getEditIdd(index: number,type: string){
-    this.editIdd.next({id:index,type:"Add"});
-  }
-
+  
   // ptchVal(indx: number){
-  //   this.edit_Obj.next(this.array_data[indx]);
-  //   console.log("Observable:<===--->",this.edit_Obj$);
-  //   console.log("Subject:>>>>>>",this.edit_Obj);
+    //   this.edit_Obj.next(this.array_data[indx]);
+    //   console.log("Observable:<===--->",this.edit_Obj$);
+    //   console.log("Subject:>>>>>>",this.edit_Obj);
     
-  //   // console.log(this.array_data[indx]);
-  //   // return this.array_data[indx];
-  // }
+    //   // console.log(this.array_data[indx]);
+    //   // return this.array_data[indx];
+    // }
 
+    getEditIdd(index: number,type: string){
+      this.editIdd.next({id:index,type:"Add"});
+    }
+    
   //enable search btn.
   sendForm(){
     this.form.next();

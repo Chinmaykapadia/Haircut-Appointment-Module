@@ -5,7 +5,7 @@
             <label>Select Status:-</label>
             <select [(ngModel)]="selectedOption" formControlName="select_status">
                 <option></option>
-                <option *ngFor="let item of statusArray">{{ item.value }}</option>
+                <option *ngFor="let item of btnArray">{{ item.value }}</option>
             </select>
         </div>
         <div class="clientname">
@@ -14,8 +14,8 @@
         </div>
         <div class="addBtn">
             <button class="btn btn-success" (click)="onSubmit()"> {{buttonName}} </button>&nbsp;
-            <button class="btn btn-danger" *ngIf="formArrayData.length > 0" (click)="deleteData()"> Delete </button>&nbsp;
-            <button class="btn btn-primary" *ngIf="enable_Search_Button" (click)="search()"> Search </button>
+            <button class="btn btn-danger" *ngIf="this.len > 0" (click)="deleteData()"> Delete </button>&nbsp;
+            <button class="btn btn-primary" *ngIf="enableSearchButton" (click)="search()"> Search </button>
         </div>
     </div>
 </form>

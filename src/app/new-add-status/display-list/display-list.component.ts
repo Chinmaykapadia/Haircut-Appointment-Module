@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { StatusServiceService } from '../../add-status-shared/services/status-service.service';
 import { FormGroup } from '@angular/forms';
 
+
 @Component({
   selector: 'app-display-list',
   templateUrl: './display-list.component.html',
@@ -12,26 +13,30 @@ export class DisplayListComponent implements OnInit {
   
   submitted: boolean;
   data: any;
-  buttonValue = [
-    { id: 1, value: "i'm Available", color: "#00A36C" },
-    { id: 2, value: "i'm not Available", color: "#E34234" },
-    { id: 3, value: "i'm in Meeting", color: "#FFD700" },
-  ];
-
+  len: number;
+  delBtn: boolean;
+  btnArray;
   constructor(private service: StatusServiceService) {   
-    
+    // this.service.deletBtn$.subscribe((res)=>{
+    //   this.delBtn = true;
+      
+    // });
   }
 
   ngOnInit() {
+    this.btnArray = this.service.buttonValue;
     this.submitted = true;
-     this.data = this.service.getData();
+    this.data = this.service.getData();
     console.log("OnInit display Data:===",this.data);
-    
+    this.len = this.service.getData().length;
+    this.delBtn = true;
   }
 
-  update_Data(i_:number,type: string){
+  update_Data(i_:number,type: number){
     
     //this.service.changeButtonName("Update");
+    //this.delBtn = false;
+    //type = 2;
     this.service.getEditId(i_,type);
     //this.service.getEditIdd(i_,type);
     //this.service.ptchVal(i_);
@@ -40,16 +45,21 @@ export class DisplayListComponent implements OnInit {
   
   deleteData(i_: number){
     this.data.splice(i_, 1);
+    this.len --;
+    //type = 2;
+    //this.service.getEditId(i_);
     console.log("Data after delete:===>",this.data);
-    this.service.sendForm();
+    //this.service.sendForm();
   }
   
   onStatusBtnClick(i_: number, index: number) {
     
     try{
-      
-      this.data[i_].select_status = this.buttonValue[index].value;
-      this.data[i_].color = this.buttonValue[index].color;
+
+      this.data[i_].select_status = this.btnArray[index].value;
+      this.data[i_].color = this.btnArray[index].color;
+      //this.data[i_].select_status = this.buttonValue[index].value;
+      //this.data[i_].color = this.buttonValue[index].color;
       
     }catch(error){}
     
