@@ -1,0 +1,12 @@
+<div class="jumbotron">
+    <h3 class="heading" style="margin-left: 50px;"> Manage Status</h3>
+</div>
+
+<div class="body">
+    <app-form [statusArray]="statusArray" (arrayData)="receiveArrayData($event)" (formGrp)="receiveFormGroup($event)" [rowId]="rowId" [name]="btnName"></app-form>
+    <div class="display">
+        <app-disp-form-data [statusArray]="statusArray" [arrayData]="arrayData" [formGrp]="form" (rowInd)="receiveId($event)" (emitDeleteData)="receiveArrayData($event)"></app-disp-form-data>
+    </div>
+</div>
+
+

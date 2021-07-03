@@ -1,0 +1,20 @@
+<form [formGroup]="form">
+    <div class="card" style="border: 1px solid;">
+        <div class="dropdown">
+            <label>Select Status:-</label>
+            <select [(ngModel)]="selectedOption" formControlName="select_status">
+                <option></option>
+                <option *ngFor="let item of statusArray">{{ item.value }}</option>
+            </select>
+        </div>
+        <div class="clientname">
+            <label>Client Name:-</label>
+            <input type="text" [(ngModel)]="clientName_value" formControlName="client_name" >
+        </div>
+        <div class="addBtn">
+            <button class="btn btn-success" (click)="onSubmit()"> {{buttonName}} </button>&nbsp;
+            <button class="btn btn-danger" *ngIf="formArrayData.length > 0" (click)="deleteData()"> Delete </button>&nbsp;
+            <button class="btn btn-primary" *ngIf="enableSearchButton" (click)="search()"> Search </button>
+        </div>
+    </div>
+</form>
