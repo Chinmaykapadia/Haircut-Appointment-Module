@@ -1,14 +1,14 @@
 <div class="row">
     <h3> Data:- </h3>
     <div *ngIf="submitted" style="border: 2px solid;margin: 10px;">
-        <div *ngFor="let item of arrayData; let i_ = index" style="margin: 20px;">
+        <div *ngFor="let item of mainArrayData; let i_ = index" style="margin: 20px;">
             <div *ngIf="item.status == true">
                 <div>
                     <div>  
                         <label> Client Name:- </label>
                         <label> {{ item.client_name }}</label>
-                        <button class="btn btn-secondary" style="margin-left:70%" (click)="update_Data(item.id,i_)"> Edit </button>
-                        <button class="btn btn-secondary" style="margin-left:5px" (click)="deleteData(item.id,i_)"> Delete </button>
+                        <button class="btn btn-secondary" style="margin-left:70%" (click)="update_Data(i_,item.id)"> Edit </button>
+                        <button class="btn btn-secondary" style="margin-left:5px" (click)="deleteData(i_,item.id)"> Delete </button>
                     </div>
                     <div>
                         <label> Status:-  </label>

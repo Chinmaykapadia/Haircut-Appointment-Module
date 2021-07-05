@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, OnChanges } from '@angular/core';
 import { FormGroup,FormBuilder } from '@angular/forms';
 import { EventEmitter } from '@angular/core';
-
+import { CommonServiceService } from '../../status-parent-child/common-service.service';
 
 @Component({
   selector: 'app-form',
@@ -10,11 +10,14 @@ import { EventEmitter } from '@angular/core';
 })
 export class FormComponent implements OnChanges,OnInit {
 
-  @Input() statusArray = [];
-  @Input() rowId: number;
-  @Input() name: string;
+  statusArray = [];
+  //@Input() name: string;
   @Input() index: number
+  @Input() formObject: any;
   @Output() arrayData: EventEmitter<any[]> = new EventEmitter<any[]>();
+  @Output() arrayUpdData = new EventEmitter();
+  @Output() deleteArrayData = new EventEmitter();
+  //@Input() rowId: number;
   //@Output() formGrp = new EventEmitter();
 
   
@@ -27,16 +30,16 @@ export class FormComponent implements OnChanges,OnInit {
   buttonName: string;
 
   selectedOptionId: number;
-  formArrData: Object = {};
   
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private service: CommonServiceService ) { }
 
   ngOnChanges(){
-    this.buttonName = this.name;
-    //this.buttonName = "Add";
+    this.buttonName = "Update";
+  
   }
 
   ngOnInit() {
+    this.statusArray = this.service.statusArray;
     this.form = this.fb.group({
       select_status: [""],
       client_name: [""]
@@ -53,49 +56,43 @@ export class FormComponent implements OnChanges,OnInit {
     this.selectedOptionId = this.statusArray.find(x=>x.value == this.selectedOption);
     console.log(this.selectedOptionId);
 
-    let emitData:any = {array: this.formArrayData, formG: this.form};
-    let findObject = this.formArrayData.find(x=>x.id == this.rowId);
+    
     try{
-
+      
       if(this.buttonName == "Add"){
-        //formObj.id = this.formArrayData.length + 1;
+
+        let emitData: any = { array: formObj, formG: this.form, ind: this.index };
+        
+        formObj.id = "";
         formObj.color = this.selectedOptionId['color'];
         formObj.status = true;
   
-        this.formArrayData.push(formObj);
+        this.arrayData.emit(emitData);
         this.form.reset();
         console.log(this.formArrayData);
         
       }else{
-        let findObject = this.formArrayData.find(x=>x.id == this.rowId);
-        // const newObj = {
-        //   select_status: this.selectedOption,
-        //   client_name: this.clientName_value
-        // };
-        //findObject = newObj;
-        this.formArrayData[this.index].select_status = this.selectedOption;
-        this.formArrayData[this.index].client_name = this.clientName_value;
-        this.formArrayData[this.index].color = this.selectedOptionId['color'];
-
-        // findObject.select_status = this.selectedOption;
-        // findObject.client_name = this.clientName_value;
-        // findObject.color = this.selectedOptionId['color'];
+        //let findObject = this.formArrayData.find(x=>x.id == this.rowId);
+        let dataObjectId = this.formObject.id;
+        console.log(dataObjectId);
+        
+        let emitD:any = { array: formObj, formG: this.form, ind: this.index, dataId: dataObjectId };
+        formObj.color = this.selectedOptionId['color'];
+        formObj.status = true;
+        this.arrayData.emit(emitD);
+        //this.arrayUpdData.emit(emitD);
+      
         this.buttonName = "Add";
         this.form.reset();
       }
     }catch(error){}
-    this.arrayData.emit(emitData);
-    //this.arrayData.emit(this.formArrayData);
-    //this.formGrp.emit(this.form);
+    
   }
 
   deleteData(){
-    let findObject = this.formArrayData.find(x=>x.id == this.rowId);
-
-    this.formArrayData.splice(this.index, 1);
-    this.form
-    console.log(findObject);
-    
+  
+    //this.mainArrayData.splice(this.index, 1);
+    this.deleteArrayData.emit({dataId: this.formObject.id});
     this.form.reset();
     this.buttonName = "Add";
     console.log(this.formArrayData);
@@ -134,3 +131,120 @@ export class FormComponent implements OnChanges,OnInit {
     console.log("FormArrayData:------",this.formArrayData);
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// onSubmit(){
+
+//   let formObj = this.form.value;
+//   console.log("FormObject:====",formObj);
+
+//   this.selectedOptionId = this.statusArray.find(x=>x.value == this.selectedOption);
+//   console.log(this.selectedOptionId);
+
+//   let emitData:any = { array: this.formArrayData, formG: this.form, mainArray: this.mainArrayData};
+//   //let findObject = this.formArrayData.find(x=>x.id == this.rowId);
+//   try{
+
+//     if(this.buttonName == "Add"){
+//       //formObj.id = this.formArrayData.length + 1;
+//       formObj.color = this.selectedOptionId['color'];
+//       formObj.status = true;
+
+//       this.formArrayData.push(formObj);
+//       this.mainArrayData.push(formObj);
+//       this.form.reset();
+//       console.log(this.formArrayData);
+      
+//     }else{
+//       //let findObject = this.formArrayData.find(x=>x.id == this.rowId);
+//       // const newObj = {
+//       //   select_status: this.selectedOption,
+//       //   client_name: this.clientName_value
+//       // };
+//       //findObject = newObj;
+//       this.mainArrayData[this.index].select_status = this.selectedOption;
+//       this.mainArrayData[this.index].client_name = this.clientName_value;
+//       this.mainArrayData[this.index].color = this.selectedOptionId['color'];
+
+//       // findObject.select_status = this.selectedOption;
+//       // findObject.client_name = this.clientName_value;
+//       // findObject.color = this.selectedOptionId['color'];
+//       this.buttonName = "Add";
+//       this.form.reset();
+//     }
+//   }catch(error){}
+//   this.arrayData.emit(emitData);
+//   //this.arrayData.emit(this.formArrayData);
+//   //this.formGrp.emit(this.form);
+// }
+
+// deleteData(){
+//  // let findObject = this.formArrayData.find(x=>x.id == this.rowId);
+
+//   //this.formArrayData.splice(this.index, 1);
+
+//   this.mainArrayData.splice(this.index, 1);
+//   //this.form
+//   //console.log(findObject);
+  
+//   this.form.reset();
+//   this.buttonName = "Add";
+//   console.log(this.formArrayData);
+// }

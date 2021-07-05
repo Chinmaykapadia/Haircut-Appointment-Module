@@ -13,7 +13,7 @@
         </div>
         <div class="addBtn">
             <button class="btn btn-success" (click)="onSubmit()"> {{buttonName}} </button>&nbsp;
-            <button class="btn btn-danger" *ngIf="formArrayData.length > 0" (click)="deleteData()"> Delete </button>&nbsp;
+            <button class="btn btn-danger" (click)="deleteData()"> Delete </button>&nbsp;
             <button class="btn btn-primary" *ngIf="enableSearchButton" (click)="search()"> Search </button>
         </div>
     </div>

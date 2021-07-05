@@ -3,11 +3,50 @@
 </div>
 
 <div class="body">
-    <!-- <app-form [statusArray]="statusArray" (arrayData)="receiveArrayData($event)" (formGrp)="receiveFormGroup($event)" [rowId]="rowId" [name]="btnName" [index]="index"></app-form> -->
-    <app-form [statusArray]="statusArray" (arrayData)="receiveArrayData($event)" [rowId]="rowId" [name]="btnName" [index]="index"></app-form>
+    <!-- <app-form [statusArray]="statusArray" (arrayData)="receiveArrayData($event)" [mainArrayLen]="arrLength" [formObject]="formObject" [name]="btnName" [index]="index"></app-form> -->
+    <app-form (arrayData)="receiveArrayData($event)" (deleteArrayData)="deletData($event)" [formObject]="formObject" ></app-form>
     <div class="display">
-        <app-disp-form-data [statusArray]="statusArray" [arrayData]="arrayData" [formGrp]="form" (rowInd)="receiveId($event)" ></app-disp-form-data>
+        <app-disp-form-data [mainArrayData]="mainFormArray" (rowData)="receiveId($event)" [formGrp]="formToPatchValue" ></app-disp-form-data>
     </div>
 </div>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <app-form [statusArray]="statusArray" (arrayData)="receiveArrayData($event)" (formGrp)="receiveFormGroup($event)" [rowId]="rowId" [name]="btnName" [index]="index"></app-form> -->
