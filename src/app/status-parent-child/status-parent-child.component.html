@@ -3,9 +3,10 @@
 </div>
 
 <div class="body">
-    <app-form [statusArray]="statusArray" (arrayData)="receiveArrayData($event)" (formGrp)="receiveFormGroup($event)" [rowId]="rowId" [name]="btnName"></app-form>
+    <!-- <app-form [statusArray]="statusArray" (arrayData)="receiveArrayData($event)" (formGrp)="receiveFormGroup($event)" [rowId]="rowId" [name]="btnName" [index]="index"></app-form> -->
+    <app-form [statusArray]="statusArray" (arrayData)="receiveArrayData($event)" [rowId]="rowId" [name]="btnName" [index]="index"></app-form>
     <div class="display">
-        <app-disp-form-data [statusArray]="statusArray" [arrayData]="arrayData" [formGrp]="form" (rowInd)="receiveId($event)" (emitDeleteData)="receiveArrayData($event)"></app-disp-form-data>
+        <app-disp-form-data [statusArray]="statusArray" [arrayData]="arrayData" [formGrp]="form" (rowInd)="receiveId($event)" ></app-disp-form-data>
     </div>
 </div>
 

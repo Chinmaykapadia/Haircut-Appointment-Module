@@ -15,8 +15,11 @@ export class StatusParentChildComponent implements OnInit,AfterViewInit {
   ];
   arrayData = [];
   form: FormGroup;
+ 
   rowId: number;
   btnName: string;
+  index: number;
+
   constructor() { }
 
   ngOnInit() {
@@ -28,22 +31,24 @@ export class StatusParentChildComponent implements OnInit,AfterViewInit {
     
   }
   receiveArrayData($event){
-    this.arrayData = $event;
+    this.arrayData = $event.array;
+    this.form = $event.formG;
     console.log("Received Data",this.arrayData);
   }
-  receiveFormGroup($event){
-    this.form = $event;
-    console.log("Form Group:",this.form);
-  }
+  // receiveFormGroup($event){
+  //   this.form = $event;
+  //   console.log("Form Group:",this.form);
+  // }
   receiveId($event){
     this.rowId = $event.id;
     this.btnName = $event.name;
+    this.index = $event.index;
     console.log(this.rowId);
     console.log(this.btnName);
-    
+    console.log(this.index);
   }
 
-  receiveDelateData($event){
-    this.btnName = $event;
-  }
+  // receiveDelateData($event){
+  //   this.btnName = $event;
+  // }
 }

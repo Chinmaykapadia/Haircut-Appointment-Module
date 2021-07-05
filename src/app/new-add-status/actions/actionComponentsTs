@@ -93,7 +93,9 @@ export class ActionsComponent implements OnInit {
     this.buttonName = "Add";
     
     this.enableSearchButton = true;
-  
+   
+    // this.formArrayData = this.service.getData();
+    //console.log("OnInit actions Data:--",this.formArrayData);
   }
 
   onSubmit(){
@@ -140,6 +142,7 @@ export class ActionsComponent implements OnInit {
         this.form.reset();
         this.buttonName = "Add";
         this.enableSearchButton = true;
+       // this.service.delBtn();
       }
     }catch(error){}
   }
@@ -186,8 +189,12 @@ export class ActionsComponent implements OnInit {
   deleteData() {
     
     this.enableSearchButton = true;
+    //delete this.form_Arr_Data;
     console.log(this.rowId);
+    
     this.service.deleteItem(this.rowId);
+    
+    //this.service.getData().splice(this.rowId,1);
     this.len --;
     //this.formArrayData.splice(this.rowId, 1);
     console.log("FormArrayData after delete:===>",this.formArrayData);

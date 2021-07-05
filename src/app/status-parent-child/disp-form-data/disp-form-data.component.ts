@@ -12,7 +12,7 @@ export class DispFormDataComponent implements OnChanges,OnInit {
   @Input() arrayData = [];
   @Input() formGrp: FormGroup;
   @Output() rowInd = new EventEmitter();
-  @Output() emitDeleteData = new EventEmitter();
+  //@Output() emitDeleteData = new EventEmitter();
 
   submitted: boolean;
   data: any;
@@ -32,29 +32,32 @@ export class DispFormDataComponent implements OnChanges,OnInit {
   }
   update_Data(id: number, i_: number){
 
-    const findId = this.arrayData.find(x=>x.id == id);
-    console.log("Find Id",findId);
-    this.rowId = findId.id;
+    const findObject = this.arrayData.find(x=>x.id == id);
+    console.log("Find Id",findObject);
+    this.rowId = findObject.id;
 
-    let emitData = { id: this.rowId, name: "Update" };
+    let emitData = { id: this.rowId, name: "Update", index:i_ };
 
     try{
 
       this.formGrp.patchValue({
-        // select_status: this.arrayData[i_].select_status,
-        // client_name: this.arrayData[i_].client_name
+        select_status: this.arrayData[i_].select_status,
+        client_name: this.arrayData[i_].client_name
 
-        select_status: findId.select_status,
-        client_name: findId.client_name
+        // select_status: findObject.select_status,
+        // client_name: findObject.client_name
       });
       console.log("FormGroup Value:",this.formGrp.value);
     }catch(error){}
     this.rowInd.emit(emitData);
   }
-  deleteData(i_){
-    const findId = this.arrayData.find(x=>x.id == i_);
-    this.arrayData.splice(findId,1);
-    //this.emitDeleteData.emit("Add");
+  deleteData(id,i_){
+    let emitData = { id: this.rowId, name: "Add", index:i_ };
+
+    const findObject = this.arrayData.find(x=>x.id == id);
+    this.arrayData.splice(i_,1);
+    this.rowInd.emit(emitData);
+    this.formGrp.reset();
   }
 
   onStatusBtnClick(i_: number , index: number){

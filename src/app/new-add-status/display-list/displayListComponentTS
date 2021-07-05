@@ -17,7 +17,10 @@ export class DisplayListComponent implements OnInit {
   delBtn: boolean;
   btnArray;
   constructor(private service: StatusServiceService) {   
-   
+    // this.service.deletBtn$.subscribe((res)=>{
+    //   this.delBtn = true;
+      
+    // });
   }
 
   ngOnInit() {
@@ -31,8 +34,12 @@ export class DisplayListComponent implements OnInit {
 
   update_Data(i_:number,type: number){
     
+    //this.service.changeButtonName("Update");
+    //this.delBtn = false;
     //type = 2;
     this.service.getEditId(i_,type);
+    //this.service.getEditIdd(i_,type);
+    //this.service.ptchVal(i_);
     
   }
   
