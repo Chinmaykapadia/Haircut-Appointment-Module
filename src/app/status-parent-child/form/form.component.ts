@@ -12,7 +12,7 @@ export class FormComponent implements OnChanges,OnInit {
 
   statusArray = [];
   //@Input() name: string;
-  @Input() index: number
+  //@Input() index: number
   @Input() formObject: any;
   @Output() arrayData: EventEmitter<any[]> = new EventEmitter<any[]>();
   @Output() arrayUpdData = new EventEmitter();
@@ -61,9 +61,9 @@ export class FormComponent implements OnChanges,OnInit {
       
       if(this.buttonName == "Add"){
 
-        let emitData: any = { array: formObj, formG: this.form, ind: this.index };
+        let emitData: any = { object: formObj, formG: this.form };
         
-        formObj.id = "";
+        //formObj.id = "";
         formObj.color = this.selectedOptionId['color'];
         formObj.status = true;
   
@@ -71,16 +71,17 @@ export class FormComponent implements OnChanges,OnInit {
         this.form.reset();
         console.log(this.formArrayData);
         
+        
       }else{
         //let findObject = this.formArrayData.find(x=>x.id == this.rowId);
         let dataObjectId = this.formObject.id;
         console.log(dataObjectId);
         
-        let emitD:any = { array: formObj, formG: this.form, ind: this.index, dataId: dataObjectId };
+        let emitD:any = { object: formObj, formG: this.form, dataId: dataObjectId };
         formObj.color = this.selectedOptionId['color'];
         formObj.status = true;
         this.arrayData.emit(emitD);
-        //this.arrayUpdData.emit(emitD);
+       // this.arrayUpdData.emit(emitD);
       
         this.buttonName = "Add";
         this.form.reset();

@@ -14,9 +14,6 @@ export class DispFormDataComponent implements OnChanges,OnInit {
   @Output() rowData = new EventEmitter();
 
   submitted: boolean;
-  data: any;
-  len: number;
-  delBtn: boolean;
   rowId: any;
   btnName: string;
   constructor( private service: CommonServiceService ) { }
@@ -62,7 +59,7 @@ export class DispFormDataComponent implements OnChanges,OnInit {
     this.mainArrayData.splice(delData,1);
     this.rowData.emit(emitData);
     this.formGrp.reset();
-    this.btnName = "Add";
+    //this.btnName = "Add";
   }
 
   onStatusBtnClick(i_: number , index: number){

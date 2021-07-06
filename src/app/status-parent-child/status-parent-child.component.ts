@@ -30,18 +30,20 @@ export class StatusParentChildComponent implements OnInit,AfterViewInit {
   }
 
   ngAfterViewInit() {
+   
     //this.receiveArrayData;
-    
   }
+
   receiveArrayData($event){
-    this.arrayData = $event.array;
+    this.arrayData = $event.object;
+
     this.arrayData['id'] = this.idField;
     this.formToPatchValue = $event.formG;
     console.log(this.formToPatchValue);
     
      //this.index = $event.ind;
 
-    console.log("receasdfdf",this.arrayData);
+    console.log("receasdfdf", this.arrayData);
 
     if(this.btnName == "Update"){
       this.rowId = $event.dataId;
@@ -51,6 +53,7 @@ export class StatusParentChildComponent implements OnInit,AfterViewInit {
       console.log(this.mainFormArray);
       console.log('=======>>>>>>>22222',this.mainFormArray);
     }else{
+      this.arrayData['id'] = this.idField;
       this.mainFormArray.push(this.arrayData);
       this.idField++;
       console.log("After adding:--",this.mainFormArray);
@@ -65,7 +68,7 @@ export class StatusParentChildComponent implements OnInit,AfterViewInit {
     this.btnName = $event.name;
     console.log(this.btnName);
     
-    this.index = $event.index;
+    //this.index = $event.index;
     //this.id = $event.id;
 
     console.log(this.id);
@@ -93,6 +96,7 @@ export class StatusParentChildComponent implements OnInit,AfterViewInit {
   //   console.log(this.mainFormArray);
     
   // }
+
   deletData($event){
     this.rowId = $event.dataId;
     console.log("Row Id for delete:--=-",this.rowId);
