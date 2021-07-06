@@ -11,30 +11,37 @@ import { CommonServiceService } from '../../status-parent-child/common-service.s
 export class FormComponent implements OnChanges,OnInit {
 
   statusArray = [];
-  //@Input() name: string;
-  //@Input() index: number
+  
   @Input() formObject: any;
-  @Output() arrayData: EventEmitter<any[]> = new EventEmitter<any[]>();
-  @Output() arrayUpdData = new EventEmitter();
-  @Output() deleteArrayData = new EventEmitter();
-  //@Input() rowId: number;
-  //@Output() formGrp = new EventEmitter();
-
+  @Input() actionType: number;
+  @Output() objectData: EventEmitter<any[]> = new EventEmitter<any[]>();
+  //@Output() SearchData = new EventEmitter();
   
   submitted: boolean;
   enableSearchButton: boolean;
   form: FormGroup;
-  formArrayData = [];
   selectedOption: string;
   clientName_value: string;
   buttonName: string;
-
-  selectedOptionId: number;
+  enableDeletButton: boolean;
+  selectedOptionObj: number;
   
   constructor(private fb: FormBuilder, private service: CommonServiceService ) { }
 
   ngOnChanges(){
-    this.buttonName = "Update";
+    if(this.actionType == 1){
+      this.form.patchValue({
+        select_status: this.formObject['select_status'],
+        client_name: this.formObject['client_name']
+      });
+      this.buttonName = "Update";
+      this.enableDeletButton = true;
+      this.enableSearchButton = false;
+    }else{
+      this.buttonName = "Add";
+      this.enableDeletButton = false;
+      this.enableSearchButton = true;
+    }
   
   }
 
@@ -46,6 +53,7 @@ export class FormComponent implements OnChanges,OnInit {
     });
     this.buttonName = "Add"
     this.enableSearchButton = true;
+    this.enableDeletButton = false;
   }
 
   onSubmit(){
@@ -53,37 +61,36 @@ export class FormComponent implements OnChanges,OnInit {
     let formObj = this.form.value;
     console.log("FormObject:====",formObj);
 
-    this.selectedOptionId = this.statusArray.find(x=>x.value == this.selectedOption);
-    console.log(this.selectedOptionId);
+    this.selectedOptionObj = this.statusArray.find(x=>x.value == this.selectedOption);
+    console.log("Selected Option Object:-",this.selectedOptionObj);
 
     
     try{
       
       if(this.buttonName == "Add"){
 
-        let emitData: any = { object: formObj, formG: this.form };
+        let emitData: any = { object: formObj, action: "Add" };
         
-        //formObj.id = "";
-        formObj.color = this.selectedOptionId['color'];
+        formObj.color = this.selectedOptionObj['color'];
         formObj.status = true;
   
-        this.arrayData.emit(emitData);
+        this.objectData.emit(emitData);
         this.form.reset();
-        console.log(this.formArrayData);
         
+      }
+      else{
         
-      }else{
-        //let findObject = this.formArrayData.find(x=>x.id == this.rowId);
         let dataObjectId = this.formObject.id;
         console.log(dataObjectId);
         
-        let emitD:any = { object: formObj, formG: this.form, dataId: dataObjectId };
-        formObj.color = this.selectedOptionId['color'];
+        let emitData:any = { object: formObj, dataId: dataObjectId, action: "Update" };
+        formObj.color = this.selectedOptionObj['color'];
         formObj.status = true;
-        this.arrayData.emit(emitD);
-       // this.arrayUpdData.emit(emitD);
+        this.objectData.emit(emitData);
       
         this.buttonName = "Add";
+        this.enableDeletButton = false;
+        this.enableSearchButton = true;
         this.form.reset();
       }
     }catch(error){}
@@ -92,160 +99,24 @@ export class FormComponent implements OnChanges,OnInit {
 
   deleteData(){
   
-    //this.mainArrayData.splice(this.index, 1);
-    this.deleteArrayData.emit({dataId: this.formObject.id});
+    let emitData: any = { dataId: this.formObject.id, action: "Delete" };
+    this.objectData.emit(emitData);
+    //this.deleteOrSearchData.emit(emitData);
     this.form.reset();
     this.buttonName = "Add";
-    console.log(this.formArrayData);
+    this.enableDeletButton = false;
+    this.enableSearchButton = true;
+
   }
 
   search(){
-    let searchedArray = this.formArrayData.map((res)=>{
+    
+    let emitData: any = { action: "Search", status: this.selectedOption, name: this.clientName_value };
+    this.objectData.emit(emitData);
+    //this.SearchData.emit(emitData);
 
-      console.log("Mapped result:--",res);
-
-      if(this.selectedOption){
-
-          res.status = false;
-          if(res.select_status == this.selectedOption){
-            res.status = true;
-          }
-      }
-      else if(this.clientName_value !== ""){
-       
-          res.status = false;
-          if(res.client_name.includes(this.clientName_value)){
-            res.status = true;
-            
-          }
-      }
-      else{
-
-        res.status = true;
-        
-      }
-      
-      return res;
-    });
-    console.log("Searched Array (Mapped arr:):=->",searchedArray);
-    this.formArrayData = searchedArray;
-    console.log("FormArrayData:------",this.formArrayData);
   }
 }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// onSubmit(){
-
-//   let formObj = this.form.value;
-//   console.log("FormObject:====",formObj);
-
-//   this.selectedOptionId = this.statusArray.find(x=>x.value == this.selectedOption);
-//   console.log(this.selectedOptionId);
-
-//   let emitData:any = { array: this.formArrayData, formG: this.form, mainArray: this.mainArrayData};
-//   //let findObject = this.formArrayData.find(x=>x.id == this.rowId);
-//   try{
-
-//     if(this.buttonName == "Add"){
-//       //formObj.id = this.formArrayData.length + 1;
-//       formObj.color = this.selectedOptionId['color'];
-//       formObj.status = true;
-
-//       this.formArrayData.push(formObj);
-//       this.mainArrayData.push(formObj);
-//       this.form.reset();
-//       console.log(this.formArrayData);
-      
-//     }else{
-//       //let findObject = this.formArrayData.find(x=>x.id == this.rowId);
-//       // const newObj = {
-//       //   select_status: this.selectedOption,
-//       //   client_name: this.clientName_value
-//       // };
-//       //findObject = newObj;
-//       this.mainArrayData[this.index].select_status = this.selectedOption;
-//       this.mainArrayData[this.index].client_name = this.clientName_value;
-//       this.mainArrayData[this.index].color = this.selectedOptionId['color'];
-
-//       // findObject.select_status = this.selectedOption;
-//       // findObject.client_name = this.clientName_value;
-//       // findObject.color = this.selectedOptionId['color'];
-//       this.buttonName = "Add";
-//       this.form.reset();
-//     }
-//   }catch(error){}
-//   this.arrayData.emit(emitData);
-//   //this.arrayData.emit(this.formArrayData);
-//   //this.formGrp.emit(this.form);
-// }
-
-// deleteData(){
-//  // let findObject = this.formArrayData.find(x=>x.id == this.rowId);
-
-//   //this.formArrayData.splice(this.index, 1);
-
-//   this.mainArrayData.splice(this.index, 1);
-//   //this.form
-//   //console.log(findObject);
-  
-//   this.form.reset();
-//   this.buttonName = "Add";
-//   console.log(this.formArrayData);
-// }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, AfterViewInit, OnChanges } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { CommonServiceService } from '../status-parent-child/common-service.service';
 @Component({
@@ -13,15 +13,16 @@ export class StatusParentChildComponent implements OnInit,AfterViewInit {
   mainFormArray = [];
   idField = 1;
 
-  arrayData: any;
-  formToPatchValue: FormGroup;
+  dataObject: any;
   formObject: any;
-  id: number;
+  action: string;
 
   rowId: number;
   btnName: string;
-  index: number;
- // name: string;
+  actionType: number;
+
+  nameOfClient: string;
+  status: string;
 
   constructor( private service: CommonServiceService ) { }
 
@@ -31,100 +32,109 @@ export class StatusParentChildComponent implements OnInit,AfterViewInit {
 
   ngAfterViewInit() {
    
-    //this.receiveArrayData;
   }
 
-  receiveArrayData($event){
-    this.arrayData = $event.object;
+  receiveData($event){
+    this.dataObject = $event.object;
+    this.action = $event.action;
 
-    this.arrayData['id'] = this.idField;
-    this.formToPatchValue = $event.formG;
-    console.log(this.formToPatchValue);
-    
-     //this.index = $event.ind;
+    console.log("ARRAY DATA :::==", this.dataObject);
+    try{
 
-    console.log("receasdfdf", this.arrayData);
+    if(this.action == "Search"){
+      this.SearchData($event);
+    }
 
-    if(this.btnName == "Update"){
+    if(this.action == "Delete"){
+      let dataObjIndex = this.mainFormArray.findIndex(x=>x.id == this.rowId);
+      this.mainFormArray.splice(dataObjIndex,1);
+      console.log('After Delete:-- =======>>>>>>>',this.mainFormArray);
+      this.btnName = "Add";
+    }
+
+    if(this.action == "Update"){
       this.rowId = $event.dataId;
 
       let dataObjIndex = this.mainFormArray.findIndex(x=>x.id == this.rowId);
-      this.mainFormArray[dataObjIndex]=this.arrayData;
-      console.log(this.mainFormArray);
-      console.log('=======>>>>>>>22222',this.mainFormArray);
-    }else{
-      this.arrayData['id'] = this.idField;
-      this.mainFormArray.push(this.arrayData);
+      this.dataObject['id'] = this.rowId;
+      this.mainFormArray[dataObjIndex]=this.dataObject;
+      console.log('Main Array After update :: >>>>>',this.mainFormArray);
+      this.btnName = "Add";
+    }
+    else{
+      //Add:-
+      this.idField;
+      this.dataObject['id'] = this.idField;
+      this.mainFormArray.push(this.dataObject);
       this.idField++;
       console.log("After adding:--",this.mainFormArray);
       
     }
-
-
+    }catch(error){}
+    
   }
 
   receiveId($event){
     this.rowId = $event.dataId;
     this.btnName = $event.name;
-    console.log(this.btnName);
-    
-    //this.index = $event.index;
-    //this.id = $event.id;
+    this.actionType = $event.type;
 
-    console.log(this.id);
+    console.log(this.btnName);
     
     this.formObject = this.mainFormArray.find(x=>x.id == this.rowId);
-    console.log(this.formObject);
-    
-    //this.formObject = this.mainFormArray[this.index];
     console.log("Form Obj --",this.formObject);
-    
-    //console.log(this.rowId);
-    console.log(this.btnName);
-    console.log(this.index);
+ 
   }
 
-  // updateData($event){
-  //   this.arrayData = $event.array;
-  //   this.formToPatchValue = $event.formG;
-  //   // this.name = $event.name;
-  //   // this.index = $event.ind;
-  //   this.rowId = $event.dataId;
-
-  //   let dataObjIndex = this.mainFormArray.findIndex(x=>x.id == this.rowId);
-  //   this.mainFormArray[dataObjIndex]=this.arrayData;
-  //   console.log(this.mainFormArray);
-    
-  // }
-
-  deletData($event){
+  SearchData($event){
     this.rowId = $event.dataId;
+    this.action = $event.action;
+
+    this.status = $event.status
+    this.nameOfClient = $event.name;
+
     console.log("Row Id for delete:--=-",this.rowId);
     
-    let dataObjIndex = this.mainFormArray.findIndex(x=>x.id == this.rowId);
-    this.mainFormArray.splice(dataObjIndex,1);
-    console.log('=======>>>>>>>',this.mainFormArray);
-    
-    //this.idField--;
+    if(this.action == "Search"){
+      let searchedArray = this.mainFormArray.map((res)=>{
+        console.log("Mapped result:--",res);
+  
+        if(this.status){
+  
+          res.status = false;
+          if(res.select_status == this.status){
+            res.status = true;
+          }
+        }
+        else if(this.nameOfClient !== ""){
+         
+          res.status = false;
+          if(res.client_name.includes(this.nameOfClient)){
+            res.status = true;
+          }
+        }
+        else{
+          res.status = true;
+        }
+        
+        return res;
+      });
+      console.log("Searched Array (Mapped arr:):=->",searchedArray);
+      this.mainFormArray = searchedArray;
+      console.log("MainArrayData:------",this.mainFormArray);
+    }
+    // else{ 
+    //   //Delete
+    //   // let dataObjIndex = this.mainFormArray.findIndex(x=>x.id == this.rowId);
+    //   // this.mainFormArray.splice(dataObjIndex,1);
+    //   // console.log('After Delete:-- =======>>>>>>>',this.mainFormArray);
+    //   // this.btnName = "Add";
+    // }
+
   }
+
 }
 
 
 
 
-
-
-
-
-
-
-
-
-// receiveFormGroup($event){
-//   this.form = $event;
-//   console.log("Form Group:",this.form);
-// }
-
-// receiveDelateData($event){
-//   this.btnName = $event;
-// }

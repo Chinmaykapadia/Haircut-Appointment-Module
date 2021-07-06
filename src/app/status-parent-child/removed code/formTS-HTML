@@ -1,0 +1,277 @@
+import { Component, OnInit, Input, Output, OnChanges } from '@angular/core';
+import { FormGroup,FormBuilder } from '@angular/forms';
+import { EventEmitter } from '@angular/core';
+import { CommonServiceService } from '../../status-parent-child/common-service.service';
+
+@Component({
+  selector: 'app-form',
+  templateUrl: './form.component.html',
+  styleUrls: ['./form.component.css']
+})
+export class FormComponent implements OnChanges,OnInit {
+
+  statusArray = [];
+  //@Input() name: string;
+  //@Input() index: number
+  @Input() formObject: any;
+  @Output() arrayData: EventEmitter<any[]> = new EventEmitter<any[]>();
+  @Output() arrayUpdData = new EventEmitter();
+  @Output() deleteArrayData = new EventEmitter();
+  //@Input() rowId: number;
+  //@Output() formGrp = new EventEmitter();
+
+  
+  submitted: boolean;
+  enableSearchButton: boolean;
+  form: FormGroup;
+  formArrayData = [];
+  selectedOption: string;
+  clientName_value: string;
+  buttonName: string;
+
+  selectedOptionId: number;
+  
+  constructor(private fb: FormBuilder, private service: CommonServiceService ) { }
+
+  ngOnChanges(){
+    this.buttonName = "Update";
+  
+  }
+
+  ngOnInit() {
+    this.statusArray = this.service.statusArray;
+    this.form = this.fb.group({
+      select_status: [""],
+      client_name: [""]
+    });
+    this.buttonName = "Add"
+    this.enableSearchButton = true;
+  }
+
+  onSubmit(){
+
+    let formObj = this.form.value;
+    console.log("FormObject:====",formObj);
+
+    this.selectedOptionId = this.statusArray.find(x=>x.value == this.selectedOption);
+    console.log(this.selectedOptionId);
+
+    
+    try{
+      
+      if(this.buttonName == "Add"){
+
+        let emitData: any = { object: formObj, formG: this.form };
+        
+        //formObj.id = "";
+        formObj.color = this.selectedOptionId['color'];
+        formObj.status = true;
+  
+        this.arrayData.emit(emitData);
+        this.form.reset();
+        console.log(this.formArrayData);
+        
+        
+      }else{
+        //let findObject = this.formArrayData.find(x=>x.id == this.rowId);
+        let dataObjectId = this.formObject.id;
+        console.log(dataObjectId);
+        
+        let emitD:any = { object: formObj, formG: this.form, dataId: dataObjectId };
+        formObj.color = this.selectedOptionId['color'];
+        formObj.status = true;
+        this.arrayData.emit(emitD);
+       // this.arrayUpdData.emit(emitD);
+      
+        this.buttonName = "Add";
+        this.form.reset();
+      }
+    }catch(error){}
+    
+  }
+
+  deleteData(){
+  
+    //this.mainArrayData.splice(this.index, 1);
+    this.deleteArrayData.emit({dataId: this.formObject.id});
+    this.form.reset();
+    this.buttonName = "Add";
+    console.log(this.formArrayData);
+  }
+
+  search(){
+    let searchedArray = this.formArrayData.map((res)=>{
+
+      console.log("Mapped result:--",res);
+
+      if(this.selectedOption){
+
+          res.status = false;
+          if(res.select_status == this.selectedOption){
+            res.status = true;
+          }
+      }
+      else if(this.clientName_value !== ""){
+       
+          res.status = false;
+          if(res.client_name.includes(this.clientName_value)){
+            res.status = true;
+            
+          }
+      }
+      else{
+
+        res.status = true;
+        
+      }
+      
+      return res;
+    });
+    console.log("Searched Array (Mapped arr:):=->",searchedArray);
+    this.formArrayData = searchedArray;
+    console.log("FormArrayData:------",this.formArrayData);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// onSubmit(){
+
+//   let formObj = this.form.value;
+//   console.log("FormObject:====",formObj);
+
+//   this.selectedOptionId = this.statusArray.find(x=>x.value == this.selectedOption);
+//   console.log(this.selectedOptionId);
+
+//   let emitData:any = { array: this.formArrayData, formG: this.form, mainArray: this.mainArrayData};
+//   //let findObject = this.formArrayData.find(x=>x.id == this.rowId);
+//   try{
+
+//     if(this.buttonName == "Add"){
+//       //formObj.id = this.formArrayData.length + 1;
+//       formObj.color = this.selectedOptionId['color'];
+//       formObj.status = true;
+
+//       this.formArrayData.push(formObj);
+//       this.mainArrayData.push(formObj);
+//       this.form.reset();
+//       console.log(this.formArrayData);
+      
+//     }else{
+//       //let findObject = this.formArrayData.find(x=>x.id == this.rowId);
+//       // const newObj = {
+//       //   select_status: this.selectedOption,
+//       //   client_name: this.clientName_value
+//       // };
+//       //findObject = newObj;
+//       this.mainArrayData[this.index].select_status = this.selectedOption;
+//       this.mainArrayData[this.index].client_name = this.clientName_value;
+//       this.mainArrayData[this.index].color = this.selectedOptionId['color'];
+
+//       // findObject.select_status = this.selectedOption;
+//       // findObject.client_name = this.clientName_value;
+//       // findObject.color = this.selectedOptionId['color'];
+//       this.buttonName = "Add";
+//       this.form.reset();
+//     }
+//   }catch(error){}
+//   this.arrayData.emit(emitData);
+//   //this.arrayData.emit(this.formArrayData);
+//   //this.formGrp.emit(this.form);
+// }
+
+// deleteData(){
+//  // let findObject = this.formArrayData.find(x=>x.id == this.rowId);
+
+//   //this.formArrayData.splice(this.index, 1);
+
+//   this.mainArrayData.splice(this.index, 1);
+//   //this.form
+//   //console.log(findObject);
+  
+//   this.form.reset();
+//   this.buttonName = "Add";
+//   console.log(this.formArrayData);
+// }
+
+
+
+
+================> HTML ========================
+
+<form [formGroup]="form">
+    <div class="card" style="border: 1px solid;">
+        <div class="dropdown">
+            <label>Select Status:-</label>
+            <select [(ngModel)]="selectedOption" formControlName="select_status">
+                <option></option>
+                <option *ngFor="let item of statusArray">{{ item.value }}</option>
+            </select>
+        </div>
+        <div class="clientname">
+            <label>Client Name:-</label>
+            <input type="text" [(ngModel)]="clientName_value" formControlName="client_name" >
+        </div>
+        <div class="addBtn">
+            <button class="btn btn-success" (click)="onSubmit()"> {{buttonName}} </button>&nbsp;
+            <button class="btn btn-danger" (click)="deleteData()"> Delete </button>&nbsp;
+            <button class="btn btn-primary" *ngIf="enableSearchButton" (click)="search()"> Search </button>
+        </div>
+    </div>
+</form>

@@ -20,23 +20,30 @@ import { DispFormDataComponent } from '../app/status-parent-child/disp-form-data
 
 const routes: Routes = [
   // { path: '', redirectTo: 'appointments', pathMatch: 'full' },
-  { path: 'side-bar', component:SideBarComponent},
+  { path: 'side-bar', component:SideBarComponent },
   { path: 'appointments', component: AppointmentsComponent },
   { path: 'new-appointments', component: NewAppointmentsComponent },
 
   { path: 'add-status', component: AddStatusComponent },
-  { path: 'add-status-shared', component: AddStatusSharedComponent},
+  { path: 'add-status-shared', component: AddStatusSharedComponent },
   { path: 'controls', component: ControlsComponent },
   { path: 'display-data', component: DisplayDataComponent },
 
-  { path: 'new-add-status', component: NewAddStatusComponent},
-  { path: 'actions', component: ActionsComponent},
-  { path: 'display', component: DisplayComponent},
-  { path: 'display-list', component: DisplayListComponent},
+  { path: 'new-add-status', component: NewAddStatusComponent },
+  { path: 'actions', component: ActionsComponent },
+  { path: 'display', component: DisplayComponent },
+  { path: 'display-list', component: DisplayListComponent },
 
-  { path: 'status-parent-child', component: StatusParentChildComponent},
-  { path: 'form', component: FormComponent},
-  { path: 'disp-form-data', component: DispFormDataComponent},
+  // { path: 'status-parent-child', component: StatusParentChildComponent},
+  // { path: 'form', component: FormComponent},
+  // { path: 'disp-form-data', component: DispFormDataComponent},
+
+  { path: 'status-parent-child', component: StatusParentChildComponent,
+    children: [
+      { path: 'form', component: FormComponent },
+      { path: 'disp-form-data', component: DispFormDataComponent },
+    ]
+  },
   
 ];
 

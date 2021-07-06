@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { CommonServiceService } from '../../status-parent-child/common-service.service';
 @Component({
   selector: 'app-disp-form-data',
@@ -10,18 +9,17 @@ export class DispFormDataComponent implements OnChanges,OnInit {
 
   statusArray = [];
   @Input() mainArrayData = [];
-  @Input() formGrp: FormGroup;
+ 
   @Output() rowData = new EventEmitter();
 
   submitted: boolean;
   rowId: any;
-  btnName: string;
+
   constructor( private service: CommonServiceService ) { }
 
   ngOnChanges() {
     console.log(this.mainArrayData);
-    console.log("FormGroup:",this.formGrp);
-    
+  
   } 
 
   ngOnInit() {
@@ -29,44 +27,35 @@ export class DispFormDataComponent implements OnChanges,OnInit {
     this.submitted = true;
   }
 
-  update_Data(i_: number, id: number){
+  update_Data( id: number ){
  
-    let emitData = { name: "Update", index: i_, dataId: id };
+    let emitData = { name: "Update", dataId: id, type: 1 };
 
     let dataObject = this.mainArrayData.find(x=>x.id == id);
-    console.log(dataObject);
-    
-    try{
-
-      this.formGrp.patchValue({
-        // select_status: this.mainArrayData[i_].select_status,
-        // client_name: this.mainArrayData[i_].client_name
-        select_status: dataObject.select_status,
-        client_name: dataObject.client_name
-      });
-      console.log("FormGroup Value:",this.formGrp.value);
-    }catch(error){}
-    console.log(id);
+    console.log("data object for edit: ",dataObject);
+    console.log("Edit Id:-",id);
     
     this.rowData.emit(emitData);
   }
 
-  deleteData(i_, id: number){
-    let emitData = { name: "Add", index: i_, id: id };
+  deleteData( id: number ){
+    let emitData = { name: "Add", dataId: id, type: 2 };
 
     let delData = this.mainArrayData.findIndex(x=>x.id == id);
 
     this.mainArrayData.splice(delData,1);
     this.rowData.emit(emitData);
-    this.formGrp.reset();
-    //this.btnName = "Add";
+    
   }
 
-  onStatusBtnClick(i_: number , index: number){
+  onStatusBtnClick(id: number , btnId: number){
     try{
 
-      this.mainArrayData[i_].select_status = this.statusArray[index].value;
-      this.mainArrayData[i_].color = this.statusArray[index].color;
+      let mainArrObjIndx = this.mainArrayData.findIndex(x=>x.id == id);
+      let statusArrObjIndx = this.statusArray.findIndex(x=>x.id == btnId);
+
+       this.mainArrayData[mainArrObjIndx].select_status = this.statusArray[statusArrObjIndx].value;
+       this.mainArrayData[mainArrObjIndx].color = this.statusArray[statusArrObjIndx].color;
       
     }catch(error){}
     
@@ -131,33 +120,3 @@ export class DispFormDataComponent implements OnChanges,OnInit {
 
 
 
-// update_Data(i_: number){
-
-//   // const findObject = this.mainArrayData.find(x => x.id == id);
-//   // console.log("Find Id",findObject);
-//   // this.rowId = findObject.id;
-
-//   let emitData = { name: "Update", index: i_ };
-
-//   try{
-
-//     this.formGrp.patchValue({
-//       select_status: this.mainArrayData[i_].select_status,
-//       client_name: this.mainArrayData[i_].client_name
-
-//       // select_status: findObject.select_status,
-//       // client_name: findObject.client_name
-//     });
-//     console.log("FormGroup Value:",this.formGrp.value);
-//   }catch(error){}
-//   this.rowInd.emit(emitData);
-// }
-// deleteData(i_){
-//   let emitData = { name: "Add", index: i_ };
-
-//   //const findObject = this.arrayData.find(x => x.id == id);
-//   // this.arrayData.splice(i_,1);
-//   this.mainArrayData.splice(i_,1);
-//   this.rowInd.emit(emitData);
-//   this.formGrp.reset();
-// }

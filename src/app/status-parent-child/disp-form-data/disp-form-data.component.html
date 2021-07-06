@@ -7,8 +7,8 @@
                     <div>  
                         <label> Client Name:- </label>
                         <label> {{ item.client_name }}</label>
-                        <button class="btn btn-secondary" style="margin-left:70%" (click)="update_Data(i_,item.id)"> Edit </button>
-                        <button class="btn btn-secondary" style="margin-left:5px" (click)="deleteData(i_,item.id)"> Delete </button>
+                        <button class="btn btn-secondary" style="margin-left:70%" (click)="update_Data(item.id)"> Edit </button>
+                        <button class="btn btn-secondary" style="margin-left:5px" (click)="deleteData(item.id)"> Delete </button>
                     </div>
                     <div>
                         <label> Status:-  </label>
@@ -19,7 +19,7 @@
                 <hr class="dashed">        
                     <div style="margin-right: 10px;">
                         <ng-container *ngFor="let btnval of statusArray; let i = index">
-                            <button style="color: black; margin-right: 5px;" [ngStyle]="{'background-color': btnval.color}" class="btn btn-primary" type="button" (click)="onStatusBtnClick(i_,i)"> {{ btnval.value }}
+                            <button style="color: black; margin-right: 5px;" [ngStyle]="{'background-color': btnval.color}" class="btn btn-primary" type="button" (click)="onStatusBtnClick(item.id,btnval.id)"> {{ btnval.value }}
                                 
                             </button>
                         </ng-container>
