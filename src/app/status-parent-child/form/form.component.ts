@@ -15,7 +15,6 @@ export class FormComponent implements OnChanges,OnInit {
   @Input() formObject: any;
   @Input() actionType: number;
   @Output() objectData: EventEmitter<any[]> = new EventEmitter<any[]>();
-  //@Output() SearchData = new EventEmitter();
   
   submitted: boolean;
   enableSearchButton: boolean;
@@ -80,7 +79,7 @@ export class FormComponent implements OnChanges,OnInit {
       }
       else{
         
-        let dataObjectId = this.formObject.id;
+        let dataObjectId: number = this.formObject.id;
         console.log(dataObjectId);
         
         let emitData:any = { object: formObj, dataId: dataObjectId, action: "Update" };
@@ -101,7 +100,7 @@ export class FormComponent implements OnChanges,OnInit {
   
     let emitData: any = { dataId: this.formObject.id, action: "Delete" };
     this.objectData.emit(emitData);
-    //this.deleteOrSearchData.emit(emitData);
+    
     this.form.reset();
     this.buttonName = "Add";
     this.enableDeletButton = false;
@@ -113,7 +112,6 @@ export class FormComponent implements OnChanges,OnInit {
     
     let emitData: any = { action: "Search", status: this.selectedOption, name: this.clientName_value };
     this.objectData.emit(emitData);
-    //this.SearchData.emit(emitData);
 
   }
 }

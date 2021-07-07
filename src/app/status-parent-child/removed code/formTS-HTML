@@ -248,8 +248,18 @@ export class FormComponent implements OnChanges,OnInit {
 //   this.form.reset();
 //   this.buttonName = "Add";
 //   console.log(this.formArrayData);
+
+
+//this.deleteOrSearchData.emit(emitData);
 // }
 
+search(){
+    
+    let emitData: any = { action: "Search", status: this.selectedOption, name: this.clientName_value };
+    this.objectData.emit(emitData);
+    //this.SearchData.emit(emitData);
+
+  }
 
 
 

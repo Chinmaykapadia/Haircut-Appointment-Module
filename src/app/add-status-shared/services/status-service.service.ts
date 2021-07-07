@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
  class data{
   id: number
@@ -20,26 +19,15 @@ export class StatusServiceService {
     { id: 2, value: "i'm not Available", color: "#E34234" },
     { id: 3, value: "i'm in Meeting", color: "#FFD700" },
   ];
-
-  //public data = [];
-  
-  // private name = new Subject<string>();
-  // name$ = this.name.asObservable();
-  
-  private editId = new Subject<any>();
-  editId$ = this.editId.asObservable();
   
   private form = new Subject<object>();
   form$ = this.form.asObservable();
 
-  // private edit_Obj = new Subject<number>();
-  // edit_Obj$ = this.edit_Obj.asObservable();
-
-  private editIdd = new Subject<any>();
-  editIdd$ = this.editIdd.asObservable();
-
   private deletBtn = new Subject<any>();
   deletBtn$ = this.deletBtn.asObservable();
+
+  private editDeletId = new Subject<any>();
+  editDeletId$ = this.editDeletId.asObservable();
 
   constructor() { }
 
@@ -53,54 +41,50 @@ export class StatusServiceService {
     return this.array_data;
   }
 
-  getDataa(index: number){
-    return this.array_data[index];
-  }
-
-  getDataaaaaaa(id: number){
+  //gets object of that id:
+  getDataById(id: number){
     return this.array_data.find(x=>x.id == id);
   }
 
   deleteItem(id: number){
-    //delete this.array_data[index];
-    const ind = this.array_data.indexOf(id);
+    //const ind = this.array_data.indexOf(id);
+    const ind = this.array_data.findIndex(x=>x.id == id);
     return this.array_data.splice(ind,1);
   }
 
-  delBtn(){
-    this.deletBtn.next();
-  }
-  // changeButtonName(data: string){
-  //   this.name.next(data);
-  // }
-
-  // get_Edit_id(index: number){
-  //   this.editId.next(index);
-  // }
-
-  getEditId(index: number, type: number){
-    this.editId.next({id:index,type:1});
+  getEdt(emitData){
+    this.editDeletId.next(emitData);
   }
 
-  
-  // ptchVal(indx: number){
-    //   this.edit_Obj.next(this.array_data[indx]);
-    //   console.log("Observable:<===--->",this.edit_Obj$);
-    //   console.log("Subject:>>>>>>",this.edit_Obj);
+  searchData(statusOfClient: string, name: string){
+    let searchedArray = this.array_data.map((res)=>{
+
+      console.log("Mapped result:--",res);
+
+      if(statusOfClient){
+
+          res.status = false;
+          if(res.select_status == statusOfClient){
+            res.status = true;
+          }
+      }
+      else if(name !== ""){
+       
+          res.status = false;
+          if(res.client_name.includes(name)){
+            res.status = true;           
+          }
+      }
+      else{
+        res.status = true;
+      }
+      return res;
+    });
+    console.log("Searched Array (Mapped arr:):=->",searchedArray);
+    this.array_data = searchedArray;
+    console.log("FormArrayData:------",this.array_data);
+  }
     
-    //   // console.log(this.array_data[indx]);
-    //   // return this.array_data[indx];
-    // }
-
-    getEditIdd(index: number,type: string){
-      this.editIdd.next({id:index,type:"Add"});
-    }
-    
-  //enable search btn.
-  sendForm(){
-    this.form.next();
-  }
-
 }
 
 
@@ -125,54 +109,21 @@ export class StatusServiceService {
 
 
 
- // private search_D = new Subject();
-  // search_D$ = this.search_D.asObservable();
 
- // disp_searchData(data){
-  //   this.search_D.next(data);
-  //   console.log(this.search_D$);
-    
+
+
+
+
+
+
+
+
+
+
+
+// private editId = new Subject<any>();
+  // editId$ = this.editId.asObservable();
+
+ // getEditId(index: number, type: number){
+  //   this.editId.next({id:index,type:1});
   // }
-
-// private statusOption = new Subject<any>();
-// statusOption$ = this.statusOption.asObservable();
-// private clientName = new Subject<string>();
-// clientName$ = this.clientName.asObservable();
-
-// searchValues(option: string, name: string){
-//   let filter_arr = this.array_data.filter((data)=>{
-//     return data.option;
-//   })
-//   this.statusOption.next(filter_arr);
-//  // this.clientName.next(name);
-//   //console.log(option);
-//  // console.log(name);
-      
-// }
-
-
-
-// load_and_search(term: string){
-  //   const filtered_data = this.array_data.filter((item)=>{
-  //     return item.select_status.includes(term)
-  //   });
-  //   return filtered_data;
-  // }
-
-// patchValues(frm: FormGroup){
-  //   this.form.next(frm);
-  // }
-
-// search_Data(selectedOption: string, clientName_value: string){
-//   let sr_Data = this.getData().map((res)=>{
-//     res.select_status = false;
-//     if(res.select_status == selectedOption){
-//       res.select_status = true;
-//     }
-//     if(res.client_name == clientName_value){
-//       res.select_status;
-//     }
-//     return res;
-//   });
-
-// }

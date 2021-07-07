@@ -16,33 +16,34 @@ export class DisplayListComponent implements OnInit {
   len: number;
   delBtn: boolean;
   btnArray;
-  constructor(private service: StatusServiceService) {   
+  constructor( private service: StatusServiceService ) {   
    
   }
 
   ngOnInit() {
-    this.btnArray = this.service.buttonValue;
     this.submitted = true;
+    this.btnArray = this.service.buttonValue;
     this.data = this.service.getData();
     console.log("OnInit display Data:===",this.data);
-    this.len = this.service.getData().length;
     this.delBtn = true;
   }
 
-  update_Data(i_:number,type: number){
+  update_Data(id:number){
     
-    //type = 2;
-    this.service.getEditId(i_,type);
-    
+    let emitData = { id: id, type: 1}
+    this.service.getEdt(emitData);
   }
   
-  deleteData(i_: number){
-    this.data.splice(i_, 1);
-    this.len --;
-    //type = 2;
-    //this.service.getEditId(i_);
+  deleteData(id: number){
+
+    let delData = this.data.findIndex(x=>x.id == id);
+    this.data.splice(delData, 1);
+
+    let emitData = { id: id, type: 2}
+    this.service.getEdt(emitData);
+    
     console.log("Data after delete:===>",this.data);
-    //this.service.sendForm();
+  
   }
   
   onStatusBtnClick(i_: number, index: number) {
@@ -51,130 +52,8 @@ export class DisplayListComponent implements OnInit {
 
       this.data[i_].select_status = this.btnArray[index].value;
       this.data[i_].color = this.btnArray[index].color;
-      //this.data[i_].select_status = this.buttonValue[index].value;
-      //this.data[i_].color = this.buttonValue[index].color;
       
     }catch(error){}
     
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ngOnChanges() {
-  //   // this.service.search_D$.subscribe((data)=>{
-  //   //   this.data = data;
-  //   //   console.log(this.data);
-  //   // });
-  // }
-  
-
-  // this.service.search_D$.subscribe((data)=>{
-    //   this.data = data;
-    // });
-
-// statusOption: string;
-  // nameOfClient: string;
-
- //this.service.searchValues(this.statusOption,this.nameOfClient);
-
-// this.service.statusOption$.subscribe((res)=>{
-    //   // let flter_arr = this.data.filter((data)=>{
-    //   //   return data.select_status.includes(this.data);
-    //   // });
-    //   console.log("status-options:",res);
-        
-    // });
-
-    //  this.service.statusOption$.subscribe((res)=>{
-    //   console.log(this.statusOption);
-    //   console.log(this.nameOfClient);
-      
-    // //   let changedArray = this.data.map((val)=>{
-    // //     val.status = false;
-    // //     if(val.select_status == this.statusOption){
-    // //       val.status = true;
-    // //     }
-    // //   })
-    // //   this.data = changedArray;
-    //  });
-
-
-
-// ngOnChanges() {
-  //   // this.service.statusOption$.subscribe((res)=>{
-  //   //   // let flter_arr = this.data.filter((data)=>{
-  //   //   //   return data.select_status.includes(res);
-  //   //   // });
-  //   //   console.log("status-options:",res);
-
-  //   //   // let changedArray = this.data.map((val)=>{
-  //   //   //   console.log("val:-->",val);
-        
-  //   //   //   val.status = false;
-  //   //   //   if(val.select_status == res){
-  //   //   //     val.status = true;
-  //   //   //   }
-  //   //   // });
-  //   //   // this.data = changedArray;  
-  //   //   // console.log("this.data:-->>>",this.data);
-      
-  //   // });
-    
-  // }
-
-//@Output() patchValue = new EventEmitter();
-
-
-// disp(){
-  //   this.da = this.service.getData();
-  //   console.log(this.da);
-  // }
-  
-  //this.data_In_Arr.emit(this.frmAryData);
-   //this.service.getData();
-
-
-
-
-// frmArrData = [];
-// this.formGrp.patchValue({
-//         select_status: this.frmArrData[i_].select_status,
-//         client_name: this.frmArrData[i_].client_name,
-//       //  color: this.frmArrData[i_].color,
-// });

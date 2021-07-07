@@ -1,115 +1,91 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { CommonServiceService } from '../status-parent-child/common-service.service';
+import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-status-parent-child',
   templateUrl: './status-parent-child.component.html',
   styleUrls: ['./status-parent-child.component.css']
 })
-export class StatusParentChildComponent implements OnInit,AfterViewInit {
-
-  statusArray = [];
+export class StatusParentChildComponent implements OnInit {
 
   mainFormArray = [];
-  idField = 1;
 
-  dataObject: any;
   formObject: any;
-  action: string;
-
-  rowId: number;
-  btnName: string;
+  
   actionType: number;
-
-  nameOfClient: string;
-  status: string;
-
-  constructor( private service: CommonServiceService ) { }
+  idField = 1;
+  
+  constructor( ) { }
 
   ngOnInit() {
-    this.statusArray = this.service.statusArray;
+    
   }
 
-  ngAfterViewInit() {
-   
-  }
+  receiveData($event){ 
+    
+    let dataObject: object = $event.object;
+    let action: string = $event.action;
 
-  receiveData($event){
-    this.dataObject = $event.object;
-    this.action = $event.action;
-
-    console.log("ARRAY DATA :::==", this.dataObject);
+    let dataObjIndex: number = this.mainFormArray.findIndex(x=>x.id == $event.dataId);
+    
+    console.log("ARRAY DATA :::==", dataObject);
     try{
 
-    if(this.action == "Search"){
+    if(action == "Search"){
       this.SearchData($event);
     }
 
-    if(this.action == "Delete"){
-      let dataObjIndex = this.mainFormArray.findIndex(x=>x.id == this.rowId);
-      this.mainFormArray.splice(dataObjIndex,1);
+    if(action == "Delete"){
+      
+      this.mainFormArray.splice(dataObjIndex, 1);
       console.log('After Delete:-- =======>>>>>>>',this.mainFormArray);
-      this.btnName = "Add";
     }
 
-    if(this.action == "Update"){
-      this.rowId = $event.dataId;
-
-      let dataObjIndex = this.mainFormArray.findIndex(x=>x.id == this.rowId);
-      this.dataObject['id'] = this.rowId;
-      this.mainFormArray[dataObjIndex]=this.dataObject;
+    if(action == "Update"){
+    
+      dataObject['id'] = $event.dataId;
+      this.mainFormArray[dataObjIndex] = dataObject;
       console.log('Main Array After update :: >>>>>',this.mainFormArray);
-      this.btnName = "Add";
     }
     else{
       //Add:-
-      this.idField;
-      this.dataObject['id'] = this.idField;
-      this.mainFormArray.push(this.dataObject);
-      this.idField++;
+      dataObject['id'] = this.idField;
+      this.mainFormArray.push(dataObject);
+      this.idField+= 1;
       console.log("After adding:--",this.mainFormArray);
-      
     }
+    
     }catch(error){}
     
   }
 
   receiveId($event){
-    this.rowId = $event.dataId;
-    this.btnName = $event.name;
-    this.actionType = $event.type;
-
-    console.log(this.btnName);
     
-    this.formObject = this.mainFormArray.find(x=>x.id == this.rowId);
+    this.actionType = $event.type;
+ 
+    this.formObject = this.mainFormArray.find(x=>x.id == $event.dataId);
     console.log("Form Obj --",this.formObject);
  
   }
 
-  SearchData($event){
-    this.rowId = $event.dataId;
-    this.action = $event.action;
-
-    this.status = $event.status
-    this.nameOfClient = $event.name;
-
-    console.log("Row Id for delete:--=-",this.rowId);
+  SearchData($event){ 
+   
+    let statusOfClient: string = $event.status
+    let nameOfClient: string = $event.name;
     
-    if(this.action == "Search"){
+    if($event.action == "Search"){
       let searchedArray = this.mainFormArray.map((res)=>{
         console.log("Mapped result:--",res);
   
-        if(this.status){
+        if(statusOfClient){
   
           res.status = false;
-          if(res.select_status == this.status){
+          if(res.select_status == statusOfClient){
             res.status = true;
           }
         }
-        else if(this.nameOfClient !== ""){
+        else if(nameOfClient !== ""){
          
           res.status = false;
-          if(res.client_name.includes(this.nameOfClient)){
+          if(res.client_name.includes(nameOfClient)){
             res.status = true;
           }
         }
@@ -123,13 +99,6 @@ export class StatusParentChildComponent implements OnInit,AfterViewInit {
       this.mainFormArray = searchedArray;
       console.log("MainArrayData:------",this.mainFormArray);
     }
-    // else{ 
-    //   //Delete
-    //   // let dataObjIndex = this.mainFormArray.findIndex(x=>x.id == this.rowId);
-    //   // this.mainFormArray.splice(dataObjIndex,1);
-    //   // console.log('After Delete:-- =======>>>>>>>',this.mainFormArray);
-    //   // this.btnName = "Add";
-    // }
 
   }
 

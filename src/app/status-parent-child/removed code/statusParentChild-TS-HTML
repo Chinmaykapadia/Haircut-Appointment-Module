@@ -242,3 +242,53 @@ export class StatusParentChildComponent implements OnInit,AfterViewInit {
 //   this.mainFormArray[dataObjIndex]=this.arrayData;
 //   console.log(this.mainFormArray);  
 // }
+
+
+
+
+SearchData($event){
+    this.rowId = $event.dataId;
+    this.action = $event.action;
+
+    this.status = $event.status
+    this.nameOfClient = $event.name;
+
+    console.log("Row Id for delete:--=-",this.rowId);
+    
+    if(this.action == "Search"){
+      let searchedArray = this.mainFormArray.map((res)=>{
+        console.log("Mapped result:--",res);
+  
+        if(this.status){
+  
+          res.status = false;
+          if(res.select_status == this.status){
+            res.status = true;
+          }
+        }
+        else if(this.nameOfClient !== ""){
+         
+          res.status = false;
+          if(res.client_name.includes(this.nameOfClient)){
+            res.status = true;
+          }
+        }
+        else{
+          res.status = true;
+        }
+        
+        return res;
+      });
+      console.log("Searched Array (Mapped arr:):=->",searchedArray);
+      this.mainFormArray = searchedArray;
+      console.log("MainArrayData:------",this.mainFormArray);
+    }
+    // else{ 
+    //   //Delete
+    //   // let dataObjIndex = this.mainFormArray.findIndex(x=>x.id == this.rowId);
+    //   // this.mainFormArray.splice(dataObjIndex,1);
+    //   // console.log('After Delete:-- =======>>>>>>>',this.mainFormArray);
+    //   // this.btnName = "Add";
+    // }
+
+  }

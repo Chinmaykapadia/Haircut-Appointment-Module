@@ -1,11 +1,11 @@
-import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CommonServiceService } from '../../status-parent-child/common-service.service';
 @Component({
   selector: 'app-disp-form-data',
   templateUrl: './disp-form-data.component.html',
   styleUrls: ['./disp-form-data.component.css']
 })
-export class DispFormDataComponent implements OnChanges,OnInit {
+export class DispFormDataComponent implements OnInit {
 
   statusArray = [];
   @Input() mainArrayData = [];
@@ -13,14 +13,8 @@ export class DispFormDataComponent implements OnChanges,OnInit {
   @Output() rowData = new EventEmitter();
 
   submitted: boolean;
-  rowId: any;
 
   constructor( private service: CommonServiceService ) { }
-
-  ngOnChanges() {
-    console.log(this.mainArrayData);
-  
-  } 
 
   ngOnInit() {
     this.statusArray = this.service.statusArray;
