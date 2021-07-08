@@ -13,6 +13,8 @@ export class StatusParentChildComponent implements OnInit {
   actionType: number;
   idField = 1;
   
+  search: string;
+
   constructor( ) { }
 
   ngOnInit() {
@@ -27,33 +29,33 @@ export class StatusParentChildComponent implements OnInit {
     let dataObjIndex: number = this.mainFormArray.findIndex(x=>x.id == $event.dataId);
     
     console.log("ARRAY DATA :::==", dataObject);
-    try{
+    
+    switch (action) {
+      case "Add":
 
-    if(action == "Search"){
-      this.SearchData($event);
-    }
+        dataObject['id'] = this.idField;
+        this.mainFormArray.push(dataObject);
+        this.idField+= 1;
+        console.log("After adding:--",this.mainFormArray);
+        break;
 
-    if(action == "Delete"){
+      case "Update":
+        dataObject['id'] = $event.dataId;
+        this.mainFormArray[dataObjIndex] = dataObject;
+        console.log('Main Array After update :: >>>>>',this.mainFormArray);
+        break;
+    
+      case "Delete":
+        this.mainFormArray.splice(dataObjIndex, 1);
+        console.log('After Delete:-- =======>>>>>>>',this.mainFormArray);
+        break;
       
-      this.mainFormArray.splice(dataObjIndex, 1);
-      console.log('After Delete:-- =======>>>>>>>',this.mainFormArray);
-    }
+      case "Search":
+        this.SearchData($event);
 
-    if(action == "Update"){
-    
-      dataObject['id'] = $event.dataId;
-      this.mainFormArray[dataObjIndex] = dataObject;
-      console.log('Main Array After update :: >>>>>',this.mainFormArray);
+      default:
+        break;
     }
-    else{
-      //Add:-
-      dataObject['id'] = this.idField;
-      this.mainFormArray.push(dataObject);
-      this.idField+= 1;
-      console.log("After adding:--",this.mainFormArray);
-    }
-    
-    }catch(error){}
     
   }
 
@@ -68,38 +70,38 @@ export class StatusParentChildComponent implements OnInit {
 
   SearchData($event){ 
    
-    let statusOfClient: string = $event.status
+    let statusOfClient: string = $event.status;
     let nameOfClient: string = $event.name;
+    this.search = $event.action;
     
     if($event.action == "Search"){
-      let searchedArray = this.mainFormArray.map((res)=>{
-        console.log("Mapped result:--",res);
-  
-        if(statusOfClient){
-  
-          res.status = false;
-          if(res.select_status == statusOfClient){
-            res.status = true;
-          }
-        }
-        else if(nameOfClient !== ""){
-         
-          res.status = false;
-          if(res.client_name.includes(nameOfClient)){
-            res.status = true;
-          }
-        }
-        else{
-          res.status = true;
-        }
         
-        return res;
-      });
-      console.log("Searched Array (Mapped arr:):=->",searchedArray);
-      this.mainFormArray = searchedArray;
-      console.log("MainArrayData:------",this.mainFormArray);
-    }
+        let searchedArray = this.mainFormArray.map((res)=>{
+        
+          if(statusOfClient){
+            if(res.select_status == statusOfClient){
+              res.status = true;
+            }
+          }
+          else if(nameOfClient != ""){
+            if(res.client_name.includes(nameOfClient)){
+            
+              res.status = true;
+              console.log(res);
+            }
+          }
+          else{
+            this.search = "";
+            res.status = false;
+          }
+          console.log("Mapped result:--",res);
+          return res;
+        });
 
+        console.log("Searched Array (Mapped arr:):=->",searchedArray);  
+        this.mainFormArray = searchedArray;
+        console.log("MainArrayData:------",this.mainFormArray);
+    }
   }
 
 }
@@ -107,3 +109,58 @@ export class StatusParentChildComponent implements OnInit {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// if($event.action == "Search"){
+
+//   let searchedArray = this.mainFormArray.map((res)=>{
+
+//     if(nameOfClient == ""){
+//       res.status = false;
+//     }
+//     console.log("Mapped result:--",res);
+
+//     if(statusOfClient){
+
+//       res.status = false;
+//       if(res.select_status == statusOfClient){
+//         res.status = true;
+//       }
+//     }
+//     else if(nameOfClient !== ""){
+     
+//       res.status = false;
+//       if(res.client_name.includes(nameOfClient)){
+//         res.status = true;
+//       }
+//     }
+//     else{
+//       res.status = true;
+//     }
+    
+//     return res;
+//   });
+//   console.log("Searched Array (Mapped arr:):=->",searchedArray);
+//   this.mainFormArray = searchedArray;
+//   console.log("MainArrayData:------",this.mainFormArray);
+// }

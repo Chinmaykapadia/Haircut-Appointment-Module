@@ -5,7 +5,7 @@
 <div class="body">
     <app-form (objectData)="receiveData($event)" [formObject]="formObject" [actionType]="actionType" ></app-form>
     <div class="display">
-        <app-disp-form-data [mainArrayData]="mainFormArray" (rowData)="receiveId($event)" ></app-disp-form-data>
+        <app-disp-form-data [mainArrayData]="mainFormArray" (rowData)="receiveId($event)" [mode]="search"></app-disp-form-data>
     </div>
 </div>
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { StatusServiceService } from '../../add-status-shared/services/status-service.service';
+import { StatusServiceService } from '../services/status-service.service';
 import { FormGroup } from '@angular/forms';
 
 

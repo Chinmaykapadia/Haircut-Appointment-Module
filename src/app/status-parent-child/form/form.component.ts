@@ -71,7 +71,7 @@ export class FormComponent implements OnChanges,OnInit {
         let emitData: any = { object: formObj, action: "Add" };
         
         formObj.color = this.selectedOptionObj['color'];
-        formObj.status = true;
+        formObj.status = false;
   
         this.objectData.emit(emitData);
         this.form.reset();
@@ -84,7 +84,7 @@ export class FormComponent implements OnChanges,OnInit {
         
         let emitData:any = { object: formObj, dataId: dataObjectId, action: "Update" };
         formObj.color = this.selectedOptionObj['color'];
-        formObj.status = true;
+        formObj.status = false;
         this.objectData.emit(emitData);
       
         this.buttonName = "Add";

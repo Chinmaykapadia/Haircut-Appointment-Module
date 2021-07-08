@@ -2,7 +2,7 @@
     <h3> Data:- </h3>
     <div *ngIf="submitted" style="border: 2px solid;margin: 10px;">
         <div *ngFor="let item of mainArrayData; let i_ = index" style="margin: 20px;">
-            <div *ngIf="item.status == true">
+            <div *ngIf="mode == 'Search' ? item.status == true : item.status == false ">
                 <div>
                     <div>  
                         <label> Client Name:- </label>

@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { FormGroup,FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { StatusServiceService } from '../../add-status-shared/services/status-service.service'; 
+import { StatusServiceService } from '../services/status-service.service'; 
 @Component({
   selector: 'app-actions',
   templateUrl: './actions.component.html',
@@ -75,7 +75,6 @@ export class ActionsComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log(this.selectedOptIndx);
     
     let formObj = this.form.value;
     console.log("FormObject:====",formObj);

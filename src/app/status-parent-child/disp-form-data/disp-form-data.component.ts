@@ -9,9 +9,8 @@ export class DispFormDataComponent implements OnInit {
 
   statusArray = [];
   @Input() mainArrayData = [];
- 
   @Output() rowData = new EventEmitter();
-
+  @Input() mode;
   submitted: boolean;
 
   constructor( private service: CommonServiceService ) { }
@@ -19,6 +18,7 @@ export class DispFormDataComponent implements OnInit {
   ngOnInit() {
     this.statusArray = this.service.statusArray;
     this.submitted = true;
+    
   }
 
   update_Data( id: number ){
