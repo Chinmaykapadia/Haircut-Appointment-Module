@@ -70,20 +70,29 @@ export class StatusParentChildComponent implements OnInit {
 
   SearchData($event){ 
    
-    let statusOfClient: string = $event.status;
+    let statusOfClient: string = $event.staatus;
     let nameOfClient: string = $event.name;
     this.search = $event.action;
     
     if($event.action == "Search"){
         
-        let searchedArray = this.mainFormArray.map((res)=>{
+      this.mainFormArray.map((res)=>{
+        res.status = false;
+          
         
-          if(statusOfClient){
+
+          if(res.select_status == statusOfClient && res.client_name.includes(nameOfClient)){
+            res.status = true;
+            console.log("res1:-",res);
+          }
+          else if(statusOfClient){
+            
             if(res.select_status == statusOfClient){
               res.status = true;
             }
           }
           else if(nameOfClient != ""){
+           
             if(res.client_name.includes(nameOfClient)){
             
               res.status = true;
@@ -94,16 +103,14 @@ export class StatusParentChildComponent implements OnInit {
             this.search = "";
             res.status = false;
           }
+
           console.log("Mapped result:--",res);
           return res;
-        });
-
-        console.log("Searched Array (Mapped arr:):=->",searchedArray);  
-        this.mainFormArray = searchedArray;
+      });
+        
         console.log("MainArrayData:------",this.mainFormArray);
     }
   }
-
 }
 
 
@@ -130,6 +137,65 @@ export class StatusParentChildComponent implements OnInit {
 
 
 
+
+
+
+
+
+
+
+
+
+// let searchedArray = this.mainFormArray.map((res)=>{
+        //   res.status = false;
+        //   if(statusOfClient && nameOfClient != ""){
+            
+        //     if(res.select_status == statusOfClient && res.client_name.includes(nameOfClient)){
+        //       res.status = true;
+        //       console.log("res1:-",res);
+              
+        //     }
+        //     // else{
+        //     //   res.status = false;
+        //     //   console.log("res2:-",res);
+              
+        //     // }
+        //   }
+        //   else if(statusOfClient){
+            
+        //     if(res.select_status == statusOfClient){
+        //       res.status = true;
+        //     }
+        //     // else{
+        //     //   res.status = false;
+        //     // }
+        //   }
+        //   else if(nameOfClient != ""){
+           
+        //     if(res.client_name.includes(nameOfClient)){
+            
+        //       res.status = true;
+        //       console.log(res);
+        //     }
+        //     // else{
+        //     //   res.status = false;
+        //     // }
+        //   }
+        //   else{
+        //     this.search = "";
+        //     res.status = false;
+        //   }
+
+          
+        //   console.log("Mapped result:--",res);
+        //   return res;
+        // });
+
+        //console.log("Searched Array (Mapped arr:):=->",searchedArray);  
+        //this.mainFormArray = searchedArray;
+
+
+//----------------------------------------------------========================================================
 
 // if($event.action == "Search"){
 

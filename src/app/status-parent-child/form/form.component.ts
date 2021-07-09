@@ -110,7 +110,7 @@ export class FormComponent implements OnChanges,OnInit {
 
   search(){
     
-    let emitData: any = { action: "Search", status: this.selectedOption, name: this.clientName_value };
+    let emitData: any = { action: "Search", staatus: this.selectedOption, name: this.clientName_value };
     this.objectData.emit(emitData);
 
   }

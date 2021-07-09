@@ -58,19 +58,26 @@ export class StatusServiceService {
 
   searchData(statusOfClient: string, name: string){
     let searchedArray = this.array_data.map((res)=>{
-
+      res.status = false;
       console.log("Mapped result:--",res);
 
-      if(statusOfClient){
+      if(statusOfClient && name != ''){
 
-          res.status = false;
+        if(res.select_status == statusOfClient && res.client_name.includes(name)){
+          res.status = true;
+        }
+      }
+
+      else if(statusOfClient){
+
+          //res.status = false;
           if(res.select_status == statusOfClient){
             res.status = true;
           }
       }
       else if(name !== ""){
        
-          res.status = false;
+          //res.status = false;
           if(res.client_name.includes(name)){
             res.status = true;           
           }
